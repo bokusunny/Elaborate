@@ -7,6 +7,17 @@
     "lint": "eslint src/**/* --ext .ts,.tsx",
     "lint:fix": "npm run lint --fix"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "npm run lint:fix",
+      "git add"
+    ]
+  },
   "dependencies": {
     "@types/classnames": "2.2.7",
     "@types/keymirror": "0.1.1",
