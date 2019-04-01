@@ -24,13 +24,13 @@ module.exports = {
         "singleQuote": true,
         "semi": false,
         "printWidth": 100,
-        "trailingComma": "es5",
+        "trailingComma": "es5"
       }
     ]
   },
   "settings": {
     "react": {
       "version": "detect"
-    },
+    }
   }
 }
