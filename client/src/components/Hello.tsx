@@ -1,5 +1,5 @@
 import * as React from 'react'
 
-const Hello = () => <div>Hello, World!</div>
+const Hello = (): JSX.Element => <div>Hello, World!</div>
 
 export default Hello

@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "watch": "webpack-dev-server --mode development --history-api-fallback"
+    "watch": "webpack-dev-server --mode development --history-api-fallback",
+    "lint": "eslint src/**/* --ext .ts,.tsx",
+    "lint:fix": "npm run lint --fix"
   },
   "dependencies": {
     "@types/classnames": "2.2.7",
@@ -25,10 +27,13 @@
     "redux-thunk": "2.3.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "1.5.0",
+    "@typescript-eslint/parser": "1.5.0",
     "css-loader": "2.1.1",
     "eslint": "5.16.0",
     "eslint-config-prettier": "4.1.0",
     "eslint-plugin-prettier": "3.0.1",
+    "eslint-plugin-react": "7.12.4",
     "file-loader": "3.0.1",
     "husky": "1.3.1",
     "lint-staged": "8.1.5",
