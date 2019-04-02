@@ -19,6 +19,7 @@ module.exports = {
     "project": "./tsconfig.json"
   },
   "rules": {
+    "react/prop-types": 0,
     "prettier/prettier": [
       "error", {
         "singleQuote": true,
