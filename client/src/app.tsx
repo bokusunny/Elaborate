@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import reducers from './reducers'
 import thunk from 'redux-thunk'
 
-import Hello from './components/Hello'
+import Hello from './components/atoms/Hello'
 
 const store = createStore(reducers, applyMiddleware(thunk))
 
