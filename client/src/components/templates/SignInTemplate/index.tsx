@@ -5,8 +5,6 @@ interface Props {
   onClick: () => void
 }
 
-const SignInTemplate: React.FC<Props> = ({ onClick }): JSX.Element => (
-  <Button onClick={onClick}>Login</Button>
-)
+const SignInTemplate: React.FC<Props> = ({ onClick }) => <Button onClick={onClick}>Login</Button>
 
 export default SignInTemplate

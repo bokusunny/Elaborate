@@ -5,7 +5,7 @@ interface Props {
   children: string
 }
 
-const Button: React.FC<Props> = ({ onClick, children }): JSX.Element => (
+const Button: React.FC<Props> = ({ onClick, children }) => (
   <button onClick={onClick}>{children}</button>
 )
 
