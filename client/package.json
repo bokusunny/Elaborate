@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "watch": "webpack-dev-server --mode development --history-api-fallback",
-    "lint": "eslint src/**/* --ext .ts,.tsx",
+    "lint": "eslint src/**/*.{ts,tsx}",
     "lint:fix": "npm run lint --fix"
   },
   "husky": {
