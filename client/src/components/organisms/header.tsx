@@ -1,5 +1,5 @@
 import React from 'react'
 
-const Header: React.SFC<{}> = () => <div>header</div>
+const Header: React.FC<{}> = () => <div>header</div>
 
 export default Header
