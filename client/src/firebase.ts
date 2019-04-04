@@ -10,7 +10,7 @@ interface Config {
   messagingSenderId: string
 }
 
-// TODO: Private repositoryなのでとりあえずベタがきだが、API_KEYとmessagingSenderIdはあとで環境変数に。
+// TODO: Private repositoryなのでとりあえずベタ書きだが、API_KEYとmessagingSenderIdはあとで環境変数に。
 const config: Config = {
   apiKey: 'AIzaSyCHmBBP7yGae1865ft_OI6eTtEUJIcs3mE',
   authDomain: 'progate-mafia-tmp.firebaseapp.com',
