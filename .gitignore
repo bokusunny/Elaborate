@@ -1,2 +1,5 @@
-/client/node_modules
+# settings
 .vscode
+
+# client
+/client/node_modules
