@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import firebase from '../../../firebase'
+import firebase from '../../../utils/firebase'
 import SNSSignInButton from '../../atoms/Buttons/SNSSigiInButton'
 
 interface Props {
