@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import reducers from './reducers'
 import thunk from 'redux-thunk'
 
+import Auth from './components/utils/auth'
 import SignInPage from './components/pages/SignInPage'
 import MyPage from './components/pages/MyPage'
 
@@ -15,8 +16,10 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
-        <Route exact path="/:userId" component={MyPage} />
-        <Route exact path="/" component={SignInPage} />
+        <Route exact path="/signin" component={SignInPage} />
+        <Auth>
+          <Route exact path="/:userId" component={MyPage} />
+        </Auth>
         <Route render={() => <h2>404 Not Found</h2>} />
       </Switch>
     </Router>
