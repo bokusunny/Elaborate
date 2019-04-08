@@ -8,9 +8,13 @@ interface Props {
 
 type User = firebase.User | null
 
-const onClickGoogleLogin = () => {
+const onClickGoogleSignin = () => {
   const provider = new firebase.auth.GoogleAuthProvider()
   firebase.auth().signInWithRedirect(provider)
+}
+
+const onClickSignOut = () => {
+  firebase.auth().signOut()
 }
 
 const SignInTemplate: React.FC<Props> = ({ onClick }) => {
@@ -23,7 +27,7 @@ const SignInTemplate: React.FC<Props> = ({ onClick }) => {
 
   return !currentUser ? (
     <Fragment>
-      <SNSSignInButton type="google" onClick={onClickGoogleLogin}>
+      <SNSSignInButton type="google" onClick={onClickGoogleSignin}>
         Login with Google
       </SNSSignInButton>
       <SNSSignInButton type="twitter" onClick={onClick}>
@@ -36,6 +40,7 @@ const SignInTemplate: React.FC<Props> = ({ onClick }) => {
   ) : (
     <Fragment>
       <p>Hello, {currentUser.email}👋</p>
+      <button onClick={onClickSignOut}>Signout</button>
     </Fragment>
   )
 }
