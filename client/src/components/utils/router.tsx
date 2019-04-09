@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import firebase from '../../utils/firebase'
+import { auth } from '../../utils/firebase'
 import SignInPage from '../pages/SignInPage'
 import MyPage from '../pages/MyPage'
 
-type User = firebase.User | null
-
 const Router = () => {
-  const [currentUser, setCurrentUser] = useState<User>(null)
+  const [authState, setAuthState] = useState({ isLoading: true, isAuthorized: false })
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => {
-      setCurrentUser(user)
-      console.log(currentUser)
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        setAuthState({ isLoading: false, isAuthorized: true })
+      } else {
+        setAuthState({ isLoading: false, isAuthorized: false })
+      }
     })
-  })
+  }, [auth])
+
+  if (authState.isLoading) return <div>Loading...</div>
+  console.log(auth.currentUser)
 
   return (
     <BrowserRouter>

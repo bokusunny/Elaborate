@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
-import firebase from '../../../utils/firebase'
+import { auth } from '../../../utils/firebase'
 
 const onClickSignOut = () => {
-  firebase.auth().signOut()
+  auth.signOut()
 }
 
 const MyPageTemplate: React.FC<{}> = () => (

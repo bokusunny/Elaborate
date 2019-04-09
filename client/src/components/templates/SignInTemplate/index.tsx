@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import firebase from '../../../utils/firebase'
+import { firebase, auth } from '../../../utils/firebase'
 import SNSSignInButton from '../../atoms/Buttons/SNSSigiInButton'
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 
 const onClickGoogleSignin = () => {
   const provider = new firebase.auth.GoogleAuthProvider()
-  firebase.auth().signInWithRedirect(provider)
+  auth.signInWithRedirect(provider)
 }
 
 const SignInTemplate: React.FC<Props> = ({ onClick }) => (
