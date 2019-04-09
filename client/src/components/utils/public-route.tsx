@@ -8,12 +8,12 @@ interface Props {
   isAuthorized: boolean
 }
 
-const PrivateRoute: React.FC<Props> = ({ exact, path, component: Component, isAuthorized }) => (
+const PublicRoute: React.FC<Props> = ({ exact, path, component: Component, isAuthorized }) => (
   <Route
     exact={exact}
     path={path}
-    render={() => (isAuthorized ? <Component /> : <Redirect to="/signin" />)}
+    render={() => (!isAuthorized ? <Component /> : <Redirect to="/mypage" />)}
   />
 )
 
-export default PrivateRoute
+export default PublicRoute
