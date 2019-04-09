@@ -1,29 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { auth } from '../../utils/firebase'
+import PrivateRoute from './private-route'
 import SignInPage from '../pages/SignInPage'
 import MyPage from '../pages/MyPage'
 
 const Router = () => {
-  const [authState, setAuthState] = useState({ isLoading: true, isAuthorized: false })
+  const [isAuthorizing, setIsAuthorizing] = useState(true)
   useEffect(() => {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        setAuthState({ isLoading: false, isAuthorized: true })
-      } else {
-        setAuthState({ isLoading: false, isAuthorized: false })
-      }
-    })
+    auth.onAuthStateChanged(() => setIsAuthorizing(false))
   }, [auth])
 
-  if (authState.isLoading) return <div>Loading...</div>
-  console.log(auth.currentUser)
+  if (isAuthorizing) return <div>Authorizing...</div>
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/signin" component={SignInPage} />
-        <Route exact path="/:userId" component={MyPage} />
+        <PrivateRoute exact path="/:userId" component={MyPage} />
         <Route render={() => <h2>404 Not Found</h2>} />
       </Switch>
     </BrowserRouter>
