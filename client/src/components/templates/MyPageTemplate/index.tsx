@@ -7,7 +7,8 @@ const onClickSignOut = () => {
 
 const MyPageTemplate: React.FC<{}> = () => (
   <Fragment>
-    <div>Hello, MyPage!</div>
+    <div>Hello, {auth.currentUser && auth.currentUser.email}👋</div>
+    <div>This page guarantees that you are authorized!</div>
     <button onClick={onClickSignOut}>Sign out</button>
   </Fragment>
 )

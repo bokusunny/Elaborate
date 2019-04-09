@@ -6,13 +6,14 @@ interface Props {
   exact: boolean
   path: string
   component: React.FC
+  isAuthorized: boolean
 }
 
-const PrivateRoute: React.FC<Props> = ({ exact, path, component: Component }) => (
+const PrivateRoute: React.FC<Props> = ({ exact, path, component: Component, isAuthorized }) => (
   <Route
     exact={exact}
     path={path}
-    render={() => (auth.currentUser !== null ? <Component /> : <Redirect to="/signin" />)}
+    render={() => (isAuthorized ? <Component /> : <Redirect to="/signin" />)}
   />
 )
 
