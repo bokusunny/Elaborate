@@ -8,6 +8,8 @@ interface Props {
   isAuthorized: boolean
 }
 
+var hoge = null
+
 const PrivateRoute: React.FC<Props> = ({ exact, path, component: Component, isAuthorized }) => (
   <Route
     exact={exact}
