@@ -31,4 +31,13 @@ jobs:
       # run tests!
       - run:
           name: ESLint
-          command: npm run lint
+          command: |
+            mkdir /tmp/test-results
+            mkdir /tmp/test-results/eslint
+            node_modules/.bin/eslint src/**/*.{ts,tsx} \
+              --format junit \
+              --output-file /tmp/test-results/eslint/results.xml
+
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results/eslint
