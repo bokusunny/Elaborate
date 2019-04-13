@@ -6,7 +6,7 @@ import PrivateRoute from './private-route'
 import SignInPage from '../pages/SignInPage'
 import MyPage from '../pages/MyPage'
 
-const Router = () => {
+const Router: React.FC<{}> = () => {
   const [authState, setAuthState] = useState({ isLoading: true, isAuthorized: false })
   useEffect(() => {
     auth.onAuthStateChanged(user => {
