@@ -5,6 +5,7 @@ import PublicRoute from './public-route'
 import PrivateRoute from './private-route'
 import SignInPage from '../pages/SignInPage'
 import MyPage from '../pages/MyPage'
+import EditorPage from '../pages/EditorPage'
 
 const Router = () => {
   const [authState, setAuthState] = useState({ isLoading: true, isAuthorized: false })
@@ -27,6 +28,8 @@ const Router = () => {
       <Switch>
         <PublicRoute exact path="/signin" component={SignInPage} isAuthorized={isAuthorized} />
         <PrivateRoute exact path="/mypage" component={MyPage} isAuthorized={isAuthorized} />
+        {/* TODO: It's tmp route, need to make it Private Route & Use uid  */}
+        <Route exact path="/:id/edit" component={EditorPage} />
         <Route render={() => <h2>404 Not Found</h2>} />
       </Switch>
     </BrowserRouter>
