@@ -13,8 +13,8 @@ const INLINE_STYLES = [
 ]
 
 const BLOCK_TYPES = [
-  { label: 'H1', style: 'header-one' }, 
-  { label: 'H2', style: 'header-two' }, 
+  { label: 'H1', style: 'header-one' },
+  { label: 'H2', style: 'header-two' },
   { label: 'Blockquote', style: 'blockquote' },
 ]
 
@@ -98,21 +98,15 @@ const MarkdownEditor: React.FC<{}> = () => {
       onToggle(style)
     }
 
-    return (
-      <span
-        onMouseDown={OnToggle}
-      >
-        {label}
-      </span>
-    )
+    return <span onMouseDown={OnToggle}>{label}</span>
   }
 
   return (
     <Fragment>
       {/* HOPE TODO: placeholderをいい感じの文章のランダムにしたい */}
       <Editor
-        editorState={editorState} 
-        onChange={onChange} 
+        editorState={editorState}
+        onChange={onChange}
         handleKeyCommand={handleKeyCommand}
         customStyleMap={styleMap}
         // placeholder='placeholder'
@@ -125,5 +119,4 @@ const MarkdownEditor: React.FC<{}> = () => {
   )
 }
 
- export default MarkdownEditor
- 
+export default MarkdownEditor
