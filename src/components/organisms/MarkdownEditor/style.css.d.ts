@@ -1,1 +1,1 @@
-export const hoge: string
+export const styleButtons: string
