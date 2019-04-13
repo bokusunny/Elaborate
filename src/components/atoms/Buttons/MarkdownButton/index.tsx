@@ -2,7 +2,7 @@ import React from 'react'
 
 interface Props {
   label: string
-  onToggle: Function
+  onToggle: (blockStyle: string) => void
   style: string
 }
 

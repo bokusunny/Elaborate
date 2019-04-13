@@ -16,7 +16,6 @@ const MarkdownEditor: React.FC<{}> = () => {
   }
 
   const handleKeyCommand = (command: string, editorState: EditorState): DraftHandleValue => {
-    console.log('hoge')
     const newState = RichUtils.handleKeyCommand(editorState, command)
     if (newState) {
       onChange(newState)
@@ -30,7 +29,7 @@ const MarkdownEditor: React.FC<{}> = () => {
     onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle))
   }
 
-  const toggleBlockType = (blockStyle: string) => {
+  const toggleBlockType = (blockStyle: string): void => {
     onChange(RichUtils.toggleBlockType(editorState, blockStyle))
   }
 

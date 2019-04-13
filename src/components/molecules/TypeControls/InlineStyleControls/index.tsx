@@ -6,7 +6,7 @@ import { INLINE_STYLES } from '../../../../constants/MarkdownEditor/editor_type'
 
 interface StyleObject {
   editorState: EditorState
-  onToggle: Function
+  onToggle: (inlineStyle: string) => void
 }
 
 const InlineStyleControls = (props: StyleObject) => {

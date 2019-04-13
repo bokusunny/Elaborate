@@ -6,7 +6,7 @@ import { BLOCK_TYPES } from '../../../../constants/MarkdownEditor/editor_type'
 
 interface StyleObject {
   editorState: EditorState
-  onToggle: Function
+  onToggle: (blockStyle: string) => void
 }
 
 const BlockTypeControls = (props: StyleObject) => {
