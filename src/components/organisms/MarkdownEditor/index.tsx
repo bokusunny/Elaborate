@@ -1,37 +1,13 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Editor, EditorState, RichUtils, DraftHandleValue } from 'draft-js'
-import * as inlineStyles from './style'
+
+import BlockTypeControls from '../../molecules/TypeControls/BlockTypeControls'
+import InlineStyleControls from '../../molecules/TypeControls/InlineStyleControls'
+import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
 import * as styles from './style.css'
-
-const { useState } = React
-
-// TODO: 見にくいのでprettierの設定を変える
-const INLINE_STYLES = [
-  { label: 'Bold', style: 'BOLD' },
-  { label: 'Italic', style: 'ITALIC' },
-  { label: 'Underliner', style: 'UNDERLINE' },
-]
-
-const BLOCK_TYPES = [
-  { label: 'H1', style: 'header-one' },
-  { label: 'H2', style: 'header-two' },
-  { label: 'Blockquote', style: 'blockquote' },
-]
-
-interface Props {
-  label: string
-  onToggle: Function
-  style: string
-}
-
-interface StyleObject {
-  editorState: EditorState
-  onToggle: Function
-}
 
 const MarkdownEditor: React.FC<{}> = () => {
   const { styleButtons } = styles
-  const { styleMap } = inlineStyles
   const initialEditorState: EditorState = EditorState.createEmpty()
   const [editorState, setEditorState] = useState(initialEditorState)
 
@@ -54,51 +30,8 @@ const MarkdownEditor: React.FC<{}> = () => {
     onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle))
   }
 
-  const InlineStyleControls = (props: StyleObject) => {
-    return (
-      <div>
-        {INLINE_STYLES.map(type => {
-          return (
-            <StyleButton
-              key={type.label}
-              label={type.label}
-              onToggle={props.onToggle}
-              style={type.style}
-            />
-          )
-        })}
-      </div>
-    )
-  }
-
   const toggleBlockType = (blockStyle: string) => {
     onChange(RichUtils.toggleBlockType(editorState, blockStyle))
-  }
-
-  const BlockTypeControls = (props: StyleObject) => {
-    return (
-      <div>
-        {BLOCK_TYPES.map(type => {
-          return (
-            <StyleButton
-              key={type.label}
-              label={type.label}
-              onToggle={props.onToggle}
-              style={type.style}
-            />
-          )
-        })}
-      </div>
-    )
-  }
-
-  const StyleButton: React.FC<Props> = ({ label, onToggle, style }) => {
-    const OnToggle = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-      e.preventDefault()
-      onToggle(style)
-    }
-
-    return <span onMouseDown={OnToggle}>{label}</span>
   }
 
   return (
@@ -108,7 +41,7 @@ const MarkdownEditor: React.FC<{}> = () => {
         editorState={editorState}
         onChange={onChange}
         handleKeyCommand={handleKeyCommand}
-        customStyleMap={styleMap}
+        customStyleMap={STYLE_MAP}
         // placeholder='placeholder'
       />
       <div className={styleButtons}>

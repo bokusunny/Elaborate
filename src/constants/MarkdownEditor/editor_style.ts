@@ -1,4 +1,4 @@
-export const styleMap = {
+export const STYLE_MAP = {
   BOLD: {
     backgroundColor: 'red',
   },
