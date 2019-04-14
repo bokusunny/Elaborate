@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import StyleButton from '../../../atoms/Buttons/MarkdownButton'
+import StyleButton from '../../../atoms/Buttons/MarkdownButtons/StyleButton'
 import { BLOCK_TYPES } from '../../../../constants/MarkdownEditor/editor_type'
 
 interface Props {
