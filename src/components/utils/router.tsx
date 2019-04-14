@@ -26,7 +26,7 @@ const Router: React.FC<{}> = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <PublicRoute exact path="/sign_in" component={SignInPage} isAuthorized={isAuthorized} />
+        <PublicRoute exact path="/signin" component={SignInPage} isAuthorized={isAuthorized} />
         <PrivateRoute exact path="/mypage" component={MyPage} isAuthorized={isAuthorized} />
         {/* TODO: It's tmp route, need to make it Private Route & Use uid  */}
         <Route exact path="/:id/edit" component={EditorPage} />
