@@ -9,7 +9,7 @@ module.exports = ({ config }) => {
 
   // addon-storysource使うときだけ
   config.module.rules.push({
-    test: /\.stories\.jsx?$/,
+    test: /\.stories\.(ts|tsx)$/,
     loaders: [
       {
         loader: require.resolve("@storybook/addon-storysource/loader"),
