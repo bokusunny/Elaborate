@@ -15,24 +15,16 @@ A hosting, version controll service of documents.
 - Webpack 4.29+
 - Typescript 3.4+
 - Firebase 5.9+
-- Docker 18.09.5+
+
+## Recommended
+- Docker 18.09.2+
 
 ## Set up
 
 ### Docker Install
-Docker is required.
+Docker is recommended to simplify set up a environment.
 [Please refer to this Page to install docker](https://hub.docker.com/search/?offering=community&type=edition)
-
-### .env
-Firebase config keys like below are required.
-But the config keys is NOT currently published. Please contact the author to get the keys.
-
-```
-// .env
-FIREBASE_API_KEY=
-FIREBASE_MESSAGING_SENDER_ID=
-``` 
-
+ 
 ### set up
 ```sh
 # clone
@@ -40,6 +32,15 @@ $ git clone git@github.com:bokusunny/elaborate.git
 # set up the docker container
 $ docker-compose build
 $ docker-compose up -d
+```
+
+### .env
+Firebase config keys like below are required. But the config keys are NOT currently published. Please contact the author to get the keys.
+
+```
+// .env
+FIREBASE_API_KEY=
+FIREBASE_MESSAGING_SENDER_ID=
 ```
 
 ## Author
