@@ -1,6 +1,8 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
+console.log(process.env)
+
 interface Config {
   apiKey: string
   authDomain: string
