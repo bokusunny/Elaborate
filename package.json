@@ -19,7 +19,6 @@
     ]
   },
   "dependencies": {
-    "@types/dotenv": "6.1.1",
     "@types/draft-js": "0.10.30",
     "@types/keymirror": "0.1.1",
     "@types/lodash": "4.14.123",
@@ -43,7 +42,6 @@
     "@typescript-eslint/eslint-plugin": "1.5.0",
     "@typescript-eslint/parser": "1.5.0",
     "css-loader": "2.1.1",
-    "dotenv-webpack": "1.7.0",
     "eslint": "5.16.0",
     "eslint-config-prettier": "4.1.0",
     "eslint-plugin-prettier": "3.0.1",

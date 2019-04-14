@@ -1,25 +1,24 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
-console.log(process.env)
-
-interface Config {
-  apiKey: string
-  authDomain: string
-  databaseURL: string
-  projectId: string
-  storageBucket: string
-  messagingSenderId: string
+try {
+  if (
+    process.env.FIREBASE_API_KEY === undefined ||
+    process.env.FIREBASE_MESSAGING_SENDER_ID === undefined
+  ) {
+    throw '.env has not been set. Please make sure your root dir.'
+  }
+} catch (e) {
+  console.error(e)
 }
 
-// TODO: Private repositoryなのでとりあえずベタ書きだが、API_KEYとmessagingSenderIdはあとで環境変数に。
-const config: Config = {
-  apiKey: 'AIzaSyCHmBBP7yGae1865ft_OI6eTtEUJIcs3mE',
+const config = {
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: 'progate-mafia-tmp.firebaseapp.com',
   databaseURL: 'https://progate-mafia-tmp.firebaseio.com',
   projectId: 'progate-mafia-tmp',
   storageBucket: 'progate-mafia-tmp.appspot.com',
-  messagingSenderId: '413747840801',
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
 }
 
 firebase.initializeApp(config)
