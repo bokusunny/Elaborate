@@ -3,3 +3,16 @@
 
 # client
 node_modules
+
+# production bundle files
+/dist/bundle.css
+/dist/bundle.css.map
+/dist/bundle.js
+/dist/bundle.js.map
+
+# env variables
+.env
+
+#logs
+firebase-debug.log
+.firebase

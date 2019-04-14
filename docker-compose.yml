@@ -1,0 +1,13 @@
+version: '3'
+services:
+  webpack:
+    build: ./
+    image: elaborate/webpack
+    container_name: webpack-container
+    ports:
+      - "80:8080"
+    volumes:
+      - ./src:/app/src
+      - ./dist:/app/dist
+      - ./package.json:/app/package.json
+      - ./webpack.config.js:/app/webpack.config.js
