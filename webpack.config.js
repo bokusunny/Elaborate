@@ -1,5 +1,7 @@
 const path = require('path')
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+require('dotenv').config()
 
 module.exports = {
   devtool: 'source-map',
@@ -62,5 +64,13 @@ module.exports = {
       },
     ],
   },
-  plugins: [new MiniCssExtractPlugin({ filename: '[name].css', chunkFilename: '[id].css'})],
+  plugins: [
+    new MiniCssExtractPlugin({ filename: '[name].css', chunkFilename: '[id].css'}),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'FIREBASE_API_KEY': JSON.stringify(process.env.FIREBASE_API_KEY),
+        'FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSAGING_SENDER_ID),
+      }
+    }),
+  ],
 }
