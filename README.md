@@ -26,3 +26,6 @@ $ docker-compose up -d
 ## Author
 - [Shota Yamazaki](https://github.com/sy-tencho)
 - [Taishi Murakami](https://github.com/bokusunny)
+
+## License
+[MIT](http://b4b4r07.mit-license.org)
