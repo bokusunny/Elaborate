@@ -5,7 +5,7 @@
 A hosting, version controll service of documents. 
 
 ## Description
-`Elaborate` is a SPA mainly with React.js and firebase. It allows writers or those who want to develop documents effectively to host their docs centralizedly and controll versions of them. In the progress is enabling you to collaborate on the same documents simultaneously and without overriding each other’s work.
+`Elaborate` is created by diverting the idea of Git into document development. It enables to host their documents centralizedly and to control their versions. In the progress is enabling you to collaborate on the same documents simultaneously and without overriding each other’s work. This application is for not only writers and coders but everyone who'd like to "elaborate" their documents.
 ## Demo
 > TODO: β版完成時にここにDemoのgifを貼る.
 
