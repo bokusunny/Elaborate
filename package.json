@@ -19,7 +19,6 @@
     ]
   },
   "dependencies": {
-    "@types/classnames": "2.2.7",
     "@types/dotenv": "6.1.1",
     "@types/draft-js": "0.10.30",
     "@types/keymirror": "0.1.1",
