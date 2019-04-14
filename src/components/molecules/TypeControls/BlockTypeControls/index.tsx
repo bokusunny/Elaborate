@@ -1,28 +1,19 @@
-import React from 'react'
-import { EditorState } from 'draft-js'
+import React, { Fragment } from 'react'
 
 import StyleButton from '../../../atoms/Buttons/MarkdownButton'
 import { BLOCK_TYPES } from '../../../../constants/MarkdownEditor/editor_type'
 
-interface StyleObject {
-  editorState: EditorState
+interface Props {
   onToggle: (blockStyle: string) => void
 }
 
-const BlockTypeControls = (props: StyleObject) => {
+const BlockTypeControls: React.FC<Props> = ({ onToggle }) => {
   return (
-    <div>
-      {BLOCK_TYPES.map(type => {
-        return (
-          <StyleButton
-            key={type.label}
-            label={type.label}
-            onToggle={props.onToggle}
-            style={type.style}
-          />
-        )
-      })}
-    </div>
+    <Fragment>
+      {BLOCK_TYPES.map(type => (
+        <StyleButton key={type.label} label={type.label} onToggle={onToggle} style={type.style} />
+      ))}
+    </Fragment>
   )
 }
 

@@ -1,5 +1,6 @@
 export const STYLE_MAP = {
   BOLD: {
+    fontWeight: 'bold',
     backgroundColor: 'red',
   },
 

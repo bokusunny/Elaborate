@@ -25,12 +25,12 @@ const MarkdownEditor: React.FC<{}> = () => {
     }
   }
 
-  const toggleInlineStyle = (inlineStyle: string): void => {
-    onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle))
-  }
-
   const toggleBlockType = (blockStyle: string): void => {
     onChange(RichUtils.toggleBlockType(editorState, blockStyle))
+  }
+
+  const toggleInlineStyle = (inlineStyle: string): void => {
+    onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle))
   }
 
   return (
@@ -44,8 +44,8 @@ const MarkdownEditor: React.FC<{}> = () => {
         // placeholder='placeholder'
       />
       <div className={styleButtons}>
-        <BlockTypeControls editorState={editorState} onToggle={toggleBlockType} />
-        <InlineStyleControls editorState={editorState} onToggle={toggleInlineStyle} />
+        <BlockTypeControls onToggle={toggleBlockType} />
+        <InlineStyleControls onToggle={toggleInlineStyle} />
       </div>
     </Fragment>
   )
