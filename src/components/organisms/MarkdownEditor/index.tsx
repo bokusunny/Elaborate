@@ -1,5 +1,7 @@
 import React, { Fragment, useState } from 'react'
-import { Editor, EditorState, RichUtils, DraftHandleValue } from 'draft-js'
+import { EditorState, RichUtils, DraftHandleValue } from 'draft-js'
+import createMarkdownPlugin from 'draft-js-markdown-plugin'
+import Editor from 'draft-js-plugins-editor'
 
 import BlockTypeControls from '../../molecules/TypeControls/BlockTypeControls'
 import InlineStyleControls from '../../molecules/TypeControls/InlineStyleControls'
@@ -8,11 +10,16 @@ import * as styles from './style.css'
 
 const MarkdownEditor: React.FC<{}> = () => {
   const { styleButtons } = styles
+
   const initialEditorState: EditorState = EditorState.createEmpty()
+  const initialPluginsState = [createMarkdownPlugin()]
+
   const [editorState, setEditorState] = useState(initialEditorState)
+  const [pluginsState, setPluginsState] = useState(initialPluginsState)
 
   const onChange = (editorState: EditorState) => {
     setEditorState(editorState)
+    setPluginsState(pluginsState)
   }
 
   const handleKeyCommand = (command: string, editorState: EditorState): DraftHandleValue => {
@@ -40,6 +47,7 @@ const MarkdownEditor: React.FC<{}> = () => {
         editorState={editorState}
         onChange={onChange}
         handleKeyCommand={handleKeyCommand}
+        plugins={pluginsState}
         customStyleMap={STYLE_MAP}
         // placeholder='placeholder'
       />
