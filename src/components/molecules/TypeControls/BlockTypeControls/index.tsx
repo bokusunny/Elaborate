@@ -7,14 +7,12 @@ interface Props {
   onToggle: (blockStyle: string) => void
 }
 
-const BlockTypeControls: React.FC<Props> = ({ onToggle }) => {
-  return (
-    <Fragment>
-      {BLOCK_TYPES.map(type => (
-        <StyleButton key={type.label} label={type.label} onToggle={onToggle} style={type.style} />
-      ))}
-    </Fragment>
-  )
-}
+const BlockTypeControls: React.FC<Props> = ({ onToggle }) => (
+  <Fragment>
+    {BLOCK_TYPES.map(type => (
+      <StyleButton key={type.label} label={type.label} onToggle={onToggle} style={type.style} />
+    ))}
+  </Fragment>
+)
 
 export default BlockTypeControls
