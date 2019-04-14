@@ -12,7 +12,7 @@ const MarkdownEditor: React.FC<{}> = () => {
   const { styleButtons } = styles
 
   const initialEditorState: EditorState = EditorState.createEmpty()
-  const initialPluginsState = [createMarkdownPlugin()]
+  const initialPluginsState: object = [createMarkdownPlugin()]
 
   const [editorState, setEditorState] = useState(initialEditorState)
   const [pluginsState, setPluginsState] = useState(initialPluginsState)
