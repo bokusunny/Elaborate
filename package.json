@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "watch": "webpack-dev-server --mode development --history-api-fallback",
+    "build": "webpack --mode production",
     "lint": "eslint src/**/*.{ts,tsx}",
     "lint:fix": "npm run lint --fix"
   },
