@@ -15,8 +15,25 @@ A hosting, version controll service of documents.
 - Webpack 4.29+
 - Typescript 3.4+
 - Firebase 5.9+
+- Docker 18.09.5+
 
 ## Set up
+
+### Docker Install
+Docker is required.
+[Please refer to this Page to install docker](https://hub.docker.com/search/?offering=community&type=edition)
+
+### .env
+Firebase config keys like below are required.
+But the config keys is NOT currently published. Please contact the author to get the keys.
+
+```
+// .env
+FIREBASE_API_KEY=
+FIREBASE_MESSAGING_SENDER_ID=
+``` 
+
+### set up
 ```sh
 # clone
 $ git clone git@github.com:bokusunny/elaborate.git
@@ -28,6 +45,9 @@ $ docker-compose up -d
 ## Author
 - [Shota Yamazaki](https://github.com/sy-tencho)
 - [Taishi Murakami](https://github.com/bokusunny)
+
+## Content Strategist
+- [Yuta Tsurusaki](https://github.com/yuta-tsurusaki)
 
 ## License
 [MIT](http://b4b4r07.mit-license.org)
