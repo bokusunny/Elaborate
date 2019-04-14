@@ -5,6 +5,7 @@
   "scripts": {
     "watch": "webpack-dev-server --mode development --history-api-fallback",
     "build": "webpack --mode production",
+    "storybook": "start-storybook -p 9001 -c src/.storybook",
     "lint": "eslint src/**/*.{ts,tsx}",
     "lint:fix": "npm run lint --fix"
   },
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.4.3",
+    "@storybook/addon-storysource": "5.0.7",
     "@storybook/addons": "5.0.7",
     "@storybook/react": "5.0.7",
     "@types/storybook__react": "4.0.1",
