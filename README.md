@@ -1,5 +1,7 @@
 <!-- statusの読み取り専用tokenなのでベタ書きで大丈夫-->
-# Elaborate [![CircleCI](https://circleci.com/gh/bokusunny/elaborate/tree/master.svg?style=svg&circle-token=8d7544d8acf5f6087de4c29987d454e2a9957357)](https://circleci.com/gh/bokusunny/elaborate/tree/master)
+# Elaborate
+[![CircleCI](https://circleci.com/gh/bokusunny/elaborate/tree/master.svg?style=svg&circle-token=8d7544d8acf5f6087de4c29987d454e2a9957357)](https://circleci.com/gh/bokusunny/elaborate/tree/master)
+
 A hosting, version controll service of documents. 
 
 ## Description
@@ -12,7 +14,7 @@ A hosting, version controll service of documents.
 - Redux 4.0+
 - Webpack 4.29+
 - Typescript 3.4+
-- firebase 5.9+
+- Firebase 5.9+
 
 ## Set up
 ```sh
