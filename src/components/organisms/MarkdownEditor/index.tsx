@@ -8,11 +8,26 @@ import InlineStyleControls from '../../molecules/TypeControls/InlineStyleControl
 import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
 import * as styles from './style.css'
 
+interface Plugin {
+  blockRenderMap: Map<string, number>
+  blockRendererFn: Function
+  blockStyleFn: Function
+  decorators: object[]
+  handleBeforeInput: Function
+  handleKeyCommand: Function
+  handlePastedText: Function
+  handleReturn: Function
+  initialize: Function
+  onTab: Function
+  store: object
+}
+
 const MarkdownEditor: React.FC<{}> = () => {
   const { styleButtons } = styles
 
   const initialEditorState: EditorState = EditorState.createEmpty()
-  const initialPluginsState: object = [createMarkdownPlugin()]
+  const initialPluginsState: [Plugin] = [createMarkdownPlugin()]
+  console.log(createMarkdownPlugin().blockRenderMap)
 
   const [editorState, setEditorState] = useState(initialEditorState)
   const [pluginsState, setPluginsState] = useState(initialPluginsState)
