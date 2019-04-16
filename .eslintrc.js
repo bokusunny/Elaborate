@@ -1,6 +1,7 @@
 module.exports = {
   "parser": "@typescript-eslint/parser",
   "extends": [
+    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
     "plugin:react/recommended",
@@ -22,6 +23,7 @@ module.exports = {
     "react/prop-types": 0,
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-unused-vars": 2,
+    "no-console": ["error", { allow: ["warn", "error"] }],
     "prettier/prettier": [
       "error", {
         "singleQuote": true,
@@ -35,5 +37,9 @@ module.exports = {
     "react": {
       "version": "detect"
     }
+  },
+  "env": {
+    "browser": true,
+    "node": true
   }
 }
