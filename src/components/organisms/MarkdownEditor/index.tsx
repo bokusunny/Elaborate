@@ -9,17 +9,17 @@ import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
 import * as styles from './style.css'
 
 interface Plugin {
-  blockRenderMap: Map<string, number>
-  blockRendererFn: Function
-  blockStyleFn: Function
+  blockRenderMap: Map<string, string>
+  blockRendererFn: (block: string, {}) => {} | null
+  blockStyleFn: (block: string) => object | null
   decorators: object[]
-  handleBeforeInput: Function
-  handleKeyCommand: Function
-  handlePastedText: Function
-  handleReturn: Function
-  initialize: Function
-  onTab: Function
-  store: object
+  handleBeforeInput: (ev: string, html: HTMLElement, setEditorState: EditorState, {}) => string
+  handleKeyCommand: (command: string, setEditorState: EditorState, {}) => string
+  handlePastedText: (ev: string, setEditorState: EditorState, {}) => string
+  handleReturn: (ev: string, setEditorState: EditorState, {}) => string
+  initialize: (setEditorState: EditorState, getEditState: EditorState) => void
+  onTab: (ev: string, {}) => string
+  store: {}
 }
 
 const MarkdownEditor: React.FC<{}> = () => {
@@ -27,7 +27,7 @@ const MarkdownEditor: React.FC<{}> = () => {
 
   const initialEditorState: EditorState = EditorState.createEmpty()
   const initialPluginsState: [Plugin] = [createMarkdownPlugin()]
-  console.log(createMarkdownPlugin().blockRenderMap)
+  console.log(createMarkdownPlugin())
 
   const [editorState, setEditorState] = useState(initialEditorState)
   const [pluginsState, setPluginsState] = useState(initialPluginsState)
