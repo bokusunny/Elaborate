@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import SNSSignInButton from './index'
 
-const onClick = () => console.log('Click!')
+const onClick = () => alert('Clicked!')
 
 storiesOf('SNSSignInButton', module)
   .add('google', () => (
