@@ -27,7 +27,6 @@ const MarkdownEditor: React.FC<{}> = () => {
 
   const initialEditorState: EditorState = EditorState.createEmpty()
   const initialPluginsState: [Plugin] = [createMarkdownPlugin()]
-  console.log(createMarkdownPlugin())
 
   const [editorState, setEditorState] = useState(initialEditorState)
   const [pluginsState, setPluginsState] = useState(initialPluginsState)
