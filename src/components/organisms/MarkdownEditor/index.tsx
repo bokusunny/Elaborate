@@ -8,24 +8,7 @@ import InlineStyleControls from '../../molecules/TypeControls/InlineStyleControl
 import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
 import * as styles from './style.css'
 
-interface Plugin {
-  blockRenderMap: Map<string, string>
-  blockRendererFn: (block: string, argument: object) => {} | null
-  blockStyleFn: (block: string) => object | null
-  decorators: object[]
-  handleBeforeInput: (character: string, editorState: EditorState, setEditorState: object) => string
-  handleKeyCommand: (command: string, editorState: EditorState, setEditorState: object) => string
-  handlePastedText: (
-    text: string,
-    html: HTMLElement,
-    editorState: EditorState,
-    setEditorState: object
-  ) => string
-  handleReturn: (ev: string, editorState: EditorState, setEditorState: object) => string
-  initialize: (setEditorState: EditorState, getEditState: EditorState) => void
-  onTab: (ev: string, editorState: object) => string
-  store: {}
-}
+import { Plugin } from './types'
 
 const MarkdownEditor: React.FC<{}> = () => {
   const { styleButtons } = styles
