@@ -10,15 +10,20 @@ import * as styles from './style.css'
 
 interface Plugin {
   blockRenderMap: Map<string, string>
-  blockRendererFn: (block: string, {}) => {} | null
+  blockRendererFn: (block: string, argument: object) => {} | null
   blockStyleFn: (block: string) => object | null
   decorators: object[]
-  handleBeforeInput: (ev: string, html: HTMLElement, setEditorState: EditorState, {}) => string
-  handleKeyCommand: (command: string, setEditorState: EditorState, {}) => string
-  handlePastedText: (ev: string, setEditorState: EditorState, {}) => string
-  handleReturn: (ev: string, setEditorState: EditorState, {}) => string
+  handleBeforeInput: (character: string, editorState: EditorState, setEditorState: object) => string
+  handleKeyCommand: (command: string, editorState: EditorState, setEditorState: object) => string
+  handlePastedText: (
+    text: string,
+    html: HTMLElement,
+    editorState: EditorState,
+    setEditorState: object
+  ) => string
+  handleReturn: (ev: string, editorState: EditorState, setEditorState: object) => string
   initialize: (setEditorState: EditorState, getEditState: EditorState) => void
-  onTab: (ev: string, {}) => string
+  onTab: (ev: string, editorState: object) => string
   store: {}
 }
 
