@@ -44,9 +44,9 @@
   },
   "devDependencies": {
     "@babel/core": "7.4.3",
-    "@storybook/addon-storysource": "5.0.7",
+    "@storybook/addon-storysource": "5.0.10",
     "@storybook/addons": "5.0.7",
-    "@storybook/react": "5.0.7",
+    "@storybook/react": "5.0.10",
     "@types/storybook__react": "4.0.1",
     "@typescript-eslint/eslint-plugin": "1.5.0",
     "@typescript-eslint/parser": "1.5.0",
