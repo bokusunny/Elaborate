@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/firestore'
 
 try {
   if (
@@ -24,5 +25,6 @@ const config = {
 firebase.initializeApp(config)
 
 const auth = firebase.auth()
+const db = firebase.firestore()
 
-export { firebase, auth }
+export { firebase, auth, db }
