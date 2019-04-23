@@ -12,11 +12,11 @@ const MarkdownEditor: React.FC<{}> = () => {
   const { editorWrapper, styleButtons } = styles
 
   const initialEditorState: EditorState = EditorState.createEmpty()
-  const initialPluginsState = [createMarkdownPlugin()]
+  const initialPluginsState: [Plugin] = [createMarkdownPlugin()]
 
   const [editorState, setEditorState] = useState(initialEditorState)
   const [pluginsState, setPluginsState] = useState(initialPluginsState)
-  const [styleButtonsState, setIsStyleButtons] = useState({ isStyleButtons: true })
+  const [styleButtonsState, setStyleButtons] = useState({ showStyleButtons: true })
 
   const getInputValue = () => {
     const contentState: ContentState = editorState.getCurrentContent()
@@ -29,9 +29,9 @@ const MarkdownEditor: React.FC<{}> = () => {
     const inputValue = getInputValue()
 
     if (inputValue === '') {
-      setIsStyleButtons({ isStyleButtons: true })
+      setStyleButtons({ showStyleButtons: true })
     } else {
-      setIsStyleButtons({ isStyleButtons: false })
+      setStyleButtons({ showStyleButtons: false })
     }
   }, [editorState])
 
@@ -58,7 +58,7 @@ const MarkdownEditor: React.FC<{}> = () => {
     onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle))
   }
 
-  const { isStyleButtons } = styleButtonsState
+  const { showStyleButtons } = styleButtonsState
 
   return (
     <div className={editorWrapper}>
@@ -71,7 +71,7 @@ const MarkdownEditor: React.FC<{}> = () => {
         customStyleMap={STYLE_MAP}
         // placeholder='placeholder'
       />
-      {isStyleButtons && (
+      {showStyleButtons && (
         <div className={styleButtons}>
           <BlockTypeControls onToggle={toggleBlockType} />
           <InlineStyleControls onToggle={toggleInlineStyle} />
