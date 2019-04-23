@@ -8,11 +8,46 @@ import InlineStyleControls from '../../molecules/TypeControls/InlineStyleControl
 import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
 import * as styles from './style.css'
 
+// TODO: 型付け厳格に。ただ、そもそもmoduleの型付けの方を厳格化すべきかも。
+interface Plugin {
+  blockRenderMap: Map<string, any>
+  blockRendererFn: (
+    block: Record<string, any>,
+    args: Record<string, Function>
+  ) => Record<string, any>
+  blockStyleFn: (block: Record<string, any>) => 'checkable-list-item' | null
+  decorators: Function[]
+  handleBeforeInput: (
+    character: any,
+    editorState: EditorState,
+    args: Record<'setEditorState', Function>
+  ) => string
+  handleKeyCommand: (
+    command: string,
+    editorState: EditorState,
+    args: Record<'setEditorState', Function>
+  ) => string
+  handlePastedText: (
+    text: string,
+    html: any,
+    editorState: EditorState,
+    args: Record<'setEditorState', Function>
+  ) => string
+  handleReturn: (
+    ev: any,
+    editorState: EditorState,
+    args: Record<'setEditorState', Function>
+  ) => string
+  initialize: (args: Record<'getEditorState' | 'setEditorState', Function>) => void
+  onTab: (ev: string, args: Record<'getEditorState' | 'setEditorState', Function>) => string
+  store: {}
+}
+
 const MarkdownEditor: React.FC<{}> = () => {
   const { editorWrapper, styleButtons } = styles
 
   const initialEditorState: EditorState = EditorState.createEmpty()
-  const initialPluginsState = [createMarkdownPlugin()]
+  const initialPluginsState: Plugin = [createMarkdownPlugin()]
 
   const [editorState, setEditorState] = useState(initialEditorState)
   const [pluginsState, setPluginsState] = useState(initialPluginsState)
