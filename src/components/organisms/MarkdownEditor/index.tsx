@@ -19,9 +19,11 @@ const MarkdownEditor: React.FC<{}> = () => {
 
   const [editorState, setEditorState] = useState(initialEditorState)
   const [pluginsState, setPluginsState] = useState(initialPluginsState)
-  const [isStyleButtonsState, setStyleButtons] = useState(true)
+  const [shouldShowStyleButtons, setShouldShowStyleButtons] = useState(true)
 
   const getInputValue = () => {
+    if (!editorState) return
+
     const contentState: ContentState = editorState.getCurrentContent()
     const rawContentState = convertToRaw(contentState)
     const lastInputValue = rawContentState.blocks.slice(-1)[0].text
@@ -32,9 +34,9 @@ const MarkdownEditor: React.FC<{}> = () => {
     const inputValue = getInputValue()
 
     if (inputValue === '') {
-      setStyleButtons(true)
+      setShouldShowStyleButtons(true)
     } else {
-      setStyleButtons(false)
+      setShouldShowStyleButtons(false)
     }
   }, [editorState])
 
@@ -72,7 +74,7 @@ const MarkdownEditor: React.FC<{}> = () => {
         customStyleMap={STYLE_MAP}
         // placeholder='placeholder'
       />
-      {isStyleButtonsState && (
+      {shouldShowStyleButtons && (
         <div className={styleButtons}>
           <BlockTypeControls onToggle={toggleBlockType} />
           <InlineStyleControls onToggle={toggleInlineStyle} />
