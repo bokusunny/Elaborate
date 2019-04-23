@@ -5,8 +5,11 @@ import Editor from 'draft-js-plugins-editor'
 
 import BlockTypeControls from '../../molecules/TypeControls/BlockTypeControls'
 import InlineStyleControls from '../../molecules/TypeControls/InlineStyleControls'
+
 import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
 import * as styles from './style.css'
+
+import { Plugin } from './types'
 
 const MarkdownEditor: React.FC<{}> = () => {
   const { editorWrapper, styleButtons } = styles
