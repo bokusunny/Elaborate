@@ -1,3 +1,9 @@
+.editorWrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 .styleButtons {
+  margin-top: 4px;
   background-color: #fff;
 }
