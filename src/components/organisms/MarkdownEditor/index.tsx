@@ -19,7 +19,7 @@ const MarkdownEditor: React.FC<{}> = () => {
 
   const [editorState, setEditorState] = useState(initialEditorState)
   const [pluginsState, setPluginsState] = useState(initialPluginsState)
-  const [styleButtonsState, setStyleButtons] = useState({ showStyleButtons: true })
+  const [isStyleButtonsState, setStyleButtons] = useState(true)
 
   const getInputValue = () => {
     const contentState: ContentState = editorState.getCurrentContent()
@@ -32,9 +32,9 @@ const MarkdownEditor: React.FC<{}> = () => {
     const inputValue = getInputValue()
 
     if (inputValue === '') {
-      setStyleButtons({ showStyleButtons: true })
+      setStyleButtons(true)
     } else {
-      setStyleButtons({ showStyleButtons: false })
+      setStyleButtons(false)
     }
   }, [editorState])
 
@@ -61,8 +61,6 @@ const MarkdownEditor: React.FC<{}> = () => {
     onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle))
   }
 
-  const { showStyleButtons } = styleButtonsState
-
   return (
     <div className={editorWrapper}>
       {/* HOPE TODO: placeholderをいい感じの文章のランダムにしたい */}
@@ -74,7 +72,7 @@ const MarkdownEditor: React.FC<{}> = () => {
         customStyleMap={STYLE_MAP}
         // placeholder='placeholder'
       />
-      {showStyleButtons && (
+      {isStyleButtonsState && (
         <div className={styleButtons}>
           <BlockTypeControls onToggle={toggleBlockType} />
           <InlineStyleControls onToggle={toggleInlineStyle} />
