@@ -8,13 +8,11 @@ import InlineStyleControls from '../../molecules/TypeControls/InlineStyleControl
 import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
 import * as styles from './style.css'
 
-import { Plugin } from './types'
-
 const MarkdownEditor: React.FC<{}> = () => {
   const { editorWrapper, styleButtons } = styles
 
   const initialEditorState: EditorState = EditorState.createEmpty()
-  const initialPluginsState: [Plugin] = [createMarkdownPlugin()]
+  const initialPluginsState = [createMarkdownPlugin()]
 
   const [editorState, setEditorState] = useState(initialEditorState)
   const [pluginsState, setPluginsState] = useState(initialPluginsState)
