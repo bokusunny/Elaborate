@@ -1,7 +1,14 @@
 {
-  "name": "tmp",
+  "name": "elaborate",
   "version": "1.0.0",
   "main": "index.js",
+  "description": "",
+  "license": "ISC",
+  "author": "Progate-mafia",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bokusunny/elaborate.git"
+  },
   "scripts": {
     "watch": "webpack-dev-server --mode development --history-api-fallback",
     "build": "webpack --mode production",
