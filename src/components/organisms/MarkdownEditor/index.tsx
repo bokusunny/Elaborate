@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { EditorState, RichUtils, DraftHandleValue, convertToRaw, ContentState } from 'draft-js'
+import {
+  EditorState,
+  RichUtils,
+  DraftHandleValue,
+  convertToRaw,
+  ContentState,
+  RawDraftContentState,
+} from 'draft-js'
 import createMarkdownPlugin from 'draft-js-markdown-plugin'
 import Editor from 'draft-js-plugins-editor'
 
@@ -25,7 +32,7 @@ const MarkdownEditor: React.FC<{}> = () => {
     if (!editorState) return
 
     const contentState: ContentState = editorState.getCurrentContent()
-    const rawContentState = convertToRaw(contentState)
+    const rawContentState: RawDraftContentState = convertToRaw(contentState)
     const lastInputValue = rawContentState.blocks.slice(-1)[0].text
     return lastInputValue
   }
