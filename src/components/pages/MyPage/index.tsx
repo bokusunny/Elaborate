@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { fetchDirectories } from '../../../actions/directories'
 import MyPageTemplate from '../../templates/MyPageTemplate'
 
 // TODO: useEffectでcurrentUserに所属するdirectoriesをfetchする
-const directoryNameArray = ['Dir1', 'Dir2', 'Dir3']
+interface Props {
+  fetchDirectories: Function
+  directories: Record<string, any>
+}
 
-const MyPage: React.FC<{}> = () => <MyPageTemplate directoryNameArray={directoryNameArray} />
+const MyPage: React.FC<Props> = ({ fetchDirectories, directories }) => {
+  useEffect(() => fetchDirectories(), [])
 
-export default MyPage
+  return <MyPageTemplate directories={directories} />
+}
+
+export default connect(
+  ({ directories }: any) => ({ directories }),
+  { fetchDirectories }
+)(MyPage)

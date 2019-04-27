@@ -5,7 +5,7 @@ import DirectoryList from '../../molecules/DirectoryList'
 import * as styles from './style.css'
 
 interface Props {
-  directoryNameArray: string[]
+  directories: Record<string, any>
 }
 
 const onClickSignOut = () => {
