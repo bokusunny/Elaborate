@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { fetchDirectories } from '../../../actions/directories'
+import { ReduxAPIStruct } from '../../../reducers/static-types'
+import { FirebaseSnapShot } from '../../../utils/firebase'
 import MyPageTemplate from '../../templates/MyPageTemplate'
 
-// TODO: useEffectでcurrentUserに所属するdirectoriesをfetchする
 interface Props {
   fetchDirectories: Function
-  directories: Record<string, any>
+  directories: ReduxAPIStruct<FirebaseSnapShot[]>
 }
 
 const MyPage: React.FC<Props> = ({ fetchDirectories, directories }) => {
@@ -16,6 +17,8 @@ const MyPage: React.FC<Props> = ({ fetchDirectories, directories }) => {
 }
 
 export default connect(
-  ({ directories }: any) => ({ directories }),
+  ({ directories }: Record<string, ReduxAPIStruct<FirebaseSnapShot[]>>) => ({
+    directories,
+  }),
   { fetchDirectories }
 )(MyPage)

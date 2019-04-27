@@ -27,4 +27,5 @@ firebase.initializeApp(config)
 const auth = firebase.auth()
 const db = firebase.firestore()
 
+export type FirebaseSnapShot = firebase.firestore.QueryDocumentSnapshot
 export { firebase, auth, db }

@@ -1,9 +1,43 @@
-import { db } from '../utils/firebase'
+import { db, FirebaseSnapShot } from '../utils/firebase'
 import { ThunkDispatch } from 'redux-thunk'
 import { actionTypes } from '../constants'
+import { ReduxAPIStruct, ReduxAPIError } from '../reducers/static-types'
+import { BaseAction } from './static-types'
 
+interface DirectoryFirebaseRequestAction extends BaseAction {
+  type: string
+}
+
+interface SetDirectoriesAction extends BaseAction {
+  type: string
+  payload: { directories: ReduxAPIStruct<FirebaseSnapShot[]> }
+}
+
+interface UserAPIFailure extends BaseAction {
+  type: string
+  payload: { error: ReduxAPIError }
+}
+
+export type DirectoriesAction =
+  | DirectoryFirebaseRequestAction
+  | SetDirectoriesAction
+  | UserAPIFailure
+
+const userAPIFailure = (error: ReduxAPIError) => ({
+  type: actionTypes.DIRECTORY_FIREBASE_REQUEST_FAILURE,
+  payload: { error },
+})
+
+// NOTE: Firebaseはクライアント側のネットワーク不良などでデータのfetchに失敗してもerrorを吐かず、
+//       空配列を返してくる... :anger_jenkins:
 export const fetchDirectories = () => {
-  return (dispatch: ThunkDispatch<{}, {}, any>) => {
+  return (
+    dispatch: ThunkDispatch<
+      {},
+      {},
+      DirectoryFirebaseRequestAction | SetDirectoriesAction | UserAPIFailure
+    >
+  ) => {
     dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
     db.collection('directories')
       .get()
@@ -21,14 +55,8 @@ export const fetchDirectories = () => {
           payload: { directories: orderedDocs },
         })
       })
-      .catch(
-        error => console.error('Error occured: ', error)
-        // dispatch(
-        //   directoryFirebaseAPIFailure({
-        //     statuCode: 500,
-        //     message: error,
-        //   })
-        // )
-      )
+      .catch(error => {
+        dispatch(userAPIFailure({ statusCode: 500, message: error }))
+      })
   }
 }
