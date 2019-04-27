@@ -1,56 +1,51 @@
-import React, { Fragment, useState } from 'react'
-import { EditorState, RichUtils, DraftHandleValue } from 'draft-js'
+import React, { useState, useEffect } from 'react'
+import {
+  EditorState,
+  RichUtils,
+  DraftHandleValue,
+  convertToRaw,
+  ContentState,
+  RawDraftContentState,
+} from 'draft-js'
 import createMarkdownPlugin from 'draft-js-markdown-plugin'
 import Editor from 'draft-js-plugins-editor'
 
 import BlockTypeControls from '../../molecules/TypeControls/BlockTypeControls'
 import InlineStyleControls from '../../molecules/TypeControls/InlineStyleControls'
+
 import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
 import * as styles from './style.css'
 
-// TODO: 型付け厳格に。ただ、そもそもmoduleの型付けの方を厳格化すべきかも。
-interface Plugin {
-  blockRenderMap: Map<string, any>
-  blockRendererFn: (
-    block: Record<string, any>,
-    args: Record<string, Function>
-  ) => Record<string, any>
-  blockStyleFn: (block: Record<string, any>) => 'checkable-list-item' | null
-  decorators: Function[]
-  handleBeforeInput: (
-    character: any,
-    editorState: EditorState,
-    args: Record<'setEditorState', Function>
-  ) => string
-  handleKeyCommand: (
-    command: string,
-    editorState: EditorState,
-    args: Record<'setEditorState', Function>
-  ) => string
-  handlePastedText: (
-    text: string,
-    html: any,
-    editorState: EditorState,
-    args: Record<'setEditorState', Function>
-  ) => string
-  handleReturn: (
-    ev: any,
-    editorState: EditorState,
-    args: Record<'setEditorState', Function>
-  ) => string
-  initialize: (args: Record<'getEditorState' | 'setEditorState', Function>) => void
-  onTab: (ev: string, args: Record<'getEditorState' | 'setEditorState', Function>) => string
-  store: {}
-}
+import { Plugin } from './types'
 
 const MarkdownEditor: React.FC<{}> = () => {
-  const { styleButtons } = styles
+  const { editorWrapper, styleButtons } = styles
 
   const initialEditorState: EditorState = EditorState.createEmpty()
   const initialPluginsState: [Plugin] = [createMarkdownPlugin()]
 
   const [editorState, setEditorState] = useState(initialEditorState)
   const [pluginsState, setPluginsState] = useState(initialPluginsState)
+  const [shouldShowStyleButtons, setShouldShowStyleButtons] = useState(true)
+
+  const getInputValue = () => {
+    if (!editorState) return
+
+    const contentState: ContentState = editorState.getCurrentContent()
+    const rawContentState: RawDraftContentState = convertToRaw(contentState)
+    const lastInputValue = rawContentState.blocks.slice(-1)[0].text
+    return lastInputValue
+  }
+
+  useEffect(() => {
+    const inputValue = getInputValue()
+
+    if (inputValue === '') {
+      setShouldShowStyleButtons(true)
+    } else {
+      setShouldShowStyleButtons(false)
+    }
+  }, [editorState])
 
   const onChange = (editorState: EditorState) => {
     setEditorState(editorState)
@@ -76,7 +71,7 @@ const MarkdownEditor: React.FC<{}> = () => {
   }
 
   return (
-    <Fragment>
+    <div className={editorWrapper}>
       {/* HOPE TODO: placeholderをいい感じの文章のランダムにしたい */}
       <Editor
         editorState={editorState}
@@ -86,11 +81,13 @@ const MarkdownEditor: React.FC<{}> = () => {
         customStyleMap={STYLE_MAP}
         // placeholder='placeholder'
       />
-      <div className={styleButtons}>
-        <BlockTypeControls onToggle={toggleBlockType} />
-        <InlineStyleControls onToggle={toggleInlineStyle} />
-      </div>
-    </Fragment>
+      {shouldShowStyleButtons && (
+        <div className={styleButtons}>
+          <BlockTypeControls onToggle={toggleBlockType} />
+          <InlineStyleControls onToggle={toggleInlineStyle} />
+        </div>
+      )}
+    </div>
   )
 }
 

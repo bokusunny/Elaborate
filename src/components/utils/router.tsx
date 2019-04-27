@@ -29,6 +29,7 @@ const Router: React.FC<{}> = () => {
       <Switch>
         <PublicRoute exact path="/sign_in" component={SignInPage} isAuthorized={isAuthorized} />
         <PrivateRoute exact path="/:username" component={MyPage} isAuthorized={isAuthorized} />
+        <Route exact path="/" component={isAuthorized ? MyPage : SignInPage} />
         {/* TODO: It's tmp route, need to make it Private Route & Use uid  */}
         <Route exact path="/:id/edit" component={EditorPage} />
         <Route render={() => <h2>404 Not Found</h2>} />

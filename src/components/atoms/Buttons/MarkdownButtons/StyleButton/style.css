@@ -1,0 +1,13 @@
+.styleButton {
+  margin-right: 4px; 
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+  opacity: .25;
+  transition: .15s;
+}
+
+.styleButton:hover{
+  opacity: .75;
+  transition: all .3s;
+}
