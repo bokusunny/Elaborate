@@ -4,8 +4,8 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import Typography from '@material-ui/core/Typography'
 import Modal from '@material-ui/core/Modal'
-import TextField from '@material-ui/core/TextField'
-import DirectoryList from '../../molecules/DirectoryList'
+import DirectoryList from '../../molecules/Lists/DirectoryList'
+import DirectoryForm from '../../molecules/Forms/DirectoryForm'
 import { ReduxAPIStruct } from '../../../reducers/static-types'
 import * as styles from './style.css'
 
@@ -18,7 +18,7 @@ const onClickSignOut = () => {
 }
 
 const MyPageTemplate: React.FC<Props> = ({ directories }) => {
-  const [isModalOpen, setISModalOpen] = useState(true)
+  const [isModalOpen, setISModalOpen] = useState(false)
 
   return (
     <div className={styles.background}>
@@ -36,8 +36,7 @@ const MyPageTemplate: React.FC<Props> = ({ directories }) => {
           onClose={() => setISModalOpen(false)}
         >
           <div className={styles.modal}>
-            <Typography variant="h6">New Directory</Typography>
-            <TextField label="Directory name" defaultValue="" margin="normal" />
+            <DirectoryForm onSubmit={() => setISModalOpen(false)} />
           </div>
         </Modal>
       </div>
