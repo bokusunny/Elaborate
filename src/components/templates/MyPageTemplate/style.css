@@ -8,3 +8,10 @@
 .background {
   background-color: #F7F9FA;
 }
+
+.modal {
+  background-color: #fff;
+  position: absolute;
+  top: 45%;
+  left: 45%;
+}
