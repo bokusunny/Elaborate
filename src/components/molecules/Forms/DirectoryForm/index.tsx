@@ -1,12 +1,15 @@
 import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
 import { Formik, Field, Form, FormikActions, ErrorMessage } from 'formik'
 import Typography from '@material-ui/core/Typography'
+import { createDirectory } from '../../../../actions/directories'
 
 interface Props {
   onSubmit: () => void
+  createDirectory: Function
 }
 
-interface Values {
+export interface Values {
   directoryName: string
 }
 
@@ -24,15 +27,17 @@ const validate = (values: Values) => {
   return errors
 }
 
-const DirectoryForm: React.FC<Props> = ({ onSubmit }) => (
+const DirectoryForm: React.FC<Props> = ({ onSubmit, createDirectory }) => (
   <Fragment>
     <Typography variant="h6">New Directory</Typography>
     <Formik
       initialValues={{ directoryName: '' }}
       validate={validate}
       onSubmit={(values: Values, { setSubmitting }: FormikActions<Values>) => {
-        onSubmit()
-        setSubmitting(false)
+        createDirectory(values).then(() => {
+          onSubmit()
+          setSubmitting(false)
+        })
       }}
       render={() => (
         <Form>
@@ -48,4 +53,7 @@ const DirectoryForm: React.FC<Props> = ({ onSubmit }) => (
   </Fragment>
 )
 
-export default DirectoryForm
+export default connect(
+  null,
+  { createDirectory }
+)(DirectoryForm)

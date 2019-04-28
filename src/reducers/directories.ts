@@ -17,6 +17,13 @@ export const directories = (
       }
       return state
 
+    case actionTypes.DIRECTORY_ADD:
+      if ('newDir' in action.payload) {
+        if (state.data === null) return state
+        return { ...state, status: 'success', data: state.data.concat(action.payload.newDir) }
+      }
+      return state
+
     case actionTypes.DIRECTORY_FIREBASE_REQUEST_FAILURE:
       return { ...state, status: 'failure', error: action.payload.error }
   }

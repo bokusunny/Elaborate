@@ -5,4 +5,5 @@ export const actionTypes = keyMirror({
   DIRECTORY_FIREBASE_REQUEST: null,
   DIRECTORY_FIREBASE_REQUEST_FAILURE: null,
   DIRECTORY_SET: null,
+  DIRECTORY_ADD: null,
 })
