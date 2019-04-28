@@ -4,7 +4,7 @@ import { actionTypes } from '../constants'
 import { ReduxAPIStruct, ReduxAPIError } from '../reducers/static-types'
 import { BaseAction } from './static-types'
 
-interface DirectoryFirebaseRequestAction extends BaseAction {
+interface DirectoryFirebaseRequest extends BaseAction {
   type: string
 }
 
@@ -13,17 +13,17 @@ interface SetDirectoriesAction extends BaseAction {
   payload: { directories: ReduxAPIStruct<FirebaseSnapShot[]> }
 }
 
-interface UserAPIFailure extends BaseAction {
+interface DirectoryFirebaseFailure extends BaseAction {
   type: string
   payload: { error: ReduxAPIError }
 }
 
 export type DirectoriesAction =
-  | DirectoryFirebaseRequestAction
+  | DirectoryFirebaseRequest
   | SetDirectoriesAction
-  | UserAPIFailure
+  | DirectoryFirebaseFailure
 
-const userAPIFailure = (error: ReduxAPIError) => ({
+const directoryFirebaseFailure = (error: ReduxAPIError) => ({
   type: actionTypes.DIRECTORY_FIREBASE_REQUEST_FAILURE,
   payload: { error },
 })
@@ -35,19 +35,16 @@ export const fetchDirectories = () => {
     dispatch: ThunkDispatch<
       {},
       {},
-      DirectoryFirebaseRequestAction | SetDirectoriesAction | UserAPIFailure
+      DirectoryFirebaseRequest | SetDirectoriesAction | DirectoryFirebaseFailure
     >
   ) => {
     dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
     db.collection('directories')
       .get()
       .then(querySnapshot => {
-        // Firebaseのデータは順番がランダムなので作成順にソートする
+        // Firebaseのデータは取得時順番がランダムなので作成順にソートする
         const orderedDocs = querySnapshot.docs.sort((doc1, doc2) => {
-          if (doc1.data().createdAt === undefined || doc2.data().createdAt === undefined) {
-            return 0 // dataを上手くとってこれなかった場合sortしない
-          }
-          return doc1.data().createdAt.seconds - doc2.data().createdAt.seconds
+          return doc1.data().createdAt - doc2.data().createdAt
         })
 
         dispatch({
@@ -56,7 +53,7 @@ export const fetchDirectories = () => {
         })
       })
       .catch(error => {
-        dispatch(userAPIFailure({ statusCode: 500, message: error }))
+        dispatch(directoryFirebaseFailure({ statusCode: 500, message: error }))
       })
   }
 }
