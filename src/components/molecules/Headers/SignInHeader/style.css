@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400');
+
+* {
+  color: #ffffff;
+  font-family: 'Montserrat';
+  font-weight: 600;
+}
+
+.SingInHeader {
+  display: flex;
+  justify-content: space-between;
+  vertical-align: middle;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  padding: 32px 0;
+}
+
+.title {
+  font-size: 32px;
+  margin-left: 32px;
+}
+
+.buttons {
+  display: flex;
+  margin: auto 0;
+  margin-right: 32px;
+}
