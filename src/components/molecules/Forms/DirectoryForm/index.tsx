@@ -6,7 +6,7 @@ import { createDirectory } from '../../../../actions/directories'
 
 interface Props {
   onSubmit: () => void
-  createDirectory: Function
+  createDirectory: (values: Values) => Promise<void>
 }
 
 export interface Values {
