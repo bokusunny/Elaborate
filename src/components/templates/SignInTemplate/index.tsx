@@ -14,12 +14,39 @@ interface Props {
 //   auth.signInWithRedirect(provider)
 // }
 
+const title = 'Let you be\nmore creative.'
+const message = `We believe words of wisdom are always created after deep deliberations.\n
+  Who’s heart do you like to move with Elaborate?\n
+  This is a creative workspace for you to "elaborate" your message.
+`
+
 // const SignInTemplate: React.FC<Props> = ({ onClick }) => {
 const SignInTemplate: React.FC<Props> = () => {
-  const { SignIn } = styles
+  const { SignIn, messageWrapper, catchCopy, catchCopyText, description, descriptionText } = styles
+
   return (
     <div className={SignIn}>
       <SignInHeader />
+      <div className={messageWrapper}>
+        <div className={catchCopy}>
+          {title.split('\n').map((text, index) => {
+            return (
+              <p className={catchCopyText} key={index}>
+                {text}
+              </p>
+            )
+          })}
+        </div>
+        <div className={description}>
+          {message.split('\n').map((text, index) => {
+            return (
+              <p className={descriptionText} key={index}>
+                {text}
+              </p>
+            )
+          })}
+        </div>
+      </div>
       {/* <SNSSignInButton type="google" onClick={onClickGoogleSignin}>
         Login with Google
       </SNSSignInButton>
