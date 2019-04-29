@@ -3,6 +3,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import { actionTypes } from '../constants'
 import { ReduxAPIStruct, ReduxAPIError } from '../reducers/static-types'
 import { BaseAction } from './static-types'
+import { Values } from '../components/molecules/Forms/DirectoryForm'
 
 interface DirectoryFirebaseRequest extends BaseAction {
   type: string
@@ -13,6 +14,11 @@ interface SetDirectoriesAction extends BaseAction {
   payload: { directories: ReduxAPIStruct<FirebaseSnapShot[]> }
 }
 
+interface AddDirectoryAction extends BaseAction {
+  type: string
+  payload: { newDir: ReduxAPIStruct<FirebaseSnapShot> }
+}
+
 interface DirectoryFirebaseFailure extends BaseAction {
   type: string
   payload: { error: ReduxAPIError }
@@ -21,6 +27,7 @@ interface DirectoryFirebaseFailure extends BaseAction {
 export type DirectoriesAction =
   | DirectoryFirebaseRequest
   | SetDirectoriesAction
+  | AddDirectoryAction
   | DirectoryFirebaseFailure
 
 const directoryFirebaseFailure = (error: ReduxAPIError) => ({
@@ -51,6 +58,40 @@ export const fetchDirectories = () => {
           type: actionTypes.DIRECTORY_SET,
           payload: { directories: orderedDocs },
         })
+      })
+      .catch(error => {
+        dispatch(directoryFirebaseFailure({ statusCode: 500, message: error }))
+      })
+  }
+}
+
+export const createDirectory = (values: Values) => {
+  return async (
+    dispatch: ThunkDispatch<
+      {},
+      {},
+      DirectoryFirebaseRequest | AddDirectoryAction | DirectoryFirebaseFailure
+    >
+  ) => {
+    dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
+    db.collection('directories')
+      .add({
+        name: values.directoryName,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      })
+      .then(newDoc => {
+        newDoc
+          .get()
+          .then(snapShot => {
+            dispatch({
+              type: actionTypes.DIRECTORY_ADD,
+              payload: { newDir: snapShot },
+            })
+          })
+          .catch(error => {
+            dispatch(directoryFirebaseFailure({ statusCode: 500, message: error }))
+          })
       })
       .catch(error => {
         dispatch(directoryFirebaseFailure({ statusCode: 500, message: error }))

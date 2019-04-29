@@ -6,7 +6,7 @@ import { FirebaseSnapShot } from '../../../utils/firebase'
 import MyPageTemplate from '../../templates/MyPageTemplate'
 
 interface Props {
-  fetchDirectories: Function
+  fetchDirectories: () => void
   directories: ReduxAPIStruct<FirebaseSnapShot[]>
 }
 
