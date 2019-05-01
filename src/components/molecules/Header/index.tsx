@@ -14,20 +14,18 @@ const Header: React.FC<Props> = ({ AuthenticatoinModalOpen }) => {
     <div className={Header}>
       <div className={title}>Elaborate</div>
       <div className={buttons}>
-        <div
+        <SignInUpButton
+          buttonName="Continue with Elaborate"
           onClick={() => {
             AuthenticatoinModalOpen('Sign in')
           }}
-        >
-          <SignInUpButton buttonName="Continue with Elaborate" />
-        </div>
-        <div
+        />
+        <SignInUpButton
+          buttonName="Get started"
           onClick={() => {
             AuthenticatoinModalOpen('Sign up')
           }}
-        >
-          <SignInUpButton buttonName="Get started" />
-        </div>
+        />
       </div>
     </div>
   )
