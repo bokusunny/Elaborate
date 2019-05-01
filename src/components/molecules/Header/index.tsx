@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import SignInUpButton from '../../atoms/Buttons/SignInUpButton'
-import { AuthenticatoinModalOpen } from '../../../actions/modals'
+import { AuthenticationModalOpen } from '../../../actions/modals'
 import * as styles from './style.css'
 
 interface Props {
-  AuthenticatoinModalOpen: (authenticationType: 'Sign in' | 'Sign up') => void
+  AuthenticationModalOpen: (authenticationType: 'Sign in' | 'Sign up') => void
 }
 
-const Header: React.FC<Props> = ({ AuthenticatoinModalOpen }) => {
+const Header: React.FC<Props> = ({ AuthenticationModalOpen }) => {
   const { Header, title, buttons } = styles
   return (
     <div className={Header}>
@@ -17,13 +17,13 @@ const Header: React.FC<Props> = ({ AuthenticatoinModalOpen }) => {
         <SignInUpButton
           buttonName="Continue with Elaborate"
           onClick={() => {
-            AuthenticatoinModalOpen('Sign in')
+            AuthenticationModalOpen('Sign in')
           }}
         />
         <SignInUpButton
           buttonName="Get started"
           onClick={() => {
-            AuthenticatoinModalOpen('Sign up')
+            AuthenticationModalOpen('Sign up')
           }}
         />
       </div>
@@ -33,5 +33,5 @@ const Header: React.FC<Props> = ({ AuthenticatoinModalOpen }) => {
 
 export default connect(
   null,
-  { AuthenticatoinModalOpen }
+  { AuthenticationModalOpen }
 )(Header)
