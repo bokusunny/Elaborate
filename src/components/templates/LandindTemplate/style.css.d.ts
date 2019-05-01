@@ -1,4 +1,4 @@
-export const SignInTemplateWrapper: string
+export const LandingTemplateWrapper: string
 export const messageWrapper: string
 export const catchCopy: string
 export const catchCopyText: string

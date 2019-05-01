@@ -3,7 +3,7 @@ p {
   margin-top: 8px;
 }
 
-.SignInTemplateWrapper {
+.LandingTemplateWrapper {
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -14,7 +14,7 @@ p {
   height: 100%;
   width: 60%;
   padding-left: 160px;
-  margin-top: 160px;
+  margin-top: 144px;
 }
 
 .catchCopy {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Authentication } from '../../../reducers/authentications'
-import SignInPageTemplate from '../../templates/SignInTemplate'
+import LandingTemplate from '../../templates/LandindTemplate'
 
 const title = 'Let you be\nmore creative.'
 const message = `
@@ -14,8 +14,8 @@ interface Props {
   authentications: Authentication
 }
 
-const SignInPage: React.FC<Props> = ({ authentications }) => (
-  <SignInPageTemplate
+const LandingPage: React.FC<Props> = ({ authentications }) => (
+  <LandingTemplate
     authentications={authentications}
     title={title}
     message={message}
@@ -28,4 +28,4 @@ export default connect(
     authentications,
   }),
   null
-)(SignInPage)
+)(LandingPage)

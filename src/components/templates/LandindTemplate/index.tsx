@@ -4,7 +4,7 @@ import Modal from '@material-ui/core/Modal'
 import { setIsModalOpen } from '../../../actions/authentications'
 import { Authentication } from '../../../reducers/authentications'
 import SNSButtons from '../../molecules/SNSButtons'
-import SignInHeader from '../../molecules/Headers/SignInHeader'
+import Header from '../../molecules/Header'
 import * as styles from './style.css'
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
   onClick: () => void
 }
 
-const SignInTemplate: React.FC<Props> = ({
+const LandingTemplate: React.FC<Props> = ({
   authentications,
   setIsModalOpen,
   title,
@@ -30,7 +30,7 @@ const SignInTemplate: React.FC<Props> = ({
   }, [isModalOpen])
 
   const {
-    SignInTemplateWrapper,
+    LandingTemplateWrapper,
     messageWrapper,
     catchCopy,
     catchCopyText,
@@ -39,8 +39,8 @@ const SignInTemplate: React.FC<Props> = ({
   } = styles
 
   return (
-    <div className={SignInTemplateWrapper}>
-      <SignInHeader />
+    <div className={LandingTemplateWrapper}>
+      <Header />
       <div className={messageWrapper}>
         <div className={catchCopy}>
           {title.split('\n').map((text, index) => {
@@ -76,4 +76,4 @@ const SignInTemplate: React.FC<Props> = ({
 export default connect(
   null,
   { setIsModalOpen }
-)(SignInTemplate)
+)(LandingTemplate)

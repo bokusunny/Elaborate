@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import SignInUpButton from '../../../atoms/Buttons/SignInUpButton'
-import { setIsModalOpen } from '../../../../actions/authentications'
+import SignInUpButton from '../../atoms/Buttons/SignInUpButton'
+import { setIsModalOpen } from '../../../actions/authentications'
 import * as styles from './style.css'
 
 interface Props {
   setIsModalOpen: (isModalOpen: boolean, authenticationType: 'Sign in' | 'Sign up') => void
 }
 
-const SingInHeader: React.FC<Props> = ({ setIsModalOpen }) => {
+const Header: React.FC<Props> = ({ setIsModalOpen }) => {
   const { SingInHeader, title, buttons } = styles
   return (
     <div className={SingInHeader}>
@@ -36,4 +36,4 @@ const SingInHeader: React.FC<Props> = ({ setIsModalOpen }) => {
 export default connect(
   null,
   { setIsModalOpen }
-)(SingInHeader)
+)(Header)
