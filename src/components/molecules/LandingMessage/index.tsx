@@ -1,7 +1,7 @@
 import React from 'react'
 import * as styles from './style.css'
 
-// MEMO: 本来moleculesではデータを持たない、このコンポーネントは他に使いどころがないので静的情報も保持。(YMZK)
+// MEMO: 本来moleculesではデータを持たないが、このコンポーネントは他に使いどころがないので静的情報をコンポーネント内で保持。(YMZK)
 
 const title = 'Let you be\nmore creative.'
 const message = `
