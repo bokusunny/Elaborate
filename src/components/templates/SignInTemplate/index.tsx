@@ -1,31 +1,27 @@
 import React from 'react'
-// import React, { Fragment } from 'react'
-// import { firebase, auth } from '../../../utils/firebase'
-// import SNSSignInButton from '../../atoms/Buttons/SNSSigiInButton'
+import Modal from '@material-ui/core/Modal'
+import SNSButtons from '../../molecules/SNSButtons'
 import SignInHeader from '../../molecules/Headers/SignInHeader'
 import * as styles from './style.css'
 
 interface Props {
+  title: string
+  message: string
   onClick: () => void
 }
 
-// const onClickGoogleSignin = () => {
-//   const provider = new firebase.auth.GoogleAuthProvider()
-//   auth.signInWithRedirect(provider)
-// }
-
-const title = 'Let you be\nmore creative.'
-const message = `We believe words of wisdom are always created after deep deliberations.\n
-  Who’s heart do you like to move with Elaborate?\n
-  This is a creative workspace for you to "elaborate" your message.
-`
-
-// const SignInTemplate: React.FC<Props> = ({ onClick }) => {
-const SignInTemplate: React.FC<Props> = () => {
-  const { SignIn, messageWrapper, catchCopy, catchCopyText, description, descriptionText } = styles
+const SignInTemplate: React.FC<Props> = ({ title, message, onClick }) => {
+  const {
+    SignInTemplateWrapper,
+    messageWrapper,
+    catchCopy,
+    catchCopyText,
+    description,
+    descriptionText,
+  } = styles
 
   return (
-    <div className={SignIn}>
+    <div className={SignInTemplateWrapper}>
       <SignInHeader />
       <div className={messageWrapper}>
         <div className={catchCopy}>
@@ -47,15 +43,9 @@ const SignInTemplate: React.FC<Props> = () => {
           })}
         </div>
       </div>
-      {/* <SNSSignInButton type="google" onClick={onClickGoogleSignin}>
-        Login with Google
-      </SNSSignInButton>
-      <SNSSignInButton type="twitter" onClick={onClick}>
-        Login with Twitter
-      </SNSSignInButton>
-      <SNSSignInButton type="facebook" onClick={onClick}>
-        Login with Facebook
-      </SNSSignInButton> */}
+      <Modal open={false}>
+        <SNSButtons type="Sign In" onClick={onClick} />
+      </Modal>
     </div>
   )
 }

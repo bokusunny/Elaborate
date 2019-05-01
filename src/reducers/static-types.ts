@@ -20,3 +20,7 @@ export const defaultSet = <T>(defaultValue?: T): ReduxAPIStruct<T> => ({
   data: defaultValue || null,
   error: errorDefault(),
 })
+
+export interface ReduxIsModalOpen {
+  isModalOpen: boolean
+}

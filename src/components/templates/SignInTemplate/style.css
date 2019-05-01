@@ -3,12 +3,11 @@ p {
   margin-top: 8px;
 }
 
-.SignIn {
+.SignInTemplateWrapper {
   height: 100%;
   width: 100%;
   overflow: hidden;
   background: linear-gradient(145deg, rgba(18, 151, 226, .7), rgba(18, 151, 226, .65), rgba(18, 151, 226, .6));
-  /* background-color: rgba(18, 151, 226, .6); */
 }
 
 .messageWrapper {
