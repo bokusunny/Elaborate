@@ -5,8 +5,9 @@ import Typography from '@material-ui/core/Typography'
 import { createDirectory } from '../../../../actions/directories'
 
 interface Props {
+  currentUser: firebase.User
   onSubmit: () => void
-  createDirectory: (values: Values) => Promise<void>
+  createDirectory: (values: Values, currentUserUid: string) => Promise<void>
 }
 
 export interface Values {
@@ -27,14 +28,14 @@ const validate = (values: Values) => {
   return errors
 }
 
-const DirectoryForm: React.FC<Props> = ({ onSubmit, createDirectory }) => (
+const DirectoryForm: React.FC<Props> = ({ currentUser, onSubmit, createDirectory }) => (
   <Fragment>
     <Typography variant="h6">New Directory</Typography>
     <Formik
       initialValues={{ directoryName: '' }}
       validate={validate}
       onSubmit={(values: Values, { setSubmitting }: FormikActions<Values>) => {
-        createDirectory(values).then(() => {
+        createDirectory(values, currentUser.uid).then(() => {
           onSubmit()
           setSubmitting(false)
         })

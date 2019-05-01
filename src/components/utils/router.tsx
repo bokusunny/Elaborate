@@ -10,12 +10,15 @@ import EditorPage from '../pages/EditorPage'
 
 const Router: React.FC<{}> = () => {
   const [authState, setAuthState] = useState({ isLoading: true, isAuthorized: false })
+  const [currentUser, setCurrentUser] = useState<firebase.User | null>(null)
   useEffect(() => {
     auth.onAuthStateChanged(user => {
       if (user) {
         setAuthState({ isLoading: false, isAuthorized: true })
+        setCurrentUser(user)
       } else {
         setAuthState({ isLoading: false, isAuthorized: false })
+        setCurrentUser(null)
       }
     })
   }, [auth])
@@ -27,9 +30,16 @@ const Router: React.FC<{}> = () => {
   return (
     <BrowserRouter>
       <Switch>
-        {/* <PublicRoute exact path="/sign_in" component={LandingPage} isAuthorized={isAuthorized} /> */}
         <PrivateRoute exact path="/:username" component={MyPage} isAuthorized={isAuthorized} />
         <PublicRoute exact path="/" component={LandingPage} isAuthorized={isAuthorized} />
+        <PrivateRoute
+          exact
+          path="/mypage"
+          component={MyPage}
+          currentUser={currentUser}
+          isAuthorized={isAuthorized}
+        />
+
         {/* TODO: It's tmp route, need to make it Private Route & Use uid  */}
         <Route exact path="/:id/edit" component={EditorPage} />
         <Route render={() => <h2>404 Not Found</h2>} />

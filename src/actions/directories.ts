@@ -37,7 +37,7 @@ const directoryFirebaseFailure = (error: ReduxAPIError) => ({
 
 // NOTE: Firebaseはクライアント側のネットワーク不良などでデータのfetchに失敗してもerrorを吐かず、
 //       空配列を返してくる... :anger_jenkins:
-export const fetchDirectories = () => {
+export const fetchDirectories = (currentUserUid: string | null) => {
   return (
     dispatch: ThunkDispatch<
       {},
@@ -45,27 +45,30 @@ export const fetchDirectories = () => {
       DirectoryFirebaseRequest | SetDirectoriesAction | DirectoryFirebaseFailure
     >
   ) => {
-    dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
-    db.collection('directories')
-      .get()
-      .then(querySnapshot => {
-        // Firebaseのデータは取得時順番がランダムなので作成順にソートする
-        const orderedDocs = querySnapshot.docs.sort((doc1, doc2) => {
-          return doc1.data().createdAt - doc2.data().createdAt
+    if (currentUserUid) {
+      dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
+      db.collection('users')
+        .doc(currentUserUid)
+        .collection('directories')
+        .get()
+        .then(querySnapshot => {
+          // Firebaseのデータは取得時順番がランダムなので作成順にソートする
+          const orderedDocs = querySnapshot.docs.sort((doc1, doc2) => {
+            return doc1.data().createdAt - doc2.data().createdAt
+          })
+          dispatch({
+            type: actionTypes.DIRECTORY_SET,
+            payload: { directories: orderedDocs },
+          })
         })
-
-        dispatch({
-          type: actionTypes.DIRECTORY_SET,
-          payload: { directories: orderedDocs },
+        .catch(error => {
+          dispatch(directoryFirebaseFailure({ statusCode: 500, message: error }))
         })
-      })
-      .catch(error => {
-        dispatch(directoryFirebaseFailure({ statusCode: 500, message: error }))
-      })
+    }
   }
 }
 
-export const createDirectory = (values: Values) => {
+export const createDirectory = (values: Values, currentUserUid: string) => {
   return async (
     dispatch: ThunkDispatch<
       {},
@@ -74,7 +77,9 @@ export const createDirectory = (values: Values) => {
     >
   ) => {
     dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
-    db.collection('directories')
+    db.collection('users')
+      .doc(currentUserUid)
+      .collection('directories')
       .add({
         name: values.directoryName,
         createdAt: Date.now(),
