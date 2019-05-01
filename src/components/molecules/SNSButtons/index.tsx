@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { firebase, auth } from '../../../utils/firebase'
 import SNSSignInButton from '../../atoms/Buttons/SNSSigiInButton'
 
@@ -14,7 +14,7 @@ const onClickGoogleSignin = () => {
 
 const SNSButtons: React.FC<Props> = ({ type, onClick }) => {
   return (
-    <div>
+    <Fragment>
       <SNSSignInButton type="google" onClick={onClickGoogleSignin}>
         {`${type} with Google`}
       </SNSSignInButton>
@@ -24,7 +24,7 @@ const SNSButtons: React.FC<Props> = ({ type, onClick }) => {
       <SNSSignInButton type="facebook" onClick={onClick}>
         {`${type} with Facebook`}
       </SNSSignInButton>
-    </div>
+    </Fragment>
   )
 }
 

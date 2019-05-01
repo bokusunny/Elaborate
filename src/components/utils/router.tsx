@@ -27,9 +27,9 @@ const Router: React.FC<{}> = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <PublicRoute exact path="/sign_in" component={LandingPage} isAuthorized={isAuthorized} />
+        {/* <PublicRoute exact path="/sign_in" component={LandingPage} isAuthorized={isAuthorized} /> */}
         <PrivateRoute exact path="/:username" component={MyPage} isAuthorized={isAuthorized} />
-        <Route exact path="/" component={isAuthorized ? MyPage : LandingPage} />
+        <PublicRoute exact path="/" component={LandingPage} isAuthorized={isAuthorized} />
         {/* TODO: It's tmp route, need to make it Private Route & Use uid  */}
         <Route exact path="/:id/edit" component={EditorPage} />
         <Route render={() => <h2>404 Not Found</h2>} />
