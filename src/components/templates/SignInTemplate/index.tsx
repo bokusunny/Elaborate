@@ -1,16 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 import Modal from '@material-ui/core/Modal'
+import { setIsModalOpen } from '../../../actions/authentications'
+import { Authentication } from '../../../reducers/authentications'
 import SNSButtons from '../../molecules/SNSButtons'
 import SignInHeader from '../../molecules/Headers/SignInHeader'
 import * as styles from './style.css'
 
 interface Props {
+  authentications: Authentication
+  setIsModalOpen: (isModalOpen: boolean, authenticationType?: 'Sign in' | 'Sign up') => void
   title: string
   message: string
   onClick: () => void
 }
 
-const SignInTemplate: React.FC<Props> = ({ title, message, onClick }) => {
+const SignInTemplate: React.FC<Props> = ({
+  authentications,
+  setIsModalOpen,
+  title,
+  message,
+  onClick,
+}) => {
+  const { isModalOpen, authenticationType } = authentications
+
+  const [modalState, setModalState] = useState(isModalOpen)
+  useEffect(() => {
+    setModalState(isModalOpen)
+  }, [isModalOpen])
+
   const {
     SignInTemplateWrapper,
     messageWrapper,
@@ -43,11 +61,19 @@ const SignInTemplate: React.FC<Props> = ({ title, message, onClick }) => {
           })}
         </div>
       </div>
-      <Modal open={false}>
-        <SNSButtons type="Sign In" onClick={onClick} />
+      <Modal
+        open={modalState}
+        onBackdropClick={() => {
+          setIsModalOpen(false)
+        }}
+      >
+        <SNSButtons type={authenticationType} onClick={onClick} />
       </Modal>
     </div>
   )
 }
 
-export default SignInTemplate
+export default connect(
+  null,
+  { setIsModalOpen }
+)(SignInTemplate)

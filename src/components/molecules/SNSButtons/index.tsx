@@ -3,7 +3,7 @@ import { firebase, auth } from '../../../utils/firebase'
 import SNSSignInButton from '../../atoms/Buttons/SNSSigiInButton'
 
 interface Props {
-  type: 'Sign In' | 'Sign Up'
+  type?: 'Sign in' | 'Sign up'
   onClick: () => void
 }
 

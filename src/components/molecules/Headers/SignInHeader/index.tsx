@@ -5,7 +5,7 @@ import { setIsModalOpen } from '../../../../actions/authentications'
 import * as styles from './style.css'
 
 interface Props {
-  setIsModalOpen: (isModalOpen: boolean) => void
+  setIsModalOpen: (isModalOpen: boolean, authenticationType: 'Sign in' | 'Sign up') => void
 }
 
 const SingInHeader: React.FC<Props> = ({ setIsModalOpen }) => {
@@ -16,14 +16,14 @@ const SingInHeader: React.FC<Props> = ({ setIsModalOpen }) => {
       <div className={buttons}>
         <div
           onClick={() => {
-            setIsModalOpen(true)
+            setIsModalOpen(true, 'Sign in')
           }}
         >
           <SignInUpButton buttonName="Continue with Elaborate" />
         </div>
         <div
           onClick={() => {
-            setIsModalOpen(true)
+            setIsModalOpen(true, 'Sign up')
           }}
         >
           <SignInUpButton buttonName="Get started" />

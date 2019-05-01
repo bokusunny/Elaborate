@@ -9,5 +9,4 @@ export const actionTypes = keyMirror({
 
   // Authenticate
   AUTHENTICATION_SET_IS_MODAL_OPEN: null,
-  AUTHENTICATION_OPENED_MODAL_TYPE: null,
 })
