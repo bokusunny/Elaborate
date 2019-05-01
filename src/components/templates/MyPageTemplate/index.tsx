@@ -10,6 +10,7 @@ import { ReduxAPIStruct } from '../../../reducers/static-types'
 import * as styles from './style.css'
 
 interface Props {
+  currentUser: firebase.User
   directories: ReduxAPIStruct<FirebaseSnapShot[]>
 }
 
@@ -17,7 +18,7 @@ const onClickSignOut = () => {
   auth.signOut()
 }
 
-const MyPageTemplate: React.FC<Props> = ({ directories }) => {
+const MyPageTemplate: React.FC<Props> = ({ currentUser, directories }) => {
   const [isModalOpen, setISModalOpen] = useState(false)
 
   return (
@@ -36,7 +37,7 @@ const MyPageTemplate: React.FC<Props> = ({ directories }) => {
           onClose={() => setISModalOpen(false)}
         >
           <div className={styles.modal}>
-            <DirectoryForm onSubmit={() => setISModalOpen(false)} />
+            <DirectoryForm currentUser={currentUser} onSubmit={() => setISModalOpen(false)} />
           </div>
         </Modal>
       </div>
