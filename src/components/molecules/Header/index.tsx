@@ -5,13 +5,13 @@ import { setIsModalOpen } from '../../../actions/authentications'
 import * as styles from './style.css'
 
 interface Props {
-  setIsModalOpen: (isModalOpen: boolean, authenticationType: 'Sign in' | 'Sign up') => void
+  setIsModalOpen: (isModalOpen: boolean, authenticationType?: 'Sign in' | 'Sign up') => void
 }
 
 const Header: React.FC<Props> = ({ setIsModalOpen }) => {
-  const { SingInHeader, title, buttons } = styles
+  const { Header, title, buttons } = styles
   return (
-    <div className={SingInHeader}>
+    <div className={Header}>
       <div className={title}>Elaborate</div>
       <div className={buttons}>
         <div
