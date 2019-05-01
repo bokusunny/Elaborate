@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import { directories } from './directories'
-import { authentications } from './authentications'
+import { authenticationModals } from './modals'
 
 const rootReducer = combineReducers({
   directories,
-  authentications,
+  authenticationModals,
 })
 
 export default rootReducer

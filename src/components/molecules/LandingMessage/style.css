@@ -1,0 +1,33 @@
+p {
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+.messageWrapper {
+  height: 100%;
+  width: 60%;
+  padding-left: 160px;
+  margin-top: 144px;
+}
+
+.catchCopy {
+  font-size: 64px;
+  font-weight: 900;
+}
+
+.catchCopyText {
+  margin: 0;
+  line-height: 1.2;
+  font-size: 64px;
+}
+
+.description {
+  margin-top: 64px;
+}
+
+.descriptionText {
+  margin: 4px 0 0 0;
+  line-height: 1.4;
+  font-size: 16px;
+  font-weight: 100;
+}
