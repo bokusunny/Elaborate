@@ -37,10 +37,24 @@ const MarkdownEditor: React.FC<{}> = () => {
     return lastInputValue
   }
 
+  const getSelectedText = () => {
+    if (!editorState) return
+    const selectionState = editorState.getSelection()
+    const anchorKey = selectionState.getAnchorKey()
+    const currentContent = editorState.getCurrentContent()
+    const currentContentBlock = currentContent.getBlockForKey(anchorKey)
+    const start = selectionState.getStartOffset()
+    const end = selectionState.getEndOffset()
+    const selectedText = currentContentBlock.getText().slice(start, end)
+
+    return selectedText
+  }
+
   useEffect(() => {
     const inputValue = getInputValue()
+    const selectedText = getSelectedText()
 
-    if (inputValue === '') {
+    if (inputValue === '' || selectedText !== '') {
       setShouldShowStyleButtons(true)
     } else {
       setShouldShowStyleButtons(false)
