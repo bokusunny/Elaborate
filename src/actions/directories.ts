@@ -1,14 +1,18 @@
 import { db, FirebaseSnapShot } from '../utils/firebase'
 import { ThunkDispatch } from 'redux-thunk'
 import { actionTypes } from '../constants'
-import { ReduxAPIStruct, ReduxAPIError } from '../reducers/static-types'
-import { BaseAction } from './static-types'
+import { ReduxAPIStruct } from '../reducers/static-types'
+import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from './static-types'
 import { Values } from '../components/molecules/Forms/DirectoryForm'
 
-interface DirectoryFirebaseRequest extends BaseAction {
-  type: string
-}
+const directoryFirebaseFailure = (message: string) => ({
+  type: actionTypes.DIRECTORY_FIREBASE_REQUEST_FAILURE,
+  payload: { statusCode: 500, message },
+})
 
+//-------------------------------------------------------------------------
+// Directories
+// ------------------------------------------------------------------------
 interface SetDirectoriesAction extends BaseAction {
   type: string
   payload: { directories: ReduxAPIStruct<FirebaseSnapShot[]> }
@@ -19,21 +23,11 @@ interface AddDirectoryAction extends BaseAction {
   payload: { newDir: ReduxAPIStruct<FirebaseSnapShot> }
 }
 
-interface DirectoryFirebaseFailure extends BaseAction {
-  type: string
-  payload: { error: ReduxAPIError }
-}
-
 export type DirectoriesAction =
-  | DirectoryFirebaseRequest
+  | FirebaseAPIRequest
   | SetDirectoriesAction
   | AddDirectoryAction
-  | DirectoryFirebaseFailure
-
-const directoryFirebaseFailure = (error: ReduxAPIError) => ({
-  type: actionTypes.DIRECTORY_FIREBASE_REQUEST_FAILURE,
-  payload: { error },
-})
+  | FirebaseAPIFailure
 
 // NOTE: Firebaseはクライアント側のネットワーク不良などでデータのfetchに失敗してもerrorを吐かず、
 //       空配列を返してくる... :anger_jenkins:
@@ -55,10 +49,7 @@ export const fetchDirectories = (currentUserUid: string | null) => {
             payload: { directories: orderedDocs },
           })
         })
-        .catch(error => {
-          const { message } = error
-          dispatch(directoryFirebaseFailure({ statusCode: 500, message }))
-        })
+        .catch(error => dispatch(directoryFirebaseFailure(error.message)))
     }
   }
 }
@@ -86,10 +77,7 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
               payload: { newDir: snapShot },
             })
           })
-          .catch(error => {
-            const { message } = error
-            dispatch(directoryFirebaseFailure({ statusCode: 500, message }))
-          })
+          .catch(error => dispatch(directoryFirebaseFailure(error.message)))
         // newDirectory配下にmaster branchを追加
         newDoc
           .collection('branches')
@@ -98,14 +86,8 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
             createdAt: Date.now(),
             updatedAt: Date.now(),
           })
-          .catch(error => {
-            const { message } = error
-            dispatch(directoryFirebaseFailure({ statusCode: 500, message }))
-          })
+          .catch(error => dispatch(directoryFirebaseFailure(error.message)))
       })
-      .catch(error => {
-        const { message } = error
-        dispatch(directoryFirebaseFailure({ statusCode: 500, message }))
-      })
+      .catch(error => dispatch(directoryFirebaseFailure(error.message)))
   }
 }
