@@ -1,0 +1,17 @@
+.AuthButton {
+  border-radius: 4px;
+  color: #fff;
+  font-family: 'Montserrat';
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 1.5;
+  padding: 16px;
+  cursor: pointer;
+  transition: .15s
+}
+
+.AuthButton:hover {
+  background-color: #fff;
+  color: rgba(18, 151, 226, .6);
+  transition: all .5s;
+}

@@ -1,10 +1,11 @@
 import React from 'react'
+import { ConnectedComponentClass } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 
 interface Props {
   exact: boolean
   path: string
-  component: React.FC
+  component: React.FC | ConnectedComponentClass<React.FC<any>, any>
   isAuthorized: boolean
 }
 

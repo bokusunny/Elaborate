@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500');
+
+.Header {
+  display: flex;
+  justify-content: space-between;
+  vertical-align: middle;
+  top: 0;
+  width: 100%;
+  padding: 28px 0;
+  color: #fff;
+  font-family: 'Montserrat';
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 500;
+  margin: auto 0 auto 32px;
+  vertical-align: middle;
+}
