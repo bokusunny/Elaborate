@@ -25,9 +25,9 @@ interface AddDirectoryAction extends BaseAction {
 
 export type DirectoriesAction =
   | FirebaseAPIRequest
+  | FirebaseAPIFailure
   | SetDirectoriesAction
   | AddDirectoryAction
-  | FirebaseAPIFailure
 
 // NOTE: Firebaseはクライアント側のネットワーク不良などでデータのfetchに失敗してもerrorを吐かず、
 //       空配列を返してくる... :anger_jenkins:
@@ -87,6 +87,44 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
             updatedAt: Date.now(),
           })
           .catch(error => dispatch(directoryFirebaseFailure(error.message)))
+      })
+      .catch(error => dispatch(directoryFirebaseFailure(error.message)))
+  }
+}
+
+//-------------------------------------------------------------------------
+// IsInvalidDirectory
+// ------------------------------------------------------------------------
+interface CheckDirectoryIdAction extends BaseAction {
+  type: string
+  payload: { isValidDirectoryId: ReduxAPIStruct<boolean> }
+}
+
+export type IsInvalidDirectoryAction =
+  | FirebaseAPIRequest
+  | FirebaseAPIFailure
+  | CheckDirectoryIdAction
+
+export const checkDirectoryId = (currentUserUid: string, directoryId: string) => {
+  return (dispatch: ThunkDispatch<{}, {}, IsInvalidDirectoryAction>) => {
+    dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
+    db.collection('users')
+      .doc(currentUserUid)
+      .collection('directories')
+      .doc(directoryId)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          dispatch({
+            type: actionTypes.DIRECTORY_CHECK_ID,
+            payload: { isValidDirectoryId: true },
+          })
+        } else {
+          dispatch({
+            type: actionTypes.DIRECTORY_CHECK_ID,
+            payload: { isValidDirectoryId: false },
+          })
+        }
       })
       .catch(error => dispatch(directoryFirebaseFailure(error.message)))
   }
