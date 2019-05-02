@@ -8,7 +8,7 @@ export interface AuthenticationModal {
 
 const INITIAL_STATE: AuthenticationModal = {
   isAuthModalOpen: false,
-  authenticationType: 'Sign up',
+  authenticationType: undefined,
 }
 
 export const authenticationModals = (
