@@ -5,7 +5,7 @@ import { Route, Redirect } from 'react-router-dom'
 interface Props {
   exact: boolean
   path: string
-  component: React.FC | ConnectedComponentClass<React.FC<any>, any>
+  component: React.FC<any> | ConnectedComponentClass<React.FC<any>, any>
   isAuthorized: boolean
 }
 

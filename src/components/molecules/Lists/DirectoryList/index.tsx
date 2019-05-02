@@ -24,10 +24,11 @@ const DirectoryList: React.FC<Props> = ({ directories }) => {
       <List component="nav">
         <Divider />
         {directories.data.map((doc: FirebaseSnapShot) => {
-          const { name, createdAt } = doc.data()
+          const { id } = doc
+          const { name } = doc.data()
           return (
-            <Fragment key={createdAt}>
-              <DirectoryListItem label={name} />
+            <Fragment key={id}>
+              <DirectoryListItem id={id} label={name} />
               <Divider />
             </Fragment>
           )

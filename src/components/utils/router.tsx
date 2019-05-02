@@ -6,6 +6,7 @@ import PublicRoute from './public-route'
 import PrivateRoute from './private-route'
 import LandingPage from '../pages/LandingPage'
 import MyPage from '../pages/MyPage'
+import DirectoryPage from '../pages/DirectoryPage'
 import EditorPage from '../pages/EditorPage'
 
 const Router: React.FC<{}> = () => {
@@ -35,6 +36,13 @@ const Router: React.FC<{}> = () => {
           exact
           path="/mypage"
           component={MyPage}
+          currentUser={currentUser}
+          isAuthorized={isAuthorized}
+        />
+        <PrivateRoute
+          exact
+          path="/:directoryId"
+          component={DirectoryPage}
           currentUser={currentUser}
           isAuthorized={isAuthorized}
         />

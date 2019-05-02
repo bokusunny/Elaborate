@@ -1,13 +1,17 @@
 import React from 'react'
 import { ConnectedComponentClass } from 'react-redux'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, RouteComponentProps } from 'react-router-dom'
 
 interface Props {
   exact: boolean
   path: string
-  component: ConnectedComponentClass<React.FC<any>, any>
+  component: React.FC<any> | ConnectedComponentClass<React.FC<any>, any>
   currentUser: firebase.User | null
   isAuthorized: boolean
+}
+
+interface MatchParams {
+  [key: string]: string
 }
 
 const PrivateRoute: React.FC<Props> = ({
@@ -20,7 +24,9 @@ const PrivateRoute: React.FC<Props> = ({
   <Route
     exact={exact}
     path={path}
-    render={() => (isAuthorized ? <Component currentUser={currentUser} /> : <Redirect to="/" />)}
+    render={(routerProps: RouteComponentProps<MatchParams>) =>
+      isAuthorized ? <Component currentUser={currentUser} {...routerProps} /> : <Redirect to="/" />
+    }
   />
 )
 

@@ -5,11 +5,12 @@ import ListItemText from '@material-ui/core/ListItemText'
 import DraftsIcon from '@material-ui/icons/Drafts'
 
 interface Props {
+  id: string
   label: string
 }
 
-const DirectoryListItem: React.FC<Props> = ({ label }) => (
-  <ListItem button>
+const DirectoryListItem: React.FC<Props> = ({ id, label }) => (
+  <ListItem button component="a" href={`/${id}`}>
     <ListItemIcon>
       <DraftsIcon />
     </ListItemIcon>
