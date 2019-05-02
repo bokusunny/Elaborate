@@ -83,6 +83,7 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
           .collection('branches')
           .add({
             name: 'master',
+            state: 'open',
             createdAt: Date.now(),
             updatedAt: Date.now(),
           })
