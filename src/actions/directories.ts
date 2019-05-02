@@ -56,7 +56,8 @@ export const fetchDirectories = (currentUserUid: string | null) => {
           })
         })
         .catch(error => {
-          dispatch(directoryFirebaseFailure({ statusCode: 500, message: error.message }))
+          const { message } = error
+          dispatch(directoryFirebaseFailure({ statusCode: 500, message }))
         })
     }
   }
@@ -86,7 +87,8 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
             })
           })
           .catch(error => {
-            dispatch(directoryFirebaseFailure({ statusCode: 500, message: error.message }))
+            const { message } = error
+            dispatch(directoryFirebaseFailure({ statusCode: 500, message }))
           })
         // newDirectory配下にmaster branchを追加
         newDoc
@@ -97,11 +99,13 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
             updatedAt: Date.now(),
           })
           .catch(error => {
-            dispatch(directoryFirebaseFailure({ statusCode: 500, message: error.message }))
+            const { message } = error
+            dispatch(directoryFirebaseFailure({ statusCode: 500, message }))
           })
       })
       .catch(error => {
-        dispatch(directoryFirebaseFailure({ statusCode: 500, message: error.message }))
+        const { message } = error
+        dispatch(directoryFirebaseFailure({ statusCode: 500, message }))
       })
   }
 }
