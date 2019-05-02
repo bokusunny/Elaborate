@@ -14,12 +14,14 @@ const AuthButtons: React.FC<Props> = ({ AuthenticationModalOpen }) => (
   <div className={buttons}>
     <AuthButton
       buttonName="Continue with Elaborate"
+      colorType="blueBase"
       onClick={() => {
         AuthenticationModalOpen('Sign in')
       }}
     />
     <AuthButton
       buttonName="Get started"
+      colorType="blueBase"
       onClick={() => {
         AuthenticationModalOpen('Sign up')
       }}

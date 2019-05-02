@@ -20,7 +20,7 @@ const LandingTemplate: React.FC<Props> = ({ authenticationModals, Authentication
 
   return (
     <div className={LandingTemplateWrapper}>
-      <Header />
+      <Header colorType="blueBase" />
       <LandingMesasge />
       <Modal
         open={isAuthModalOpen}

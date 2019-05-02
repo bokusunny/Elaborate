@@ -2,14 +2,18 @@ import React from 'react'
 import * as styles from './style.css'
 
 interface Props {
-  buttonName: 'Continue with Elaborate' | 'Get started'
+  buttonName: 'Continue with Elaborate' | 'Get started' | 'Sign out'
+  colorType: 'blueBase' | 'whiteBase'
   onClick: () => void
 }
 
-const AuthButton: React.FC<Props> = ({ buttonName, onClick }) => {
-  const { AuthButton } = styles
+const AuthButton: React.FC<Props> = ({ buttonName, colorType, onClick }) => {
+  const { AuthButtonBlueBase, AuthButtonWhiteBase } = styles
   return (
-    <div className={AuthButton} onClick={onClick}>
+    <div
+      className={colorType === 'blueBase' ? AuthButtonBlueBase : AuthButtonWhiteBase}
+      onClick={onClick}
+    >
       {buttonName}
     </div>
   )
