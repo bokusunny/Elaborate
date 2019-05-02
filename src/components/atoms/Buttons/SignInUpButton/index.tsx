@@ -2,7 +2,7 @@ import React from 'react'
 import * as styles from './style.css'
 
 interface Props {
-  buttonName: string
+  buttonName: 'Continue with Elaborate' | 'Get started'
   onClick: () => void
 }
 

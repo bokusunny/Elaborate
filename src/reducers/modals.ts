@@ -2,12 +2,12 @@ import { actionTypes } from '../constants'
 import { AuthenticationModalsAction } from '../actions/modals'
 
 export interface AuthenticationModal {
-  authenticationModalOpen: boolean
+  isAuthModalOpen: boolean
   authenticationType?: 'Sign in' | 'Sign up'
 }
 
 const INITIAL_STATE: AuthenticationModal = {
-  authenticationModalOpen: false,
+  isAuthModalOpen: false,
   authenticationType: 'Sign up',
 }
 
@@ -18,11 +18,11 @@ export const authenticationModals = (
   switch (action.type) {
     case actionTypes.MODAL_AUTHENTICATION_OPEN:
       return {
-        authenticationModalOpen: true,
+        isAuthModalOpen: true,
         authenticationType: action.payload.authenticationType,
       }
     case actionTypes.MODAL_AUTHENTICATION_CLOSE:
-      return { authenticationModalOpen: false }
+      return { isAuthModalOpen: false }
   }
   return state
 }

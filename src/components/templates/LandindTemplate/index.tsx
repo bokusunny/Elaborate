@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import Modal from '@material-ui/core/Modal'
 import { AuthenticationModalClose } from '../../../actions/modals'
@@ -13,22 +13,17 @@ interface Props {
   AuthenticationModalClose: () => void
 }
 
+const { LandingTemplateWrapper } = styles
+
 const LandingTemplate: React.FC<Props> = ({ authenticationModals, AuthenticationModalClose }) => {
-  const { authenticationModalOpen, authenticationType } = authenticationModals
-
-  const [modalState, setModalState] = useState(authenticationModalOpen)
-  useEffect(() => {
-    setModalState(authenticationModalOpen)
-  }, [authenticationModalOpen])
-
-  const { LandingTemplateWrapper } = styles
+  const { isAuthModalOpen, authenticationType } = authenticationModals
 
   return (
     <div className={LandingTemplateWrapper}>
       <Header />
       <LandingMesasge />
       <Modal
-        open={modalState}
+        open={isAuthModalOpen}
         onBackdropClick={() => {
           AuthenticationModalClose()
         }}
