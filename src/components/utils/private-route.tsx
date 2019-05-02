@@ -20,9 +20,7 @@ const PrivateRoute: React.FC<Props> = ({
   <Route
     exact={exact}
     path={path}
-    render={() =>
-      isAuthorized ? <Component currentUser={currentUser} /> : <Redirect to="/sign_in" />
-    }
+    render={() => (isAuthorized ? <Component currentUser={currentUser} /> : <Redirect to="/" />)}
   />
 )
 
