@@ -9,7 +9,7 @@ interface Props {
 }
 
 const DirectoryListItem: React.FC<Props> = ({ label }) => (
-  <ListItem button>
+  <ListItem button component="a" href={`/${label}`}>
     <ListItemIcon>
       <DraftsIcon />
     </ListItemIcon>
