@@ -6,13 +6,13 @@ interface Props {
   onClick: () => void
 }
 
-const SingInUpButton: React.FC<Props> = ({ buttonName, onClick }) => {
-  const { SingInUpButton } = styles
+const AuthButton: React.FC<Props> = ({ buttonName, onClick }) => {
+  const { AuthButton } = styles
   return (
-    <div className={SingInUpButton} onClick={onClick}>
+    <div className={AuthButton} onClick={onClick}>
       {buttonName}
     </div>
   )
 }
 
-export default SingInUpButton
+export default AuthButton

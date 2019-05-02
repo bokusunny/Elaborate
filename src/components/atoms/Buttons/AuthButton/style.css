@@ -1,4 +1,4 @@
-.SingInUpButton {
+.AuthButton {
   border-radius: 4px;
   color: #fff;
   font-family: 'Montserrat';
@@ -10,7 +10,7 @@
   transition: .15s
 }
 
-.SingInUpButton:hover {
+.AuthButton:hover {
   background-color: #fff;
   color: rgba(18, 151, 226, .6);
   transition: all .5s;

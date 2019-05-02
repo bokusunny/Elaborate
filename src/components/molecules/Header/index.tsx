@@ -1,32 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import SignInUpButton from '../../atoms/Buttons/SignInUpButton'
+import AuthButtons from '../../atoms/Buttons/AuthButtons'
 import { AuthenticationModalOpen } from '../../../actions/modals'
 import * as styles from './style.css'
 
-interface Props {
-  AuthenticationModalOpen: (authenticationType: 'Sign in' | 'Sign up') => void
-}
-
-const Header: React.FC<Props> = ({ AuthenticationModalOpen }) => {
-  const { Header, title, buttons } = styles
+const Header: React.FC = () => {
+  const { Header, title } = styles
   return (
     <div className={Header}>
       <div className={title}>Elaborate</div>
-      <div className={buttons}>
-        <SignInUpButton
-          buttonName="Continue with Elaborate"
-          onClick={() => {
-            AuthenticationModalOpen('Sign in')
-          }}
-        />
-        <SignInUpButton
-          buttonName="Get started"
-          onClick={() => {
-            AuthenticationModalOpen('Sign up')
-          }}
-        />
-      </div>
+      <AuthButtons />
     </div>
   )
 }
