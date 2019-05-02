@@ -38,13 +38,7 @@ const directoryFirebaseFailure = (error: ReduxAPIError) => ({
 // NOTE: Firebaseはクライアント側のネットワーク不良などでデータのfetchに失敗してもerrorを吐かず、
 //       空配列を返してくる... :anger_jenkins:
 export const fetchDirectories = (currentUserUid: string | null) => {
-  return (
-    dispatch: ThunkDispatch<
-      {},
-      {},
-      DirectoryFirebaseRequest | SetDirectoriesAction | DirectoryFirebaseFailure
-    >
-  ) => {
+  return (dispatch: ThunkDispatch<{}, {}, Exclude<DirectoriesAction, AddDirectoryAction>>) => {
     if (currentUserUid) {
       dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
       db.collection('users')
@@ -62,7 +56,7 @@ export const fetchDirectories = (currentUserUid: string | null) => {
           })
         })
         .catch(error => {
-          dispatch(directoryFirebaseFailure({ statusCode: 500, message: error }))
+          dispatch(directoryFirebaseFailure({ statusCode: 500, message: error.message }))
         })
     }
   }
@@ -70,11 +64,7 @@ export const fetchDirectories = (currentUserUid: string | null) => {
 
 export const createDirectory = (values: Values, currentUserUid: string) => {
   return async (
-    dispatch: ThunkDispatch<
-      {},
-      {},
-      DirectoryFirebaseRequest | AddDirectoryAction | DirectoryFirebaseFailure
-    >
+    dispatch: ThunkDispatch<{}, {}, Exclude<DirectoriesAction, SetDirectoriesAction>>
   ) => {
     dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
     db.collection('users')
@@ -95,11 +85,11 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
             })
           })
           .catch(error => {
-            dispatch(directoryFirebaseFailure({ statusCode: 500, message: error }))
+            dispatch(directoryFirebaseFailure({ statusCode: 500, message: error.message }))
           })
       })
       .catch(error => {
-        dispatch(directoryFirebaseFailure({ statusCode: 500, message: error }))
+        dispatch(directoryFirebaseFailure({ statusCode: 500, message: error.message }))
       })
   }
 }

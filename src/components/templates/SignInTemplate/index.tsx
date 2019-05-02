@@ -8,7 +8,9 @@ interface Props {
 
 const onClickGoogleSignin = () => {
   const provider = new firebase.auth.GoogleAuthProvider()
-  auth.signInWithRedirect(provider)
+  auth
+    .signInWithRedirect(provider)
+    .catch((error: firebase.auth.Error) => console.error(error.message))
 }
 
 const SignInTemplate: React.FC<Props> = ({ onClick }) => (
