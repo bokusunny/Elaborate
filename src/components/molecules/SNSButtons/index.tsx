@@ -19,7 +19,7 @@ const SNSButtons: React.FC<Props> = ({ type, onClick }) => {
   return (
     <div className={buttonsWrapper}>
       <h2 className={welcomeMessage}>
-        {`Welcome ${type === 'Sign in' ? 'back' : ''} to`}
+        Welcome {type === 'Sign in' && 'back '}to
         <span className={modalElaborate}>Elaborate</span>
       </h2>
       <p className={modalTitle}>{`${type} with`}</p>
