@@ -1,6 +1,6 @@
 import { actionTypes } from '../constants'
 import { ReduxAPIStruct, defaultSet } from './static-types'
-import { DirectoriesAction } from '../actions/directories'
+import { DirectoriesAction, IsInvalidDirectoryAction } from '../actions/directories'
 import { FirebaseSnapShot } from '../utils/firebase'
 
 export const directories = (
@@ -10,6 +10,9 @@ export const directories = (
   switch (action.type) {
     case actionTypes.DIRECTORY_FIREBASE_REQUEST:
       return { ...state, status: 'fetching' }
+
+    case actionTypes.DIRECTORY_FIREBASE_REQUEST_FAILURE:
+      return { ...state, status: 'failure', error: action.payload.message }
 
     case actionTypes.DIRECTORY_SET:
       if ('directories' in action.payload) {
@@ -23,9 +26,23 @@ export const directories = (
         return { ...state, status: 'success', data: state.data.concat(action.payload.newDir) }
       }
       return state
+  }
+  return state
+}
+
+export const isValidDirectory = (
+  state: ReduxAPIStruct<boolean> = defaultSet(),
+  action: IsInvalidDirectoryAction
+): ReduxAPIStruct<boolean> => {
+  switch (action.type) {
+    case actionTypes.DIRECTORY_FIREBASE_REQUEST:
+      return { ...state, status: 'fetching' }
 
     case actionTypes.DIRECTORY_FIREBASE_REQUEST_FAILURE:
-      return { ...state, status: 'failure', error: action.payload.error }
+      return { ...state, status: 'failure', error: action.payload.message }
+
+    case actionTypes.DIRECTORY_CHECK_ID:
+      return { ...state, status: 'success', data: action.payload.isValidDirectoryId }
   }
   return state
 }
