@@ -38,13 +38,7 @@ const directoryFirebaseFailure = (error: ReduxAPIError) => ({
 // NOTE: Firebaseはクライアント側のネットワーク不良などでデータのfetchに失敗してもerrorを吐かず、
 //       空配列を返してくる... :anger_jenkins:
 export const fetchDirectories = (currentUserUid: string | null) => {
-  return (
-    dispatch: ThunkDispatch<
-      {},
-      {},
-      DirectoryFirebaseRequest | SetDirectoriesAction | DirectoryFirebaseFailure
-    >
-  ) => {
+  return (dispatch: ThunkDispatch<{}, {}, Exclude<DirectoriesAction, AddDirectoryAction>>) => {
     if (currentUserUid) {
       dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
       db.collection('users')
@@ -62,7 +56,8 @@ export const fetchDirectories = (currentUserUid: string | null) => {
           })
         })
         .catch(error => {
-          dispatch(directoryFirebaseFailure({ statusCode: 500, message: error }))
+          const { message } = error
+          dispatch(directoryFirebaseFailure({ statusCode: 500, message }))
         })
     }
   }
@@ -70,11 +65,7 @@ export const fetchDirectories = (currentUserUid: string | null) => {
 
 export const createDirectory = (values: Values, currentUserUid: string) => {
   return async (
-    dispatch: ThunkDispatch<
-      {},
-      {},
-      DirectoryFirebaseRequest | AddDirectoryAction | DirectoryFirebaseFailure
-    >
+    dispatch: ThunkDispatch<{}, {}, Exclude<DirectoriesAction, SetDirectoriesAction>>
   ) => {
     dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
     db.collection('users')
@@ -86,6 +77,7 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
         updatedAt: Date.now(),
       })
       .then(newDoc => {
+        // newDirectoryをstoreへ保存
         newDoc
           .get()
           .then(snapShot => {
@@ -95,11 +87,25 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
             })
           })
           .catch(error => {
-            dispatch(directoryFirebaseFailure({ statusCode: 500, message: error }))
+            const { message } = error
+            dispatch(directoryFirebaseFailure({ statusCode: 500, message }))
+          })
+        // newDirectory配下にmaster branchを追加
+        newDoc
+          .collection('branches')
+          .add({
+            name: 'master',
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+          })
+          .catch(error => {
+            const { message } = error
+            dispatch(directoryFirebaseFailure({ statusCode: 500, message }))
           })
       })
       .catch(error => {
-        dispatch(directoryFirebaseFailure({ statusCode: 500, message: error }))
+        const { message } = error
+        dispatch(directoryFirebaseFailure({ statusCode: 500, message }))
       })
   }
 }

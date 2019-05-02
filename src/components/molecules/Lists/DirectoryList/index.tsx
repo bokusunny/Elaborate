@@ -16,7 +16,7 @@ const DirectoryList: React.FC<Props> = ({ directories }) => {
   }
 
   if (directories.status === 'failure') {
-    return <div>Error occured: {directories.error}</div>
+    return <div>Error occured: {directories.error.message}</div>
   }
 
   return (
