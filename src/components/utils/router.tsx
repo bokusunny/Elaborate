@@ -4,7 +4,7 @@ import { auth } from '../../utils/firebase'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import PublicRoute from './public-route'
 import PrivateRoute from './private-route'
-import SignInPage from '../pages/SignInPage'
+import LandingPage from '../pages/LandingPage'
 import MyPage from '../pages/MyPage'
 import DirectoryPage from '../pages/DirectoryPage'
 import EditorPage from '../pages/EditorPage'
@@ -31,7 +31,7 @@ const Router: React.FC<{}> = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <PublicRoute exact path="/sign_in" component={SignInPage} isAuthorized={isAuthorized} />
+        <PublicRoute exact path="/" component={LandingPage} isAuthorized={isAuthorized} />
         <PrivateRoute
           exact
           path="/mypage"
@@ -46,7 +46,6 @@ const Router: React.FC<{}> = () => {
           currentUser={currentUser}
           isAuthorized={isAuthorized}
         />
-        <Route exact path="/" component={isAuthorized ? MyPage : SignInPage} />
         {/* TODO: It's tmp route, need to make it Private Route & Use uid  */}
         <Route exact path="/:id/edit" component={EditorPage} />
         <Route render={() => <h2>404 Not Found</h2>} />
