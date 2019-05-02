@@ -7,16 +7,16 @@ const onClick = () => alert('Clicked!')
 storiesOf('SNSSignInButton', module)
   .add('google', () => (
     <SNSSignInButton type="google" onClick={onClick}>
-      Login with
+      Login with Google
     </SNSSignInButton>
   ))
   .add('twitter', () => (
     <SNSSignInButton type="twitter" onClick={onClick}>
-      Login with
+      Login with Twitter
     </SNSSignInButton>
   ))
   .add('facebook', () => (
     <SNSSignInButton type="facebook" onClick={onClick}>
-      Login with
+      Login with Facebook
     </SNSSignInButton>
   ))

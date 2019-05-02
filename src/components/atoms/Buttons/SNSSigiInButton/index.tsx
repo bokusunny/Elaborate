@@ -8,7 +8,7 @@ interface Props {
   onClick: () => void
 }
 
-const getIconSns = (type: string) => {
+const getIconSns = (type: 'google' | 'twitter' | 'facebook') => {
   switch (type) {
     case 'google':
       return <FontAwesomeIcon icon={faGoogle} />
