@@ -28,6 +28,9 @@
     ]
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "1.2.17",
+    "@fortawesome/free-brands-svg-icons": "5.8.1",
+    "@fortawesome/react-fontawesome": "0.1.4",
     "@material-ui/core": "3.9.3",
     "@material-ui/icons": "3.0.2",
     "@types/draft-js": "0.10.30",
@@ -43,6 +46,7 @@
     "draft-js-markdown-plugin": "3.0.5",
     "draft-js-plugins-editor": "2.1.1",
     "formik": "1.5.4",
+    "i": "0.3.6",
     "keymirror": "0.1.1",
     "lodash": "4.17.11",
     "react": "16.8.6",

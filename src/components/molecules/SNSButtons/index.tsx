@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { firebase, auth } from '../../../utils/firebase'
 import SNSSignInButton from '../../atoms/Buttons/SNSSigiInButton'
+import * as styles from './style.css'
 
 interface Props {
   type?: 'Sign in' | 'Sign up'
@@ -12,19 +13,20 @@ const onClickGoogleSignin = () => {
   auth.signInWithRedirect(provider)
 }
 
+const { buttonsWrapper, modalTitle, welcomeMessage, modalElaborate } = styles
+
 const SNSButtons: React.FC<Props> = ({ type, onClick }) => {
   return (
-    <Fragment>
-      <SNSSignInButton type="google" onClick={onClickGoogleSignin}>
-        {`${type} with Google`}
-      </SNSSignInButton>
-      <SNSSignInButton type="twitter" onClick={onClick}>
-        {`${type} with Twiiter`}
-      </SNSSignInButton>
-      <SNSSignInButton type="facebook" onClick={onClick}>
-        {`${type} with Facebook`}
-      </SNSSignInButton>
-    </Fragment>
+    <div className={buttonsWrapper}>
+      <h2 className={welcomeMessage}>
+        {`Welcome ${type === 'Sign in' ? 'back' : ''} to`}
+        <span className={modalElaborate}>Elaborate</span>
+      </h2>
+      <p className={modalTitle}>{`${type} with`}</p>
+      <SNSSignInButton type="google" onClick={onClickGoogleSignin} />
+      <SNSSignInButton type="twitter" onClick={onClick} />
+      <SNSSignInButton type="facebook" onClick={onClick} />
+    </div>
   )
 }
 
