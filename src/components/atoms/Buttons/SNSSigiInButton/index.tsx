@@ -20,14 +20,14 @@ const getIconSns = (type: 'google' | 'twitter' | 'facebook') => {
 }
 
 const SNSSignInButton: React.FC<Props> = ({ type, onClick }) => {
-  const { button } = styles
+  const { button, imageSns } = styles
   const buttonType = styles[type]
 
   const iconSns = getIconSns(type)
 
   return (
     <a className={`${button} ${buttonType}`} onClick={onClick}>
-      {iconSns}
+      <span className={imageSns}>{iconSns}</span>
     </a>
   )
 }

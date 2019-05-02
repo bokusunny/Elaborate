@@ -30,7 +30,6 @@ const Router: React.FC<{}> = () => {
   return (
     <BrowserRouter>
       <Switch>
-        {/* <PrivateRoute exact path="/:username" component={MyPage} isAuthorized={isAuthorized} /> */}
         <PublicRoute exact path="/" component={LandingPage} isAuthorized={isAuthorized} />
         <PrivateRoute
           exact
