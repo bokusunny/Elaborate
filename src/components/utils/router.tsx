@@ -41,7 +41,7 @@ const Router: React.FC<{}> = () => {
         />
         <PrivateRoute
           exact
-          path="/:directoryName"
+          path="/:directoryId"
           component={DirectoryPage}
           currentUser={currentUser}
           isAuthorized={isAuthorized}

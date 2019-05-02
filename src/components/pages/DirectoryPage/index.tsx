@@ -2,19 +2,23 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 
 interface MatchParams {
-  directoryName: string
+  directoryId: string
 }
 
 interface Props extends RouteComponentProps<MatchParams> {
   currentUser: firebase.User
 }
 
-const DirectoryPage: React.FC<Props> = props => {
+const DirectoryPage: React.FC<Props> = ({ match }) => {
+  const {
+    params: { directoryId },
+  } = match
+
   return (
     <h3>
       This is directory page.
       <br />
-      Directory name is {props.match.params.directoryName}, {"isn't"} it?
+      Directory id is {directoryId}, {"isn't"} it?
     </h3>
   )
 }
