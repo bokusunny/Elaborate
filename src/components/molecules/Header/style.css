@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500');
 
-.Header {
+.HeaderBlueBase {
   display: flex;
   justify-content: space-between;
   vertical-align: middle;
@@ -8,6 +8,17 @@
   width: 100%;
   padding: 28px 0;
   color: #fff;
+  font-family: 'Montserrat';
+}
+
+.HeaderWhiteBase {
+  display: flex;
+  justify-content: space-between;
+  vertical-align: middle;
+  top: 0;
+  width: 100%;
+  padding: 28px 0;
+  color: rgba(18, 151, 226, .6);
   font-family: 'Montserrat';
 }
 
