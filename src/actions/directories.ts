@@ -10,7 +10,7 @@ const directoryFirebaseFailure = (message: string) => ({
   payload: { statusCode: 500, message },
 })
 
-//-------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 // Directories
 // ------------------------------------------------------------------------
 interface SetDirectoriesAction extends BaseAction {
@@ -83,6 +83,7 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
           .collection('branches')
           .add({
             name: 'master',
+            state: 'open',
             createdAt: Date.now(),
             updatedAt: Date.now(),
           })
@@ -92,7 +93,7 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
   }
 }
 
-//-------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 // IsInvalidDirectory
 // ------------------------------------------------------------------------
 interface CheckDirectoryIdAction extends BaseAction {
