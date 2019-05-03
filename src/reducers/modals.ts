@@ -16,12 +16,12 @@ export const authenticationModals = (
   action: AuthenticationModalsAction
 ): AuthenticationModal => {
   switch (action.type) {
-    case actionTypes.MODAL_AUTHENTICATION_OPEN:
+    case actionTypes.MODAL__AUTHENTICATION_OPEN:
       return {
         isAuthModalOpen: true,
         authenticationType: action.payload.authenticationType,
       }
-    case actionTypes.MODAL_AUTHENTICATION_CLOSE:
+    case actionTypes.MODAL__AUTHENTICATION_CLOSE:
       return { isAuthModalOpen: false }
   }
   return state

@@ -18,7 +18,7 @@ export type AuthenticationModalsAction =
 export const AuthenticationModalOpen = (authenticationType: 'Sign in' | 'Sign up') => {
   return (dispatch: ThunkDispatch<{}, {}, AuthenticationModalOpenAction>) => {
     dispatch({
-      type: actionTypes.MODAL_AUTHENTICATION_OPEN,
+      type: actionTypes.MODAL__AUTHENTICATION_OPEN,
       payload: { authenticationType },
     })
   }
@@ -26,6 +26,6 @@ export const AuthenticationModalOpen = (authenticationType: 'Sign in' | 'Sign up
 
 export const AuthenticationModalClose = () => {
   return (dispatch: ThunkDispatch<{}, {}, AuthenticationModalCloseAction>) => {
-    dispatch({ type: actionTypes.MODAL_AUTHENTICATION_CLOSE })
+    dispatch({ type: actionTypes.MODAL__AUTHENTICATION_CLOSE })
   }
 }

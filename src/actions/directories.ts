@@ -6,7 +6,7 @@ import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from './static-typ
 import { Values } from '../components/molecules/Forms/DirectoryForm'
 
 const directoryFirebaseFailure = (message: string) => ({
-  type: actionTypes.DIRECTORY_FIREBASE_REQUEST_FAILURE,
+  type: actionTypes.DIRECTORY__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
 
@@ -34,7 +34,7 @@ export type DirectoriesAction =
 export const fetchDirectories = (currentUserUid: string | null) => {
   return (dispatch: ThunkDispatch<{}, {}, Exclude<DirectoriesAction, AddDirectoryAction>>) => {
     if (currentUserUid) {
-      dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
+      dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST })
       db.collection('users')
         .doc(currentUserUid)
         .collection('directories')
@@ -45,7 +45,7 @@ export const fetchDirectories = (currentUserUid: string | null) => {
             return doc1.data().createdAt - doc2.data().createdAt
           })
           dispatch({
-            type: actionTypes.DIRECTORY_SET,
+            type: actionTypes.DIRECTORY__SET,
             payload: { directories: orderedDocs },
           })
         })
@@ -58,7 +58,7 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
   return async (
     dispatch: ThunkDispatch<{}, {}, Exclude<DirectoriesAction, SetDirectoriesAction>>
   ) => {
-    dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
+    dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -73,7 +73,7 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
           .get()
           .then(snapShot => {
             dispatch({
-              type: actionTypes.DIRECTORY_ADD,
+              type: actionTypes.DIRECTORY__ADD,
               payload: { newDir: snapShot },
             })
           })
@@ -108,21 +108,40 @@ export type IsInvalidDirectoryAction =
 
 export const checkDirectoryId = (currentUserUid: string, directoryId: string) => {
   return (dispatch: ThunkDispatch<{}, {}, IsInvalidDirectoryAction>) => {
-    dispatch({ type: actionTypes.DIRECTORY_FIREBASE_REQUEST })
-    db.collection('users')
+    dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST })
+    const directoryDocRef = db
+      .collection('users')
       .doc(currentUserUid)
       .collection('directories')
       .doc(directoryId)
+
+    directoryDocRef
       .get()
       .then(doc => {
         if (doc.exists) {
-          dispatch({
-            type: actionTypes.DIRECTORY_CHECK_ID,
-            payload: { isValidDirectoryId: true },
-          })
+          dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
+          directoryDocRef
+            .collection('branches')
+            .get()
+            .then(querySnapshot => {
+              // Firebaseのデータは取得時順番がランダムなので作成順にソートする
+              const orderedDocs = querySnapshot.docs.sort((doc1, doc2) => {
+                return doc1.data().createdAt - doc2.data().createdAt
+              })
+
+              dispatch({
+                type: actionTypes.DIRECTORY__CHECK_ID,
+                payload: { isValidDirectoryId: true },
+              })
+              dispatch({
+                type: actionTypes.BRANCH__SET,
+                payload: { branches: orderedDocs },
+              })
+            })
+            .catch(error => dispatch(directoryFirebaseFailure(error.message)))
         } else {
           dispatch({
-            type: actionTypes.DIRECTORY_CHECK_ID,
+            type: actionTypes.DIRECTORY__CHECK_ID,
             payload: { isValidDirectoryId: false },
           })
         }

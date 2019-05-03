@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { checkDirectoryId } from '../../../actions/directories'
 import { ReduxAPIStruct } from '../../../reducers/static-types'
+import { FirebaseSnapShot } from '../../../utils/firebase'
 
 interface MatchParams {
   directoryId: string
@@ -11,14 +12,19 @@ interface MatchParams {
 
 interface Props extends RouteComponentProps<MatchParams> {
   currentUser: firebase.User | null
-  isValidDirectory: ReduxAPIStruct<boolean>
   checkDirectoryId: (currentUserUid: string, directoryId: string) => void
 }
 
-const DirectoryPage: React.FC<Props> = ({
+interface DispatchProps {
+  isValidDirectory: ReduxAPIStruct<boolean>
+  branches: ReduxAPIStruct<FirebaseSnapShot[]>
+}
+
+const DirectoryPage: React.FC<Props & DispatchProps> = ({
   match,
   currentUser,
   isValidDirectory,
+  branches,
   checkDirectoryId,
 }) => {
   if (!currentUser) return <CircularProgress />
@@ -33,20 +39,27 @@ const DirectoryPage: React.FC<Props> = ({
     return <CircularProgress />
   }
 
-  if (!isValidDirectory.data) return <h2>404 Not Found</h2>
+  if (!isValidDirectory.data || !branches.data) return <h2>404 Not Found</h2>
 
   return (
-    <h3>
-      This is directory page.
-      <br />
-      Directory id is {directoryId}, {"isn't"} it?
-    </h3>
+    <Fragment>
+      <p>This is directory page.</p>
+      <p>
+        ID: {directoryId}, {branches.data.length} branch(es).
+      </p>
+      <ol>
+        {branches.data.map((querySnapShot: FirebaseSnapShot, index) => (
+          <li key={index}>{querySnapShot.data().name}</li>
+        ))}
+      </ol>
+    </Fragment>
   )
 }
 
 export default connect(
-  ({ isValidDirectory }: Record<string, ReduxAPIStruct<boolean>>) => ({
+  ({ isValidDirectory, branches }: DispatchProps) => ({
     isValidDirectory,
+    branches,
   }),
   { checkDirectoryId }
 )(DirectoryPage)
