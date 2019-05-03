@@ -1,12 +1,12 @@
-.container {
-  margin: 0 auto;
-  max-width: 900px;
-  background-color: #FFF;
-  height: 100vh;
+.background {
+  background-color: #fff;
 }
 
-.background {
-  background-color: #F7F9FA;
+.container {
+  margin: 64px auto 0 32px;
+  max-width: 900px;
+  background-color: #fff;
+  height: 100vh;
 }
 
 .modal {
