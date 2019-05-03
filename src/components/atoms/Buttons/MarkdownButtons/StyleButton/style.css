@@ -5,6 +5,7 @@
   color: #000;
   opacity: .25;
   transition: .15s;
+  cursor: pointer;
 }
 
 .styleButton:hover{

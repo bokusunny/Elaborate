@@ -35,11 +35,15 @@ const DirectoryPage: React.FC<Props & DispatchProps> = ({
 
   useEffect(() => checkDirectoryId(currentUser.uid, directoryId), [])
 
-  if (isValidDirectory.status === 'default' || isValidDirectory.status === 'fetching') {
+  if (
+    isValidDirectory.status === 'default' ||
+    isValidDirectory.status === 'fetching' ||
+    !branches.data
+  ) {
     return <CircularProgress />
   }
 
-  if (!isValidDirectory.data || !branches.data) return <h2>404 Not Found</h2>
+  if (!isValidDirectory.data) return <h2>404 Not Found</h2>
 
   return (
     <Fragment>
