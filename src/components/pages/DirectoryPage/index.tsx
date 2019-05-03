@@ -23,12 +23,11 @@ const DirectoryPage: React.FC<Props> = ({
 }) => {
   if (!currentUser) return <CircularProgress />
 
-  const currentUserUid = currentUser.uid
   const {
     params: { directoryId },
   } = match
 
-  useEffect(() => checkDirectoryId(currentUserUid, directoryId), [])
+  useEffect(() => checkDirectoryId(currentUser.uid, directoryId), [])
 
   if (isValidDirectory.status === 'default' || isValidDirectory.status === 'fetching') {
     return <CircularProgress />
