@@ -6,6 +6,7 @@ export const actionTypes = keyMirror({
   DIRECTORY_FIREBASE_REQUEST_FAILURE: null,
   DIRECTORY_SET: null,
   DIRECTORY_ADD: null,
+  DIRECTORY_CHECK_ID: null,
 
   // Modal
   MODAL_AUTHENTICATION_OPEN: null,

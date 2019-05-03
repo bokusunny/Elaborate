@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux'
-import { directories } from './directories'
+import { directories, isValidDirectory } from './directories'
 import { authenticationModals } from './modals'
 
 const rootReducer = combineReducers({
   directories,
+  isValidDirectory,
   authenticationModals,
 })
 
