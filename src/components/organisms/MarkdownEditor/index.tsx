@@ -9,6 +9,8 @@ import {
 } from 'draft-js'
 import createMarkdownPlugin from 'draft-js-markdown-plugin'
 import Editor from 'draft-js-plugins-editor'
+import createHashtagPlugin from 'draft-js-hashtag-plugin'
+import createLinkifyPlugin from 'draft-js-linkify-plugin'
 
 import BlockTypeControls from '../../molecules/TypeControls/BlockTypeControls'
 import InlineStyleControls from '../../molecules/TypeControls/InlineStyleControls'
@@ -23,6 +25,10 @@ const MarkdownEditor: React.FC<{}> = () => {
 
   const initialEditorState: EditorState = EditorState.createEmpty()
   const initialPluginsState: [Plugin] = [createMarkdownPlugin()]
+
+  const hashtagPlugin = createHashtagPlugin()
+  const linkifyPlugin = createLinkifyPlugin()
+  const plugins = [hashtagPlugin, linkifyPlugin]
 
   const [editorState, setEditorState] = useState(initialEditorState)
   const [pluginsState, setPluginsState] = useState(initialPluginsState)
@@ -91,7 +97,7 @@ const MarkdownEditor: React.FC<{}> = () => {
         editorState={editorState}
         onChange={onChange}
         handleKeyCommand={handleKeyCommand}
-        plugins={pluginsState}
+        plugins={plugins}
         customStyleMap={STYLE_MAP}
         // placeholder='placeholder'
       />
