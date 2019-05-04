@@ -3,7 +3,11 @@ export const STYLE_MAP = {
     fontWeight: 'bold',
   },
 
-  ITELIC: {},
+  ITALIC: {
+    fontStyle: 'italic',
+  },
 
-  UNDERLINE: {},
+  UNDERLINE: {
+    textDecoration: 'underline',
+  },
 }
