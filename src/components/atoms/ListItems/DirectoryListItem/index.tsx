@@ -10,11 +10,11 @@ interface Props {
   label: string
 }
 
-const iconFolder = <FontAwesomeIcon icon={faFolderOpen} />
-
 const DirectoryListItem: React.FC<Props> = ({ id, label }) => (
   <ListItem button component="a" href={`/${id}`}>
-    <ListItemIcon>{iconFolder}</ListItemIcon>
+    <ListItemIcon>
+      <FontAwesomeIcon icon={faFolderOpen} />
+    </ListItemIcon>
     <ListItemText primary={label} />
   </ListItem>
 )

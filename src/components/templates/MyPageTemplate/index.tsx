@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { FirebaseSnapShot } from '../../../utils/firebase'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
@@ -18,7 +18,7 @@ const MyPageTemplate: React.FC<Props> = ({ currentUser, directories }) => {
   const [isModalOpen, setISModalOpen] = useState(false)
 
   return (
-    <div className={styles.background}>
+    <Fragment>
       <Header colorType="whiteBase" />
       <div className={styles.container}>
         <DirectoryList directories={directories} />
@@ -36,7 +36,7 @@ const MyPageTemplate: React.FC<Props> = ({ currentUser, directories }) => {
           </div>
         </Modal>
       </div>
-    </div>
+    </Fragment>
   )
 }
 
