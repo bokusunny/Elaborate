@@ -99,7 +99,7 @@ const MarkdownEditor: React.FC<{}> = () => {
         handleKeyCommand={handleKeyCommand}
         plugins={pluginsState}
         customStyleMap={STYLE_MAP}
-        // placeholder="placeholder"
+        // placeholder='placeholder'
       />
       <EditorToolBar
         shouldShowToolBar={shouldShowToolBar}
