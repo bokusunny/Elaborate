@@ -26,7 +26,8 @@ const MarkdownEditor: React.FC<{}> = () => {
 
   const [editorState, setEditorState] = useState(initialEditorState)
   const [pluginsState, setPluginsState] = useState(initialPluginsState)
-  const [shouldShowStyleButtons, setShouldShowStyleButtons] = useState(true)
+  const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
+  const [shouldShowToolBarInline, setShouldShowToolBarInline] = useState(false)
 
   const getInputValue = () => {
     if (!editorState) return
@@ -54,10 +55,12 @@ const MarkdownEditor: React.FC<{}> = () => {
     const inputValue = getInputValue()
     const selectedText = getSelectedText()
 
+    inputValue === '' ? setShouldShowToolBarInline(false) : setShouldShowToolBarInline(true)
+
     if (inputValue === '' || selectedText !== '') {
-      setShouldShowStyleButtons(true)
+      setShouldShowToolBar(true)
     } else {
-      setShouldShowStyleButtons(false)
+      setShouldShowToolBar(false)
     }
   }, [editorState])
 
@@ -95,10 +98,10 @@ const MarkdownEditor: React.FC<{}> = () => {
         customStyleMap={STYLE_MAP}
         // placeholder='placeholder'
       />
-      {shouldShowStyleButtons && (
+      {shouldShowToolBar && (
         <div className={styleButtons}>
           <BlockTypeControls onToggle={toggleBlockType} />
-          <InlineStyleControls onToggle={toggleInlineStyle} />
+          {shouldShowToolBarInline && <InlineStyleControls onToggle={toggleInlineStyle} />}
         </div>
       )}
     </div>
