@@ -55,12 +55,14 @@ const MarkdownEditor: React.FC<{}> = () => {
     const inputValue = getInputValue()
     const selectedText = getSelectedText()
 
-    inputValue === '' ? setShouldShowToolBarInline(false) : setShouldShowToolBarInline(true)
-
-    if (inputValue === '' || selectedText !== '') {
-      setShouldShowToolBar(true)
-    } else {
+    if (inputValue !== '' && selectedText === '') {
       setShouldShowToolBar(false)
+    } else if (inputValue !== '' && selectedText !== '') {
+      setShouldShowToolBar(true)
+      setShouldShowToolBarInline(true)
+    } else {
+      setShouldShowToolBar(true)
+      setShouldShowToolBarInline(false)
     }
   }, [editorState])
 
