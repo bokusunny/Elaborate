@@ -17,6 +17,7 @@
 }
 
 .AuthButtonWhiteBase {
+  margin-right: 32px;
   border-radius: 4px;
   color: rgba(18, 151, 226, .6);
   font-family: 'Montserrat';
