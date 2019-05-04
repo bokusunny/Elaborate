@@ -19,7 +19,7 @@ import * as styles from './style.css'
 import { Plugin } from './types'
 
 const MarkdownEditor: React.FC<{}> = () => {
-  const { editorWrapper, styleButtons } = styles
+  const { editorWrapper, toolBar } = styles
 
   const initialEditorState: EditorState = EditorState.createEmpty()
   const initialPluginsState: [Plugin] = [createMarkdownPlugin()]
@@ -99,7 +99,7 @@ const MarkdownEditor: React.FC<{}> = () => {
         // placeholder='placeholder'
       />
       {shouldShowToolBar && (
-        <div className={styleButtons}>
+        <div className={toolBar}>
           <BlockTypeControls onToggle={toggleBlockType} />
           {shouldShowToolBarInline && <InlineStyleControls onToggle={toggleInlineStyle} />}
         </div>
