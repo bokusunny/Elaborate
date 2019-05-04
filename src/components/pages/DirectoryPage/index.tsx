@@ -16,12 +16,12 @@ interface Props extends RouteComponentProps<MatchParams> {
   checkDirectoryId: (currentUserUid: string, directoryId: string) => void
 }
 
-interface DispatchProps {
+interface StateProps {
   isValidDirectory: ReduxAPIStruct<boolean>
   branches: ReduxAPIStruct<FirebaseSnapShot[]>
 }
 
-const DirectoryPage: React.FC<Props & DispatchProps> = ({
+const DirectoryPage: React.FC<Props & StateProps> = ({
   match,
   currentUser,
   isValidDirectory,
@@ -63,7 +63,7 @@ const DirectoryPage: React.FC<Props & DispatchProps> = ({
 }
 
 export default connect(
-  ({ isValidDirectory, branches }: DispatchProps) => ({
+  ({ isValidDirectory, branches }: StateProps) => ({
     isValidDirectory,
     branches,
   }),
