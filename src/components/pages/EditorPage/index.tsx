@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { checkDirectoryId } from '../../../actions/directories'
+import { checkBranchId } from '../../../actions/branches'
 import { ReduxAPIStruct } from '../../../reducers/static-types'
 import EditorTemplate from '../../templates/EditorTemplate'
 
@@ -17,10 +18,12 @@ interface Props extends RouteComponentProps<MatchParams> {
 
 interface StateProps {
   isValidDirectory: ReduxAPIStruct<boolean>
+  isValidBranch: ReduxAPIStruct<boolean>
 }
 
 interface DispatchProps {
   checkDirectoryId: (currentUserUid: string, directoryId: string) => void
+  checkBranchId: (currentUserUid: string, directoryId: string, branchId: string) => void
 }
 
 const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
@@ -28,27 +31,39 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
   match,
   isValidDirectory,
   checkDirectoryId,
+  isValidBranch,
+  checkBranchId,
 }) => {
   if (!currentUser) return <CircularProgress />
 
   const {
-    params: { directoryId },
+    params: { directoryId, branchId },
   } = match
 
   useEffect(() => {
-    checkDirectoryId(currentUser.uid, directoryId)
+    if (isValidDirectory.status === 'default') {
+      checkDirectoryId(currentUser.uid, directoryId)
+    }
+    if (isValidDirectory.status === 'default') {
+      checkBranchId(currentUser.uid, directoryId, branchId)
+    }
   }, [])
 
-  if (isValidDirectory.status === 'default' || isValidDirectory.status === 'fetching') {
+  if (
+    isValidDirectory.status === 'default' ||
+    isValidDirectory.status === 'fetching' ||
+    isValidBranch.status === 'default' ||
+    isValidBranch.status === 'fetching'
+  ) {
     return <CircularProgress />
   }
 
-  if (!isValidDirectory.data) return <h2>404 Not Found</h2>
+  if (!isValidDirectory.data || !isValidBranch.data) return <h2>404 Not Found</h2>
 
   return <EditorTemplate />
 }
 
 export default connect(
-  ({ isValidDirectory }: StateProps) => ({ isValidDirectory }),
-  { checkDirectoryId }
+  ({ isValidDirectory, isValidBranch }: StateProps) => ({ isValidDirectory, isValidBranch }),
+  { checkDirectoryId, checkBranchId }
 )(EditorPage)
