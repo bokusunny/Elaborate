@@ -44,7 +44,7 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
     if (isValidDirectory.status === 'default') {
       checkDirectoryId(currentUser.uid, directoryId)
     }
-    if (isValidDirectory.status === 'default') {
+    if (isValidBranch.status === 'default') {
       checkBranchId(currentUser.uid, directoryId, branchId)
     }
   }, [])

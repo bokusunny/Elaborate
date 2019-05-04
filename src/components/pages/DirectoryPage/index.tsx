@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, Link } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { checkDirectoryId } from '../../../actions/directories'
 import { ReduxAPIStruct } from '../../../reducers/static-types'
@@ -54,7 +54,10 @@ const DirectoryPage: React.FC<Props & StateProps> = ({
       </p>
       <ol>
         {branches.data.map((querySnapShot: FirebaseSnapShot, index) => (
-          <li key={index}>{querySnapShot.data().name}</li>
+          <li key={index}>
+            {querySnapShot.data().name}
+            <Link to={`/${directoryId}/${querySnapShot.id}/edit`}>edit</Link>
+          </li>
         ))}
       </ol>
       <BranchForm directoryId={directoryId} currentUser={currentUser} />
