@@ -1,2 +1,2 @@
-export const styleButtons: string
+export const toolBar: string
 export const editorWrapper: string

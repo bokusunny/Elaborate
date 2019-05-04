@@ -10,8 +10,7 @@ import {
 import createMarkdownPlugin from 'draft-js-markdown-plugin'
 import Editor from 'draft-js-plugins-editor'
 
-import BlockTypeControls from '../../molecules/TypeControls/BlockTypeControls'
-import InlineStyleControls from '../../molecules/TypeControls/InlineStyleControls'
+import EditorToolBar from '../../molecules/EditorToolBar'
 
 import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
 import * as styles from './style.css'
@@ -19,14 +18,15 @@ import * as styles from './style.css'
 import { Plugin } from './types'
 
 const MarkdownEditor: React.FC<{}> = () => {
-  const { editorWrapper, styleButtons } = styles
+  const { editorWrapper } = styles
 
   const initialEditorState: EditorState = EditorState.createEmpty()
   const initialPluginsState: [Plugin] = [createMarkdownPlugin()]
 
   const [editorState, setEditorState] = useState(initialEditorState)
   const [pluginsState, setPluginsState] = useState(initialPluginsState)
-  const [shouldShowStyleButtons, setShouldShowStyleButtons] = useState(true)
+  const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
+  const [shouldShowToolBarInline, setShouldShowToolBarInline] = useState(false)
 
   const getInputValue = () => {
     if (!editorState) return
@@ -54,10 +54,14 @@ const MarkdownEditor: React.FC<{}> = () => {
     const inputValue = getInputValue()
     const selectedText = getSelectedText()
 
-    if (inputValue === '' || selectedText !== '') {
-      setShouldShowStyleButtons(true)
+    if (inputValue === '') {
+      setShouldShowToolBar(true)
+      setShouldShowToolBarInline(false)
+    } else if (selectedText === '') {
+      setShouldShowToolBar(false)
     } else {
-      setShouldShowStyleButtons(false)
+      setShouldShowToolBar(true)
+      setShouldShowToolBarInline(true)
     }
   }, [editorState])
 
@@ -95,12 +99,12 @@ const MarkdownEditor: React.FC<{}> = () => {
         customStyleMap={STYLE_MAP}
         // placeholder='placeholder'
       />
-      {shouldShowStyleButtons && (
-        <div className={styleButtons}>
-          <BlockTypeControls onToggle={toggleBlockType} />
-          <InlineStyleControls onToggle={toggleInlineStyle} />
-        </div>
-      )}
+      <EditorToolBar
+        shouldShowToolBar={shouldShowToolBar}
+        shouldShowToolBarInline={shouldShowToolBarInline}
+        toggleBlockType={toggleBlockType}
+        toggleInlineStyle={toggleInlineStyle}
+      />
     </div>
   )
 }
