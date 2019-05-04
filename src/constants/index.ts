@@ -12,6 +12,7 @@ export const actionTypes = keyMirror({
   BRANCH__FIREBASE_REQUEST: null,
   BRANCH__FIREBASE_REQUEST_FAILURE: null,
   BRANCH__SET: null,
+  BRANCH__ADD: null,
 
   // Modal
   MODAL__AUTHENTICATION_OPEN: null,
