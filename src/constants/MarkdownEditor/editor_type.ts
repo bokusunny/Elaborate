@@ -1,7 +1,7 @@
 export const INLINE_STYLES = [
   { label: 'Bold', style: 'BOLD' },
   { label: 'Italic', style: 'ITALIC' },
-  { label: 'Underliner', style: 'UNDERLINE' },
+  { label: 'Underline', style: 'UNDERLINE' },
 ]
 
 export const BLOCK_TYPES = [
