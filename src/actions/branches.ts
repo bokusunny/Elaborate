@@ -20,6 +20,31 @@ interface CreateBranchAction extends BaseAction {
 
 export type BranchesAction = FirebaseAPIRequest | FirebaseAPIFailure | CreateBranchAction
 
+export const fetchBranches = (currentUserUid: string, directoryId: string) => {
+  return (dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, CreateBranchAction>>) => {
+    if (currentUserUid) {
+      dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
+      db.collection('users')
+        .doc(currentUserUid)
+        .collection('directories')
+        .doc(directoryId)
+        .collection('branches')
+        .get()
+        .then(querySnapshot => {
+          // Firebaseのデータは取得時順番がランダムなので作成順にソートする
+          const orderedDocs = querySnapshot.docs.sort((doc1, doc2) => {
+            return doc1.data().createdAt - doc2.data().createdAt
+          })
+          dispatch({
+            type: actionTypes.BRANCH__SET,
+            payload: { branches: orderedDocs },
+          })
+        })
+        .catch(error => dispatch(branchFirebaseFailure(error.message)))
+    }
+  }
+}
+
 export const createBranch = (values: Values, currentUserUid: string, directoryId: string) => {
   return async (dispatch: ThunkDispatch<{}, {}, BranchesAction>) => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
