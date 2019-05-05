@@ -14,12 +14,11 @@ import EditorToolBar from '../../molecules/EditorToolBar'
 
 import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
 import * as styles from './style.css'
+const { editorWrapper } = styles
 
 import { Plugin } from './types'
 
 const MarkdownEditor: React.FC<{}> = () => {
-  const { editorWrapper } = styles
-
   const initialEditorState: EditorState = EditorState.createEmpty()
   const initialPluginsState: [Plugin] = [createMarkdownPlugin()]
 
@@ -28,7 +27,7 @@ const MarkdownEditor: React.FC<{}> = () => {
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
   const [shouldShowToolBarInline, setShouldShowToolBarInline] = useState(false)
 
-  const getInputValue = () => {
+  const getLastInputValue = () => {
     if (!editorState) return
 
     const contentState: ContentState = editorState.getCurrentContent()
@@ -56,7 +55,7 @@ const MarkdownEditor: React.FC<{}> = () => {
   }
 
   useEffect(() => {
-    const inputValue = getInputValue()
+    const inputValue = getLastInputValue()
     const selectedText = getSelectedText()
 
     if (inputValue === '') {
