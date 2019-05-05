@@ -45,3 +45,40 @@ export const createBranch = (values: Values, currentUserUid: string, directoryId
       .catch(error => dispatch(branchFirebaseFailure(error.message)))
   }
 }
+
+// -------------------------------------------------------------------------
+// IsInvalidBranch
+// -------------------------------------------------------------------------
+interface CheckBranchIdAction extends BaseAction {
+  type: string
+  payload: { isValidBranchId: ReduxAPIStruct<boolean> }
+}
+
+export type IsInvalidBranchAction = FirebaseAPIRequest | FirebaseAPIFailure | CheckBranchIdAction
+
+export const checkBranchId = (currentUserUid: string, directoryId: string, branchId: string) => {
+  return (dispatch: ThunkDispatch<{}, {}, IsInvalidBranchAction>) => {
+    dispatch({ type: actionTypes.BRANCH_IS_INVALID__FIREBASE_REQUEST })
+    db.collection('users')
+      .doc(currentUserUid)
+      .collection('directories')
+      .doc(directoryId)
+      .collection('branches')
+      .doc(branchId)
+      .get()
+      .then(snapShot => {
+        if (snapShot.exists) {
+          dispatch({
+            type: actionTypes.BRANCH__CHECK_ID,
+            payload: { isValidBranchId: true },
+          })
+        } else {
+          dispatch({
+            type: actionTypes.BRANCH__CHECK_ID,
+            payload: { isValidBranchId: false },
+          })
+        }
+      })
+      .catch(error => branchFirebaseFailure(error.message))
+  }
+}

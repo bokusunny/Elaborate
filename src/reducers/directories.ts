@@ -35,10 +35,10 @@ export const isValidDirectory = (
   action: IsInvalidDirectoryAction
 ): ReduxAPIStruct<boolean> => {
   switch (action.type) {
-    case actionTypes.DIRECTORY__FIREBASE_REQUEST:
+    case actionTypes.DIRECTORY_IS_INVALID__FIREBASE_REQUEST:
       return { ...state, status: 'fetching' }
 
-    case actionTypes.DIRECTORY__FIREBASE_REQUEST_FAILURE:
+    case actionTypes.DIRECTORY_IS_INVALID__FIREBASE_REQUEST_FAILURE:
       return { ...state, status: 'failure', error: action.payload.message }
 
     case actionTypes.DIRECTORY__CHECK_ID:

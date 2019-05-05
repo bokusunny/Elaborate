@@ -46,8 +46,13 @@ const Router: React.FC<{}> = () => {
           currentUser={currentUser}
           isAuthorized={isAuthorized}
         />
-        {/* TODO: It's tmp route, need to make it Private Route & Use uid  */}
-        <Route exact path="/:id/edit" component={EditorPage} />
+        <PrivateRoute
+          exact
+          path="/:directoryId/:branchId/edit"
+          component={EditorPage}
+          currentUser={currentUser}
+          isAuthorized={isAuthorized}
+        />
         <Route render={() => <h2>404 Not Found</h2>} />
       </Switch>
     </BrowserRouter>

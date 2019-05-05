@@ -108,7 +108,7 @@ export type IsInvalidDirectoryAction =
 
 export const checkDirectoryId = (currentUserUid: string, directoryId: string) => {
   return (dispatch: ThunkDispatch<{}, {}, IsInvalidDirectoryAction>) => {
-    dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST })
+    dispatch({ type: actionTypes.DIRECTORY_IS_INVALID__FIREBASE_REQUEST })
     const directoryDocRef = db
       .collection('users')
       .doc(currentUserUid)
