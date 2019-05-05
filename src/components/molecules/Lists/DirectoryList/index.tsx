@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { fetchBranches } from '../../../../actions/branches'
 import List from '@material-ui/core/List'
@@ -33,10 +33,10 @@ const DirectoryList: React.FC<Props> = ({ directories, currentUser, fetchBranche
           const { id } = doc
           const { name } = doc.data()
           return (
-            <div key={id}>
+            <Fragment key={id}>
               <DirectoryListItem label={name} onClick={() => fetchBranches(currentUserUid, id)} />
               <Divider />
-            </div>
+            </Fragment>
           )
         })}
       </List>

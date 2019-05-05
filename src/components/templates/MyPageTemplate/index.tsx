@@ -18,7 +18,7 @@ interface Props {
 
 const MyPageTemplate: React.FC<Props> = ({ currentUser, directories, branches }) => {
   const [isModalOpen, setISModalOpen] = useState(false)
-  // TODO: branchesのstatusがdefaultの時はBranchListを渡さないでディレクトリが選択されていませんみたいなUIを組む
+  // TODO: branchesのstatusがdefaultの時はBranchListを渡さないで、ディレクトリが選択されていませんみたいなUIを組む
 
   return (
     <Fragment>
