@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { EditorState, RichUtils, DraftHandleValue, convertToRaw } from 'draft-js'
+import {
+  EditorState,
+  RichUtils,
+  DraftHandleValue,
+  convertToRaw,
+  DraftEditorCommand,
+} from 'draft-js'
 import createMarkdownPlugin from 'draft-js-markdown-plugin'
 import Editor from 'draft-js-plugins-editor'
 
@@ -57,7 +63,10 @@ const MarkdownEditor: React.FC<{}> = () => {
 
   useEffect(() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-one')), [])
 
-  const handleKeyCommand = (command: string, editorState: EditorState): DraftHandleValue => {
+  const handleKeyCommand = (
+    editorState: EditorState,
+    command: DraftEditorCommand
+  ): DraftHandleValue => {
     const newState = RichUtils.handleKeyCommand(editorState, command)
     if (newState) {
       onChange(newState)
