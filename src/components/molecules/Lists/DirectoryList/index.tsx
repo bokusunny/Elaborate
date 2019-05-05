@@ -33,8 +33,8 @@ const DirectoryList: React.FC<Props> = ({ directories, currentUser, fetchBranche
           const { id } = doc
           const { name } = doc.data()
           return (
-            <div key={id} onClick={() => fetchBranches(currentUserUid, id)}>
-              <DirectoryListItem id={id} label={name} />
+            <div key={id}>
+              <DirectoryListItem label={name} onClick={() => fetchBranches(currentUserUid, id)} />
               <Divider />
             </div>
           )

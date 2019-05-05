@@ -1,6 +1,6 @@
 import React from 'react'
 import List from '@material-ui/core/List'
-import DirectoryListItem from '../../../atoms/ListItems/DirectoryListItem'
+import BranchListItem from '../../../atoms/ListItems/BranchListItem'
 import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../reducers/static-types'
 
@@ -25,7 +25,7 @@ const BranchList: React.FC<Props> = ({ branches }) => {
           const { name } = branch.data()
           return (
             <div key={id}>
-              <DirectoryListItem id={id} label={name} />
+              <BranchListItem label={name} />
             </div>
           )
         })}
