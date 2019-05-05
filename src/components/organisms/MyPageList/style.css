@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+}
+
+.directoryList {
+  flex: 1
+}
+
+.branchList {
+  flex: 1
+}
