@@ -23,8 +23,6 @@ const DirectoryList: React.FC<Props> = ({ directories, currentUser, fetchBranche
     return <div>Error occured: {directories.error.message}</div>
   }
 
-  const currentUserUid = currentUser.uid
-
   return (
     <div className={styles.container}>
       <List component="nav">
@@ -34,7 +32,7 @@ const DirectoryList: React.FC<Props> = ({ directories, currentUser, fetchBranche
           const { name } = doc.data()
           return (
             <Fragment key={id}>
-              <DirectoryListItem label={name} onClick={() => fetchBranches(currentUserUid, id)} />
+              <DirectoryListItem label={name} onClick={() => fetchBranches(currentUser.uid, id)} />
               <Divider />
             </Fragment>
           )
