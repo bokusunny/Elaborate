@@ -64,8 +64,8 @@ const MarkdownEditor: React.FC<{}> = () => {
   useEffect(() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-one')), [])
 
   const handleKeyCommand = (
-    editorState: EditorState,
-    command: DraftEditorCommand
+    command: DraftEditorCommand,
+    editorState: EditorState
   ): DraftHandleValue => {
     const newState = RichUtils.handleKeyCommand(editorState, command)
     if (newState) {
