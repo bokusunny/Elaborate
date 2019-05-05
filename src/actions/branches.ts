@@ -32,12 +32,12 @@ export const fetchBranches = (currentUserUid: string, directoryId: string) => {
         .get()
         .then(querySnapshot => {
           // Firebaseのデータは取得時順番がランダムなので作成順にソートする
-          const orderedDocs = querySnapshot.docs.sort((doc1, doc2) => {
+          const orderedBranches = querySnapshot.docs.sort((doc1, doc2) => {
             return doc1.data().createdAt - doc2.data().createdAt
           })
           dispatch({
             type: actionTypes.BRANCH__SET,
-            payload: { branches: orderedDocs },
+            payload: { branches: orderedBranches },
           })
         })
         .catch(error => dispatch(branchFirebaseFailure(error.message)))
