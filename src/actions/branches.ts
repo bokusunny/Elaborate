@@ -22,26 +22,24 @@ export type BranchesAction = FirebaseAPIRequest | FirebaseAPIFailure | CreateBra
 
 export const fetchBranches = (currentUserUid: string, directoryId: string) => {
   return (dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, CreateBranchAction>>) => {
-    if (currentUserUid) {
-      dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
-      db.collection('users')
-        .doc(currentUserUid)
-        .collection('directories')
-        .doc(directoryId)
-        .collection('branches')
-        .get()
-        .then(querySnapshot => {
-          // Firebaseのデータは取得時順番がランダムなので作成順にソートする
-          const orderedBranches = querySnapshot.docs.sort((doc1, doc2) => {
-            return doc1.data().createdAt - doc2.data().createdAt
-          })
-          dispatch({
-            type: actionTypes.BRANCH__SET,
-            payload: { branches: orderedBranches },
-          })
+    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
+    db.collection('users')
+      .doc(currentUserUid)
+      .collection('directories')
+      .doc(directoryId)
+      .collection('branches')
+      .get()
+      .then(querySnapshot => {
+        // Firebaseのデータは取得時順番がランダムなので作成順にソートする
+        const orderedBranches = querySnapshot.docs.sort((doc1, doc2) => {
+          return doc1.data().createdAt - doc2.data().createdAt
         })
-        .catch(error => dispatch(branchFirebaseFailure(error.message)))
-    }
+        dispatch({
+          type: actionTypes.BRANCH__SET,
+          payload: { branches: orderedBranches },
+        })
+      })
+      .catch(error => dispatch(branchFirebaseFailure(error.message)))
   }
 }
 
