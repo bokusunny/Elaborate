@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
+import { fetchBranches } from '../../../../actions/branches'
 import List from '@material-ui/core/List'
 import Divider from '@material-ui/core/Divider'
 import DirectoryListItem from '../../../atoms/ListItems/DirectoryListItem'
@@ -8,9 +10,11 @@ import { ReduxAPIStruct } from '../../../../reducers/static-types'
 
 interface Props {
   directories: ReduxAPIStruct<FirebaseSnapShot[]>
+  currentUser: firebase.User
+  fetchBranches: (currentUserUid: string, directoryId: string) => void
 }
 
-const DirectoryList: React.FC<Props> = ({ directories }) => {
+const DirectoryList: React.FC<Props> = ({ directories, currentUser, fetchBranches }) => {
   if (directories.status === 'fetching' || directories.data === null) {
     return <div>Loading...</div>
   }
@@ -28,7 +32,7 @@ const DirectoryList: React.FC<Props> = ({ directories }) => {
           const { name } = doc.data()
           return (
             <Fragment key={id}>
-              <DirectoryListItem id={id} label={name} />
+              <DirectoryListItem label={name} onClick={() => fetchBranches(currentUser.uid, id)} />
               <Divider />
             </Fragment>
           )
@@ -38,4 +42,7 @@ const DirectoryList: React.FC<Props> = ({ directories }) => {
   )
 }
 
-export default DirectoryList
+export default connect(
+  null,
+  { fetchBranches }
+)(DirectoryList)
