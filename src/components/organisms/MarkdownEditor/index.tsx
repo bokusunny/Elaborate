@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  EditorState,
-  RichUtils,
-  DraftHandleValue,
-  convertToRaw,
-  ContentState,
-  RawDraftContentState,
-} from 'draft-js'
+import { EditorState, RichUtils, DraftHandleValue, convertToRaw } from 'draft-js'
 import createMarkdownPlugin from 'draft-js-markdown-plugin'
 import Editor from 'draft-js-plugins-editor'
 
@@ -14,31 +7,24 @@ import EditorToolBar from '../../molecules/EditorToolBar'
 
 import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
 import * as styles from './style.css'
+const { editorWrapper } = styles
 
 import { Plugin } from './types'
 
 const MarkdownEditor: React.FC<{}> = () => {
-  const { editorWrapper } = styles
-
-  const initialEditorState: EditorState = EditorState.createEmpty()
-  const initialPluginsState: [Plugin] = [createMarkdownPlugin()]
-
-  const [editorState, setEditorState] = useState(initialEditorState)
-  const [pluginsState, setPluginsState] = useState(initialPluginsState)
+  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
   const [shouldShowToolBarInline, setShouldShowToolBarInline] = useState(false)
 
-  const getInputValue = () => {
-    if (!editorState) return
+  const getIsInputValueEmpty = () => {
+    const contentState = editorState.getCurrentContent()
+    const rawContentState = convertToRaw(contentState)
+    const rawContentBlocks = rawContentState.blocks
 
-    const contentState: ContentState = editorState.getCurrentContent()
-    const rawContentState: RawDraftContentState = convertToRaw(contentState)
-    const lastInputValue = rawContentState.blocks.slice(-1)[0].text
-    return lastInputValue
+    return rawContentBlocks.length === 1 && rawContentBlocks[0].text === ''
   }
 
-  const getSelectedText = () => {
-    if (!editorState) return
+  const getIsSelectedTextEmpty = () => {
     const selectionState = editorState.getSelection()
     const anchorKey = selectionState.getAnchorKey()
     const currentContent = editorState.getCurrentContent()
@@ -47,22 +33,21 @@ const MarkdownEditor: React.FC<{}> = () => {
     const end = selectionState.getEndOffset()
     const selectedText = currentContentBlock.getText().slice(start, end)
 
-    return selectedText
+    return selectedText === ''
   }
 
   const onChange = (editorState: EditorState) => {
     setEditorState(editorState)
-    setPluginsState(pluginsState)
   }
 
   useEffect(() => {
-    const inputValue = getInputValue()
-    const selectedText = getSelectedText()
+    const isInputValueEmpty = getIsInputValueEmpty()
+    const isSelectedTextEmpty = getIsSelectedTextEmpty()
 
-    if (inputValue === '') {
+    if (isInputValueEmpty) {
       setShouldShowToolBar(true)
       setShouldShowToolBarInline(false)
-    } else if (selectedText === '') {
+    } else if (isSelectedTextEmpty) {
       setShouldShowToolBar(false)
     } else {
       setShouldShowToolBar(true)
@@ -70,16 +55,15 @@ const MarkdownEditor: React.FC<{}> = () => {
     }
   }, [editorState])
 
-  useEffect(() => onChange(RichUtils.toggleBlockType(editorState, 'header-one')), [])
+  useEffect(() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-one')), [])
 
   const handleKeyCommand = (command: string, editorState: EditorState): DraftHandleValue => {
     const newState = RichUtils.handleKeyCommand(editorState, command)
     if (newState) {
       onChange(newState)
       return 'handled'
-    } else {
-      return 'not-handled'
     }
+    return 'not-handled'
   }
 
   const toggleBlockType = (blockStyle: string): void => {
@@ -90,6 +74,9 @@ const MarkdownEditor: React.FC<{}> = () => {
     onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle))
   }
 
+  // NOTE: Pluginの型は厳密につけられていないのでバグの温床になっていることに留意
+  const plugins: Plugin[] = [createMarkdownPlugin()]
+
   return (
     <div className={editorWrapper}>
       {/* HOPE TODO: placeholderをいい感じの文章のランダムにしたい */}
@@ -97,7 +84,7 @@ const MarkdownEditor: React.FC<{}> = () => {
         editorState={editorState}
         onChange={onChange}
         handleKeyCommand={handleKeyCommand}
-        plugins={pluginsState}
+        plugins={plugins}
         customStyleMap={STYLE_MAP}
         // placeholder='placeholder'
       />
