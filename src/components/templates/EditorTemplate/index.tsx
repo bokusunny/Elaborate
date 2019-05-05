@@ -2,10 +2,16 @@ import React, { Fragment } from 'react'
 import Header from '../../molecules/Header'
 import MarkdownEditor from '../../organisms/MarkdownEditor'
 
-const EditorTemplate: React.FC<{}> = () => (
+interface Props {
+  currentUser: firebase.User
+  directoryId: string
+  branchId: string
+}
+
+const EditorTemplate: React.FC<Props> = props => (
   <Fragment>
     <Header colorType="whiteBase" />
-    <MarkdownEditor />
+    <MarkdownEditor {...props} />
   </Fragment>
 )
 

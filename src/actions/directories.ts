@@ -12,7 +12,7 @@ const directoryFirebaseFailure = (message: string) => ({
 
 // -------------------------------------------------------------------------
 // Directories
-// ------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 interface SetDirectoriesAction extends BaseAction {
   type: string
   payload: { directories: ReduxAPIStruct<FirebaseSnapShot[]> }
@@ -95,7 +95,7 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
 
 // -------------------------------------------------------------------------
 // IsInvalidDirectory
-// ------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 interface CheckDirectoryIdAction extends BaseAction {
   type: string
   payload: { isValidDirectoryId: ReduxAPIStruct<boolean> }
