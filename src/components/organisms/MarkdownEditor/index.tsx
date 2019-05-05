@@ -50,6 +50,11 @@ const MarkdownEditor: React.FC<{}> = () => {
     return selectedText
   }
 
+  const onChange = (editorState: EditorState) => {
+    setEditorState(editorState)
+    setPluginsState(pluginsState)
+  }
+
   useEffect(() => {
     const inputValue = getInputValue()
     const selectedText = getSelectedText()
@@ -65,10 +70,7 @@ const MarkdownEditor: React.FC<{}> = () => {
     }
   }, [editorState])
 
-  const onChange = (editorState: EditorState) => {
-    setEditorState(editorState)
-    setPluginsState(pluginsState)
-  }
+  useEffect(() => onChange(RichUtils.toggleBlockType(editorState, 'header-one')), [])
 
   const handleKeyCommand = (command: string, editorState: EditorState): DraftHandleValue => {
     const newState = RichUtils.handleKeyCommand(editorState, command)
