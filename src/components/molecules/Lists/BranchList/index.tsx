@@ -9,6 +9,10 @@ interface Props {
 }
 
 const BranchList: React.FC<Props> = ({ branches }) => {
+  if (branches.status === 'default' || branches.data === null) {
+    return <div>No directory is selected ...</div>
+  }
+
   if (branches.status === 'fetching' || branches.data === null) {
     return <div>Loading...</div>
   }
@@ -19,7 +23,7 @@ const BranchList: React.FC<Props> = ({ branches }) => {
 
   return (
     <div>
-      <List>
+      <List component="nav">
         {branches.data.map((branch: FirebaseSnapShot) => {
           const { id } = branch
           const { name } = branch.data()

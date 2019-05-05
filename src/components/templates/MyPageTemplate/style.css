@@ -1,6 +1,5 @@
 .container {
-  margin: 64px auto 0 32px;
-  max-width: 900px;
+  margin: 64px 32px;
   background-color: #fff;
   height: 100vh;
 }
