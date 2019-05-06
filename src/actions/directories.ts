@@ -151,7 +151,7 @@ export const checkDirectoryId = (currentUserUid: string, directoryId: string) =>
 }
 
 // -------------------------------------------------------------------------
-// DirectoryStatus
+// DirectoriesStatus
 // -------------------------------------------------------------------------
 
 interface SetSelectedDirectoryAction extends BaseAction {
