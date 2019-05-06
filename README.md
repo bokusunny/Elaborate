@@ -35,7 +35,6 @@ $ git clone git@github.com:bokusunny/elaborate.git
 Firebase config keys like below are required. But the config keys are NOT currently published. Please contact the author to get the keys.
 
 ```
-$ .env
 FIREBASE_API_KEY=
 FIREBASE_MESSAGING_SENDER_ID=
 ```
