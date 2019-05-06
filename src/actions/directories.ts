@@ -5,14 +5,14 @@ import { ReduxAPIStruct } from '../reducers/static-types'
 import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from './static-types'
 import { Values } from '../components/molecules/Forms/DirectoryForm'
 
+// -------------------------------------------------------------------------
+// Directories
+// -------------------------------------------------------------------------
 const directoryFirebaseFailure = (message: string) => ({
   type: actionTypes.DIRECTORY__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
 
-// -------------------------------------------------------------------------
-// Directories
-// -------------------------------------------------------------------------
 interface SetDirectoriesAction extends BaseAction {
   type: string
   payload: { directories: ReduxAPIStruct<FirebaseSnapShot[]> }
@@ -96,6 +96,11 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
 // -------------------------------------------------------------------------
 // IsInvalidDirectory
 // -------------------------------------------------------------------------
+const isValidDirectoryFirebaseFailure = (message: string) => ({
+  type: actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST_FAILURE,
+  payload: { statusCode: 500, message },
+})
+
 interface CheckDirectoryIdAction extends BaseAction {
   type: string
   payload: { isValidDirectoryId: ReduxAPIStruct<boolean> }
@@ -108,7 +113,7 @@ export type IsInvalidDirectoryAction =
 
 export const checkDirectoryId = (currentUserUid: string, directoryId: string) => {
   return (dispatch: ThunkDispatch<{}, {}, IsInvalidDirectoryAction>) => {
-    dispatch({ type: actionTypes.DIRECTORY_IS_INVALID__FIREBASE_REQUEST })
+    dispatch({ type: actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST })
     const directoryDocRef = db
       .collection('users')
       .doc(currentUserUid)
@@ -138,7 +143,7 @@ export const checkDirectoryId = (currentUserUid: string, directoryId: string) =>
                 payload: { branches: orderedDocs },
               })
             })
-            .catch(error => dispatch(directoryFirebaseFailure(error.message)))
+            .catch(error => dispatch(isValidDirectoryFirebaseFailure(error.message)))
         } else {
           dispatch({
             type: actionTypes.DIRECTORY__CHECK_ID,
@@ -146,6 +151,6 @@ export const checkDirectoryId = (currentUserUid: string, directoryId: string) =>
           })
         }
       })
-      .catch(error => dispatch(directoryFirebaseFailure(error.message)))
+      .catch(error => dispatch(isValidDirectoryFirebaseFailure(error.message)))
   }
 }
