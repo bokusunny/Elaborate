@@ -10,6 +10,7 @@ import createMarkdownPlugin from 'draft-js-markdown-plugin'
 import Editor from 'draft-js-plugins-editor'
 
 import EditorToolBar from '../../molecules/EditorToolBar'
+import CommitForm from '../../molecules/Forms/CommitForm'
 
 import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
 import * as styles from './style.css'
@@ -17,16 +18,22 @@ const { editorWrapper } = styles
 
 import { Plugin } from './types'
 
-const MarkdownEditor: React.FC<{}> = () => {
+interface Props {
+  currentUser: firebase.User
+  directoryId: string
+  branchId: string
+}
+
+const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId }) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
   const [shouldShowToolBarInline, setShouldShowToolBarInline] = useState(false)
 
-  const getIsInputValueEmpty = () => {
-    const contentState = editorState.getCurrentContent()
-    const rawContentState = convertToRaw(contentState)
-    const rawContentBlocks = rawContentState.blocks
+  const contentState = editorState.getCurrentContent()
+  const rawContentState = convertToRaw(contentState)
+  const rawContentBlocks = rawContentState.blocks
 
+  const getIsInputValueEmpty = () => {
     return rawContentBlocks.length === 1 && rawContentBlocks[0].text === ''
   }
 
@@ -102,6 +109,12 @@ const MarkdownEditor: React.FC<{}> = () => {
         shouldShowToolBarInline={shouldShowToolBarInline}
         toggleBlockType={toggleBlockType}
         toggleInlineStyle={toggleInlineStyle}
+      />
+      <CommitForm
+        currentUser={currentUser}
+        directoryId={directoryId}
+        branchId={branchId}
+        rawContentBlocks={rawContentBlocks}
       />
     </div>
   )

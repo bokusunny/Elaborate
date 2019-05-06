@@ -14,6 +14,7 @@ interface MatchParams {
 
 interface Props extends RouteComponentProps<MatchParams> {
   currentUser: firebase.User
+  children: never
 }
 
 interface StateProps {
@@ -60,7 +61,7 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
 
   if (!isValidDirectory.data || !isValidBranch.data) return <h2>404 Not Found</h2>
 
-  return <EditorTemplate />
+  return <EditorTemplate currentUser={currentUser} directoryId={directoryId} branchId={branchId} />
 }
 
 export default connect(
