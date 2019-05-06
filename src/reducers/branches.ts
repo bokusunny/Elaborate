@@ -31,10 +31,10 @@ export const isValidBranch = (
   action: IsInvalidBranchAction
 ): ReduxAPIStruct<boolean> => {
   switch (action.type) {
-    case actionTypes.BRANCH_IS_INVALID__FIREBASE_REQUEST:
+    case actionTypes.BRANCH_IS_VALID__FIREBASE_REQUEST:
       return { ...state, status: 'fetching' }
 
-    case actionTypes.BRANCH_IS_INVALID__FIREBASE_REQUEST_FAILURE:
+    case actionTypes.BRANCH_IS_VALID__FIREBASE_REQUEST_FAILURE:
       return { ...state, status: 'failure', error: action.payload.message }
 
     case actionTypes.BRANCH__CHECK_ID:
