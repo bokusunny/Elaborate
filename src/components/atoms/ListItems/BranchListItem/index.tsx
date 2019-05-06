@@ -6,11 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCodeBranch } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
+  directoryId: string
+  branchId: string
   label: string
 }
 
-const BranchListItem: React.FC<Props> = ({ label }) => (
-  <ListItem>
+const BranchListItem: React.FC<Props> = ({ label, directoryId, branchId }) => (
+  <ListItem button component="a" href={`${directoryId}/${branchId}/edit`}>
     <ListItemIcon>
       <FontAwesomeIcon icon={faCodeBranch} />
     </ListItemIcon>
