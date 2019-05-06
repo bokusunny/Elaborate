@@ -4,6 +4,7 @@ import { RawDraftContentBlock } from 'draft-js'
 import { actionTypes } from '../constants'
 import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from './static-types'
 import { ReduxAPIStruct } from '../reducers/static-types'
+import { Values } from '../components/molecules/Forms/CommitForm'
 
 // -------------------------------------------------------------------------
 // Commits
@@ -71,13 +72,13 @@ const convertToText = (rawContentBlocks: RawDraftContentBlock[]) => {
 }
 
 export const createCommit = (
-  values: any,
+  values: Values,
   currentUserUid: string,
   directoryId: string,
   branchId: string,
   rawContentBlocks: RawDraftContentBlock[]
 ) => {
-  return (dispatch: ThunkDispatch<{}, {}, CommitsAction>) => {
+  return async (dispatch: ThunkDispatch<{}, {}, CommitsAction>) => {
     const commitText = convertToText(rawContentBlocks)
     dispatch({ type: actionTypes.COMMIT__FIREBASE_REQUEST })
     db.collection('users')

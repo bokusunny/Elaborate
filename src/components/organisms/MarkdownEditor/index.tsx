@@ -1,17 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import {
-  EditorState,
-  RichUtils,
-  DraftHandleValue,
-  convertToRaw,
-  RawDraftContentBlock,
-} from 'draft-js'
-import { connect } from 'react-redux'
+import { EditorState, RichUtils, DraftHandleValue, convertToRaw } from 'draft-js'
 import createMarkdownPlugin from 'draft-js-markdown-plugin'
 import Editor from 'draft-js-plugins-editor'
 
-import { createCommit } from '../../../actions/commits'
 import EditorToolBar from '../../molecules/EditorToolBar'
+import CommitForm from '../../molecules/Forms/CommitForm'
 
 import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
 import * as styles from './style.css'
@@ -25,31 +18,16 @@ interface Props {
   branchId: string
 }
 
-interface DispatchProps {
-  createCommit: (
-    values: any,
-    currentUserUid: string,
-    directoryId: string,
-    branchId: string,
-    rawContentBlocks: RawDraftContentBlock[]
-  ) => void
-}
-
-const MarkdownEditor: React.FC<Props & DispatchProps> = ({
-  currentUser,
-  directoryId,
-  branchId,
-  createCommit,
-}) => {
+const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId }) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
   const [shouldShowToolBarInline, setShouldShowToolBarInline] = useState(false)
 
-  const getIsInputValueEmpty = () => {
-    const contentState = editorState.getCurrentContent()
-    const rawContentState = convertToRaw(contentState)
-    const rawContentBlocks = rawContentState.blocks
+  const contentState = editorState.getCurrentContent()
+  const rawContentState = convertToRaw(contentState)
+  const rawContentBlocks = rawContentState.blocks
 
+  const getIsInputValueEmpty = () => {
     return rawContentBlocks.length === 1 && rawContentBlocks[0].text === ''
   }
 
@@ -103,13 +81,6 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
     onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle))
   }
 
-  const onClickCommitButton = () => {
-    const contentState = editorState.getCurrentContent()
-    const rawContentState = convertToRaw(contentState)
-    const rawContentBlocks = rawContentState.blocks
-    createCommit({ commitName: 'hoge' }, currentUser.uid, directoryId, branchId, rawContentBlocks)
-  }
-
   // NOTE: Pluginの型は厳密につけられていないのでバグの温床になっていることに留意
   const plugins: Plugin[] = [createMarkdownPlugin()]
 
@@ -130,12 +101,14 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
         toggleBlockType={toggleBlockType}
         toggleInlineStyle={toggleInlineStyle}
       />
-      <button onClick={onClickCommitButton}>Commit</button>
+      <CommitForm
+        currentUser={currentUser}
+        directoryId={directoryId}
+        branchId={branchId}
+        rawContentBlocks={rawContentBlocks}
+      />
     </div>
   )
 }
 
-export default connect(
-  null,
-  { createCommit }
-)(MarkdownEditor)
+export default MarkdownEditor
