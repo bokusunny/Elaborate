@@ -9,6 +9,7 @@ export const actionTypes = keyMirror({
   DIRECTORY__SET: null,
   DIRECTORY__ADD: null,
   DIRECTORY__CHECK_ID: null,
+  DIRECTORY__SET_SELECTED_DIRECTORY_ID: null,
 
   // Branches
   BRANCH__FIREBASE_REQUEST: null,

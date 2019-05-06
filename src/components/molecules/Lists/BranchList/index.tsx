@@ -1,19 +1,22 @@
 import React from 'react'
 import List from '@material-ui/core/List'
+import BranchForm from '../../../molecules/Forms/BranchForm'
 import BranchListItem from '../../../atoms/ListItems/BranchListItem'
 import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../reducers/static-types'
 
 interface Props {
   branches: ReduxAPIStruct<FirebaseSnapShot[]>
+  currentUser: firebase.User
+  selectedDirectoryId: string | undefined
 }
 
-const BranchList: React.FC<Props> = ({ branches }) => {
+const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryId }) => {
   if (branches.status === 'default' || branches.data === null) {
     return <div>No directory is selected ...</div>
   }
 
-  if (branches.status === 'fetching' || branches.data === null) {
+  if (branches.status === 'fetching' || branches.data === null || !selectedDirectoryId) {
     return <div>Loading...</div>
   }
 
@@ -23,6 +26,7 @@ const BranchList: React.FC<Props> = ({ branches }) => {
 
   return (
     <div>
+      <BranchForm currentUser={currentUser} directoryId={selectedDirectoryId} />
       <List component="nav">
         {branches.data.map((branch: FirebaseSnapShot) => {
           const { id } = branch
