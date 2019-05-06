@@ -16,20 +16,7 @@ A hosting, version controll service of documents.
 - Typescript 3.4+
 - Firebase 5.9+
 
-## Recommended
-- Docker 18.09.2+
-
 ## Set up
-
-### Docker Install
-Docker is recommended to simplify set up a environment.
-[Please refer to this Page to install docker](https://hub.docker.com/search/?offering=community&type=edition)
- 
-### set up
-```sh
-# clone
-$ git clone git@github.com:bokusunny/elaborate.git
-```
 
 ### .env
 Firebase config keys like below are required. But the config keys are NOT currently published. Please contact the author to get the keys.
@@ -37,6 +24,13 @@ Firebase config keys like below are required. But the config keys are NOT curren
 ```
 FIREBASE_API_KEY=
 FIREBASE_MESSAGING_SENDER_ID=
+```
+ 
+### building
+```sh
+$ git clone git@github.com:bokusunny/elaborate.git
+$ npm install
+$ npm run watch
 ```
 
 ## Author
