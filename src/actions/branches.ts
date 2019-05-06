@@ -28,6 +28,7 @@ export const fetchBranches = (currentUserUid: string, directoryId: string) => {
       .collection('directories')
       .doc(directoryId)
       .collection('branches')
+      .where('state', '==', 'open')
       .get()
       .then(querySnapshot => {
         // Firebaseのデータは取得時順番がランダムなので作成順にソートする
