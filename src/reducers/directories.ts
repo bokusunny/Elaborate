@@ -51,21 +51,13 @@ export const isValidDirectory = (
   return state
 }
 
-export interface DirectoriesStatus {
-  selectedDirectoryId?: string
-}
-
-const INITIAL_STATE: DirectoriesStatus = {
-  selectedDirectoryId: undefined,
-}
-
-export const directoriesStatus = (
-  state: DirectoriesStatus = INITIAL_STATE,
+export const selectedDirectoryId = (
+  state: string | null = null,
   action: DirectoriesStatusAction
-): DirectoriesStatus => {
+): string | null => {
   switch (action.type) {
     case actionTypes.DIRECTORY__SET_SELECTED_DIRECTORY_ID:
-      return { selectedDirectoryId: action.payload.selectedDirectoryId }
+      return action.payload.selectedDirectoryId
   }
   return state
 }

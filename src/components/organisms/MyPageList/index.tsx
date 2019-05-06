@@ -10,7 +10,7 @@ interface Props {
   directories: ReduxAPIStruct<FirebaseSnapShot[]>
   branches: ReduxAPIStruct<FirebaseSnapShot[]>
   currentUser: firebase.User
-  selectedDirectoryId: string | undefined
+  selectedDirectoryId: string | null
 }
 
 const MyPageList: React.FC<Props> = ({

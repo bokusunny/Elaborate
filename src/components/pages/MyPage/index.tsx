@@ -5,7 +5,6 @@ import { ReduxAPIStruct } from '../../../reducers/static-types'
 import { FirebaseSnapShot } from '../../../utils/firebase'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import MyPageTemplate from '../../templates/MyPageTemplate'
-import { DirectoriesStatus } from '../../../reducers/directories'
 
 interface Props {
   currentUser: firebase.User | null
@@ -15,7 +14,7 @@ interface Props {
 interface StateProps {
   directories: ReduxAPIStruct<FirebaseSnapShot[]>
   branches: ReduxAPIStruct<FirebaseSnapShot[]>
-  directoriesStatus: DirectoriesStatus
+  selectedDirectoryId: string | null
 }
 
 const MyPage: React.FC<Props & StateProps> = ({
@@ -23,14 +22,12 @@ const MyPage: React.FC<Props & StateProps> = ({
   fetchDirectories,
   directories,
   branches,
-  directoriesStatus,
+  selectedDirectoryId,
 }) => {
   useEffect(() => {
     const currentUserUid = currentUser ? currentUser.uid : null
     fetchDirectories(currentUserUid)
   }, [currentUser])
-
-  const { selectedDirectoryId } = directoriesStatus
 
   if (!currentUser) return <CircularProgress />
 
@@ -45,9 +42,9 @@ const MyPage: React.FC<Props & StateProps> = ({
 }
 
 export default connect(
-  ({ directories, branches, directoriesStatus }: StateProps) => ({
+  ({ directories, branches, selectedDirectoryId }: StateProps) => ({
     directories,
-    directoriesStatus,
+    selectedDirectoryId,
     branches,
   }),
   { fetchDirectories }

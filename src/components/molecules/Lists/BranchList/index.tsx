@@ -4,11 +4,12 @@ import BranchForm from '../../../molecules/Forms/BranchForm'
 import BranchListItem from '../../../atoms/ListItems/BranchListItem'
 import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../reducers/static-types'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 interface Props {
   branches: ReduxAPIStruct<FirebaseSnapShot[]>
   currentUser: firebase.User
-  selectedDirectoryId: string | undefined
+  selectedDirectoryId: string | null
 }
 
 const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryId }) => {
@@ -16,12 +17,17 @@ const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryI
     return <div>No directory is selected ...</div>
   }
 
-  if (branches.status === 'fetching' || branches.data === null || !selectedDirectoryId) {
+  if (branches.status === 'fetching' || branches.data === null) {
     return <div>Loading...</div>
   }
 
   if (branches.status === 'failure') {
     return <div>Error occured: {branches.error.message}</div>
+  }
+
+  // MEMO：これが出る場合はバグであることに留意
+  if (selectedDirectoryId === null) {
+    return <div>Ooops! Some unknown error happened</div>
   }
 
   return (
