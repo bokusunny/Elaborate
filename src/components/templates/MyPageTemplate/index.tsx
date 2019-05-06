@@ -21,7 +21,7 @@ const MyPageTemplate: React.FC<Props> = ({
   // TODO: branchesのstatusがdefaultの時はBranchListを渡さないで、ディレクトリが選択されていませんみたいなUIを組む
   return (
     <Fragment>
-      <Header colorType="whiteBase" />
+      <Header colorType="whiteBase" pageType="myPage" />
       <div className={styles.container}>
         <MyPageList
           currentUser={currentUser}

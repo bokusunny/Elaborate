@@ -1,4 +1,4 @@
-.AuthButtonBlueBase {
+.MyPageButtonBlueBase {
   border-radius: 4px;
   color: #fff;
   font-family: 'Montserrat';
@@ -10,13 +10,13 @@
   transition: .15s
 }
 
-.AuthButtonBlueBase:hover {
+.MyPageButtonBlueBase:hover {
   background-color: #fff;
   color: rgba(18, 151, 226, .6);
   transition: all .5s;
 }
 
-.AuthButtonWhiteBase {
+.MyPageButtonWhiteBase {
   margin-right: 16px;
   border-radius: 4px;
   color: rgba(18, 151, 226, .6);
@@ -29,7 +29,7 @@
   transition: .15s
 }
 
-.AuthButtonWhiteBase:hover {
+.MyPageButtonWhiteBase:hover {
   background-color: rgba(18, 151, 226, .6);
   color: #fff;
   transition: all .5s;

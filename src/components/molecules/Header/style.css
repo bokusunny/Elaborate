@@ -9,6 +9,7 @@
   padding: 28px 0;
   color: #fff;
   font-family: 'Montserrat';
+  cursor: pointer;
 }
 
 .HeaderWhiteBase {
@@ -20,11 +21,10 @@
   padding: 28px 0;
   color: rgba(18, 151, 226, .6);
   font-family: 'Montserrat';
+  cursor: pointer;
 }
 
-.title {
-  font-size: 32px;
-  font-weight: 500;
-  margin: auto 0 auto 32px;
-  vertical-align: middle;
+.HeaderButtonsWrapper {
+  display: flex;
+  margin-right: 16px;
 }

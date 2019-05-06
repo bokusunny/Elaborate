@@ -10,7 +10,7 @@ interface Props {
 
 const EditorTemplate: React.FC<Props> = props => (
   <Fragment>
-    <Header colorType="whiteBase" />
+    <Header colorType="whiteBase" pageType="edit" />
     <MarkdownEditor {...props} />
   </Fragment>
 )
