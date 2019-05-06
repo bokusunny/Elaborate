@@ -149,3 +149,23 @@ export const checkDirectoryId = (currentUserUid: string, directoryId: string) =>
       .catch(error => dispatch(directoryFirebaseFailure(error.message)))
   }
 }
+
+// -------------------------------------------------------------------------
+// DirectoriesStatus
+// -------------------------------------------------------------------------
+
+interface SetSelectedDirectoryAction extends BaseAction {
+  type: string
+  payload: { selectedDirectoryId: string }
+}
+
+export type DirectoriesStatusAction = SetSelectedDirectoryAction
+
+export const setSelectedDirectory = (selectedDirectoryId: string) => {
+  return (dispatch: ThunkDispatch<{}, {}, DirectoriesStatusAction>) => {
+    dispatch({
+      type: actionTypes.DIRECTORY__SET_SELECTED_DIRECTORY_ID,
+      payload: { selectedDirectoryId },
+    })
+  }
+}

@@ -9,11 +9,21 @@ import MyPageTemplate from '../../templates/MyPageTemplate'
 interface Props {
   currentUser: firebase.User | null
   fetchDirectories: (currentUserUid: string | null) => void
-  directories: ReduxAPIStruct<FirebaseSnapShot[]>
-  branches: ReduxAPIStruct<FirebaseSnapShot[]>
 }
 
-const MyPage: React.FC<Props> = ({ currentUser, fetchDirectories, directories, branches }) => {
+interface StateProps {
+  directories: ReduxAPIStruct<FirebaseSnapShot[]>
+  branches: ReduxAPIStruct<FirebaseSnapShot[]>
+  selectedDirectoryId: string | null
+}
+
+const MyPage: React.FC<Props & StateProps> = ({
+  currentUser,
+  fetchDirectories,
+  directories,
+  branches,
+  selectedDirectoryId,
+}) => {
   useEffect(() => {
     const currentUserUid = currentUser ? currentUser.uid : null
     fetchDirectories(currentUserUid)
@@ -21,12 +31,20 @@ const MyPage: React.FC<Props> = ({ currentUser, fetchDirectories, directories, b
 
   if (!currentUser) return <CircularProgress />
 
-  return <MyPageTemplate directories={directories} branches={branches} currentUser={currentUser} />
+  return (
+    <MyPageTemplate
+      directories={directories}
+      branches={branches}
+      currentUser={currentUser}
+      selectedDirectoryId={selectedDirectoryId}
+    />
+  )
 }
 
 export default connect(
-  ({ directories, branches }: Record<string, ReduxAPIStruct<FirebaseSnapShot[]>>) => ({
+  ({ directories, branches, selectedDirectoryId }: StateProps) => ({
     directories,
+    selectedDirectoryId,
     branches,
   }),
   { fetchDirectories }

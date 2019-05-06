@@ -1,6 +1,10 @@
 import { actionTypes } from '../constants'
 import { ReduxAPIStruct, defaultSet } from './static-types'
-import { DirectoriesAction, IsInvalidDirectoryAction } from '../actions/directories'
+import {
+  DirectoriesAction,
+  IsInvalidDirectoryAction,
+  DirectoriesStatusAction,
+} from '../actions/directories'
 import { FirebaseSnapShot } from '../utils/firebase'
 
 export const directories = (
@@ -43,6 +47,17 @@ export const isValidDirectory = (
 
     case actionTypes.DIRECTORY__CHECK_ID:
       return { ...state, status: 'success', data: action.payload.isValidDirectoryId }
+  }
+  return state
+}
+
+export const selectedDirectoryId = (
+  state: string | null = null,
+  action: DirectoriesStatusAction
+): string | null => {
+  switch (action.type) {
+    case actionTypes.DIRECTORY__SET_SELECTED_DIRECTORY_ID:
+      return action.payload.selectedDirectoryId
   }
   return state
 }
