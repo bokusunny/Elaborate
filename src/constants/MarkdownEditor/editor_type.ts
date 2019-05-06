@@ -7,5 +7,6 @@ export const INLINE_STYLES = [
 export const BLOCK_TYPES = [
   { label: 'H1', style: 'header-one' },
   { label: 'H2', style: 'header-two' },
-  { label: 'H3', style: 'header-three' },
+  { label: 'Quote', style: 'blockquote' },
+  { label: 'List', style: 'unordered-list-item' },
 ]
