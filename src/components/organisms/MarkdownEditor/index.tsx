@@ -5,6 +5,8 @@ import {
   DraftHandleValue,
   convertToRaw,
   DraftEditorCommand,
+  RawDraftContentState,
+  convertFromRaw,
 } from 'draft-js'
 import createMarkdownPlugin from 'draft-js-markdown-plugin'
 import Editor from 'draft-js-plugins-editor'
@@ -54,6 +56,17 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId })
   }
 
   useEffect(() => {
+    const rawStateSavedOnStorage = localStorage.getItem(branchId)
+    if (!rawStateSavedOnStorage) {
+      setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
+    } else {
+      const initRawState: RawDraftContentState = JSON.parse(rawStateSavedOnStorage)
+      const initContentState = convertFromRaw(initRawState)
+      setEditorState(EditorState.createWithContent(initContentState))
+    }
+  }, [])
+
+  useEffect(() => {
     const isInputValueEmpty = getIsInputValueEmpty()
     const isSelectedTextEmpty = getIsSelectedTextEmpty()
 
@@ -66,9 +79,8 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId })
       setShouldShowToolBar(true)
       setShouldShowToolBarInline(true)
     }
+    localStorage.setItem(branchId, JSON.stringify(rawContentState))
   }, [editorState])
-
-  useEffect(() => setEditorState(RichUtils.toggleBlockType(editorState, 'header-one')), [])
 
   const handleKeyCommand = (
     command: DraftEditorCommand,
