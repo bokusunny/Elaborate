@@ -5,14 +5,14 @@ import { ReduxAPIStruct } from '../reducers/static-types'
 import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from './static-types'
 import { Values } from '../components/molecules/Forms/BranchForm'
 
+// -------------------------------------------------------------------------
+// Branches
+// -------------------------------------------------------------------------
 const branchFirebaseFailure = (message: string) => ({
   type: actionTypes.BRANCH__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
 
-// -------------------------------------------------------------------------
-// Branches
-// -------------------------------------------------------------------------
 interface CreateBranchAction extends BaseAction {
   type: string
   payload: { newBranch: ReduxAPIStruct<FirebaseSnapShot> }
@@ -73,6 +73,11 @@ export const createBranch = (values: Values, currentUserUid: string, directoryId
 // -------------------------------------------------------------------------
 // IsInvalidBranch
 // -------------------------------------------------------------------------
+const isValidBranchFirebaseFailure = (message: string) => ({
+  type: actionTypes.BRANCH_IS_VALID__FIREBASE_REQUEST_FAILURE,
+  payload: { statusCode: 500, message },
+})
+
 interface CheckBranchIdAction extends BaseAction {
   type: string
   payload: { isValidBranchId: ReduxAPIStruct<boolean> }
@@ -82,7 +87,7 @@ export type IsInvalidBranchAction = FirebaseAPIRequest | FirebaseAPIFailure | Ch
 
 export const checkBranchId = (currentUserUid: string, directoryId: string, branchId: string) => {
   return (dispatch: ThunkDispatch<{}, {}, IsInvalidBranchAction>) => {
-    dispatch({ type: actionTypes.BRANCH_IS_INVALID__FIREBASE_REQUEST })
+    dispatch({ type: actionTypes.BRANCH_IS_VALID__FIREBASE_REQUEST })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -103,6 +108,6 @@ export const checkBranchId = (currentUserUid: string, directoryId: string, branc
           })
         }
       })
-      .catch(error => branchFirebaseFailure(error.message))
+      .catch(error => isValidBranchFirebaseFailure(error.message))
   }
 }
