@@ -1,6 +1,6 @@
 import { db, FirebaseSnapShot } from '../utils/firebase'
 import { ThunkDispatch } from 'redux-thunk'
-import { actionTypes } from '../constants'
+import { actionTypes } from '../common/constants/action-types'
 import { ReduxAPIStruct } from '../reducers/static-types'
 import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from './static-types'
 import { Values } from '../components/molecules/Forms/BranchForm'

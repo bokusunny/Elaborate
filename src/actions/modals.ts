@@ -1,5 +1,5 @@
 import { ThunkDispatch } from 'redux-thunk'
-import { actionTypes } from '../constants'
+import { actionTypes } from '../common/constants/action-types'
 import { BaseAction } from './static-types'
 
 interface AuthenticationModalOpenAction extends BaseAction {
