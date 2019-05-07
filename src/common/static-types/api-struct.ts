@@ -1,4 +1,4 @@
-import { StatusCode } from '../common/static-types/status-code'
+import { StatusCode } from './status-code'
 
 export interface ReduxAPIError {
   statusCode: StatusCode | null

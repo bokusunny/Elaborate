@@ -3,7 +3,7 @@ import List from '@material-ui/core/List'
 import BranchForm from '../../../molecules/Forms/BranchForm'
 import BranchListItem from '../../../atoms/ListItems/BranchListItem'
 import { FirebaseSnapShot } from '../../../../utils/firebase'
-import { ReduxAPIStruct } from '../../../../reducers/static-types'
+import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
 
 interface Props {
   branches: ReduxAPIStruct<FirebaseSnapShot[]>

@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { checkDirectoryId } from '../../../actions/directories'
 import { checkBranchId } from '../../../actions/branches'
-import { ReduxAPIStruct } from '../../../reducers/static-types'
+import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import EditorTemplate from '../../templates/EditorTemplate'
 
 interface MatchParams {

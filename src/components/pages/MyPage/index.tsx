@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { fetchDirectories } from '../../../actions/directories'
-import { ReduxAPIStruct } from '../../../reducers/static-types'
+import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import { FirebaseSnapShot } from '../../../utils/firebase'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import MyPageTemplate from '../../templates/MyPageTemplate'

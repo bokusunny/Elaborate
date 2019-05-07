@@ -7,7 +7,7 @@ import Divider from '@material-ui/core/Divider'
 import DirectoryListItem from '../../../atoms/ListItems/DirectoryListItem'
 import * as styles from './style.css'
 import { FirebaseSnapShot } from '../../../../utils/firebase'
-import { ReduxAPIStruct } from '../../../../reducers/static-types'
+import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
 
 interface Props {
   directories: ReduxAPIStruct<FirebaseSnapShot[]>

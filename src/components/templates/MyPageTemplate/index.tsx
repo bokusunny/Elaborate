@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { FirebaseSnapShot } from '../../../utils/firebase'
 import Header from '../../molecules/Header'
 import MyPageList from '../../organisms/MyPageList'
-import { ReduxAPIStruct } from '../../../reducers/static-types'
+import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import * as styles from './style.css'
 
 interface Props {

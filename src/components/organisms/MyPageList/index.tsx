@@ -3,7 +3,7 @@ import { FirebaseSnapShot } from '../../../utils/firebase'
 import DirectoryForm from '../../molecules/Forms/DirectoryForm'
 import DirectoryList from '../../molecules/Lists/DirectoryList'
 import BranchList from '../../molecules/Lists/BranchList'
-import { ReduxAPIStruct } from '../../../reducers/static-types'
+import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import * as styles from './style.css'
 
 interface Props {

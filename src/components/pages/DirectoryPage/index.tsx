@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { checkDirectoryId } from '../../../actions/directories'
-import { ReduxAPIStruct } from '../../../reducers/static-types'
+import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import { FirebaseSnapShot } from '../../../utils/firebase'
 import BranchForm from '../../molecules/Forms/BranchForm'
 
