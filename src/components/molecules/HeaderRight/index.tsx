@@ -5,7 +5,7 @@ import * as styles from './style.css'
 
 interface Props {
   colorType: 'blueBase' | 'whiteBase'
-  pageType: 'route' | 'myPage' | 'edit'
+  pageType: 'landing' | 'myPage' | 'edit'
   onClickSignOut: () => void
   onClickToMyPage: () => void
 }

@@ -11,13 +11,13 @@ import * as styles from './style.css'
 
 const { HeaderBlueBase, HeaderWhiteBase } = styles
 
+type History = H.History
+
 interface Props extends RouteComponentProps {
   colorType: 'blueBase' | 'whiteBase'
-  pageType: 'route' | 'myPage' | 'edit'
+  pageType: 'landing' | 'myPage' | 'edit'
   history: History
 }
-
-type History = H.History
 
 const onClickSignOut = () => {
   auth.signOut()

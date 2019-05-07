@@ -1,2 +1,2 @@
-export const AuthButtonBlueBase: string
-export const AuthButtonWhiteBase: string
+export const blueBase: string
+export const whiteBase: string

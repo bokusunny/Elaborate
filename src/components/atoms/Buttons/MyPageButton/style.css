@@ -1,4 +1,4 @@
-.MyPageButtonBlueBase {
+.blueBase {
   border-radius: 4px;
   color: #fff;
   font-family: 'Montserrat';
@@ -10,13 +10,13 @@
   transition: .15s
 }
 
-.MyPageButtonBlueBase:hover {
+.blueBase:hover {
   background-color: #fff;
   color: rgba(18, 151, 226, .6);
   transition: all .5s;
 }
 
-.MyPageButtonWhiteBase {
+.whiteBase {
   margin-right: 16px;
   border-radius: 4px;
   color: rgba(18, 151, 226, .6);
@@ -29,7 +29,7 @@
   transition: .15s
 }
 
-.MyPageButtonWhiteBase:hover {
+.whiteBase:hover {
   background-color: rgba(18, 151, 226, .6);
   color: #fff;
   transition: all .5s;

@@ -1,2 +1,2 @@
-export const MyPageButtonBlueBase: string
-export const MyPageButtonWhiteBase: string
+export const blueBase: string
+export const whiteBase: string
