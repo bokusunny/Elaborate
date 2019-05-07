@@ -3,6 +3,7 @@
 
 # client
 node_modules/
+functions/node_modules/
 
 # production bundle files
 /dist/bundle.css
