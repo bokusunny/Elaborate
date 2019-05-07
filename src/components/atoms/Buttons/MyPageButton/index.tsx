@@ -1,5 +1,6 @@
 import React from 'react'
 import * as styles from './style.css'
+const { MyPageButtonBlueBase, MyPageButtonWhiteBase } = styles
 
 interface Props {
   colorType: 'blueBase' | 'whiteBase'
@@ -7,7 +8,6 @@ interface Props {
 }
 
 const MyPageButton: React.FC<Props> = ({ colorType, onClick }) => {
-  const { MyPageButtonBlueBase, MyPageButtonWhiteBase } = styles
   return (
     <div
       className={colorType === 'blueBase' ? MyPageButtonBlueBase : MyPageButtonWhiteBase}
