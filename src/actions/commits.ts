@@ -3,8 +3,8 @@ import { ThunkDispatch } from 'redux-thunk'
 import { RawDraftContentBlock } from 'draft-js'
 import { convertToText } from '../common/functions'
 import { actionTypes } from '../common/constants/action-types'
-import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from './static-types'
-import { ReduxAPIStruct } from '../reducers/static-types'
+import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/static-types/actions'
+import { ReduxAPIStruct } from '../common/static-types/api-struct'
 import { Values } from '../components/molecules/Forms/CommitForm'
 
 // -------------------------------------------------------------------------

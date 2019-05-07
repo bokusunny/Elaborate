@@ -1,4 +1,4 @@
-import { ReduxAPIError } from '../reducers/static-types'
+import { ReduxAPIError } from './api-struct'
 
 export interface BaseAction {
   type: string
