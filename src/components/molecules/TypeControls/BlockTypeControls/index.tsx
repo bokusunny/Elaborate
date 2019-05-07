@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import StyleButton from '../../../atoms/Buttons/MarkdownButtons/StyleButton'
-import { BLOCK_TYPES } from '../../../../constants/MarkdownEditor/editor_type'
+import { BLOCK_TYPES } from '../../../../common/constants/editor'
 
 interface Props {
   onToggle: (blockStyle: string) => void

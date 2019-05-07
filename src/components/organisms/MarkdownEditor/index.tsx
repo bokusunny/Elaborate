@@ -14,7 +14,7 @@ import Editor from 'draft-js-plugins-editor'
 import EditorToolBar from '../../molecules/EditorToolBar'
 import CommitForm from '../../molecules/Forms/CommitForm'
 
-import { STYLE_MAP } from '../../../constants/MarkdownEditor/editor_style'
+import { STYLE_MAP } from '../../../common/constants/editor'
 import * as styles from './style.css'
 const { editorWrapper } = styles
 

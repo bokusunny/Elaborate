@@ -1,4 +1,4 @@
-import { actionTypes } from '../constants'
+import { actionTypes } from '../common/constants/action-types'
 import { AuthenticationModalsAction } from '../actions/modals'
 
 export interface AuthenticationModal {

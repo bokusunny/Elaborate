@@ -1,3 +1,17 @@
+export const STYLE_MAP = {
+  BOLD: {
+    fontWeight: 'bold',
+  },
+
+  ITALIC: {
+    fontStyle: 'italic',
+  },
+
+  UNDERLINE: {
+    textDecoration: 'underline',
+  },
+}
+
 export const INLINE_STYLES = [
   { label: 'Bold', style: 'BOLD' },
   { label: 'Italic', style: 'ITALIC' },

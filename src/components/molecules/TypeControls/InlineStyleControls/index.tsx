@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import StyleButton from '../../../atoms/Buttons/MarkdownButtons/StyleButton'
-import { INLINE_STYLES } from '../../../../constants/MarkdownEditor/editor_type'
+import { INLINE_STYLES } from '../../../../common/constants/editor'
 
 interface Props {
   onToggle: (inlineStyle: string) => void

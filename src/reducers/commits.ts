@@ -1,4 +1,4 @@
-import { actionTypes } from '../constants'
+import { actionTypes } from '../common/constants/action-types'
 import { ReduxAPIStruct, defaultSet } from './static-types'
 import { CommitsAction } from '../actions/commits'
 import { FirebaseSnapShot } from '../utils/firebase'
