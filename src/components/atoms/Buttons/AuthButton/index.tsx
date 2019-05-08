@@ -8,12 +8,8 @@ interface Props {
 }
 
 const AuthButton: React.FC<Props> = ({ buttonName, colorType, onClick }) => {
-  const { AuthButtonBlueBase, AuthButtonWhiteBase } = styles
   return (
-    <div
-      className={colorType === 'blueBase' ? AuthButtonBlueBase : AuthButtonWhiteBase}
-      onClick={onClick}
-    >
+    <div className={styles[colorType]} onClick={onClick}>
       {buttonName}
     </div>
   )

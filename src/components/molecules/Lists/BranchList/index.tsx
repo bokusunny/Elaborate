@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import List from '@material-ui/core/List'
 import BranchForm from '../../../molecules/Forms/BranchForm'
 import BranchListItem from '../../../atoms/ListItems/BranchListItem'
@@ -30,25 +30,25 @@ const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryI
   }
 
   return (
-    <div>
+    <Fragment>
       <BranchForm currentUser={currentUser} directoryId={selectedDirectoryId} />
       <List component="nav">
         {branches.data.map((branch: FirebaseSnapShot) => {
           const { id } = branch
           const { name } = branch.data()
           return (
-            <div key={id}>
+            <Fragment key={id}>
               <BranchListItem
                 currentUserUid={currentUser.uid}
                 directoryId={selectedDirectoryId}
                 branchId={id}
                 branchName={name}
               />
-            </div>
+            </Fragment>
           )
         })}
       </List>
-    </div>
+    </Fragment>
   )
 }
 
