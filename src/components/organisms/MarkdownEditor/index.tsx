@@ -53,9 +53,11 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId })
     const currentContentBlock = currentContent.getBlockForKey(anchorKey)
     const selectStart = selectionState.getStartOffset()
     const selectEnd = selectionState.getEndOffset()
+    const currentBlockText = currentContentBlock.getText()
+    const currentBlockType = currentContentBlock.getType()
 
-    const isCurrentContentValueEmpty = currentContentBlock.getText() === ''
-    const isSelectedTextEmpty = currentContentBlock.getText().slice(selectStart, selectEnd) === ''
+    const isCurrentContentValueEmpty = currentBlockText === '' && currentBlockType === 'unstyled'
+    const isSelectedTextEmpty = currentBlockText.slice(selectStart, selectEnd) === ''
 
     if (isCurrentContentValueEmpty) {
       setShouldShowToolBar(true)
