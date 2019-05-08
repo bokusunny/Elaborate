@@ -8,15 +8,16 @@ import { faCodeBranch } from '@fortawesome/free-solid-svg-icons'
 interface Props {
   directoryId: string
   branchId: string
-  label: string
+  branchName: string
 }
 
-const BranchListItem: React.FC<Props> = ({ label, directoryId, branchId }) => (
+const BranchListItem: React.FC<Props> = ({ branchName, directoryId, branchId }) => (
   <ListItem button component="a" href={`${directoryId}/${branchId}/edit`}>
     <ListItemIcon>
       <FontAwesomeIcon icon={faCodeBranch} />
     </ListItemIcon>
-    <ListItemText primary={label} />
+    <ListItemText primary={branchName} />
+    {branchName !== 'master' && <button>merge to master</button>}
   </ListItem>
 )
 
