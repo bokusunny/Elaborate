@@ -1,6 +1,6 @@
 import React from 'react'
 import { ConnectedComponentClass } from 'react-redux'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, RouteComponentProps } from 'react-router-dom'
 
 interface Props {
   exact: boolean
@@ -13,7 +13,9 @@ const PublicRoute: React.FC<Props> = ({ exact, path, component: Component, isAut
   <Route
     exact={exact}
     path={path}
-    render={() => (!isAuthorized ? <Component /> : <Redirect to="/mypage" />)}
+    render={(routerProps: RouteComponentProps) =>
+      !isAuthorized ? <Component {...routerProps} /> : <Redirect to="/mypage" />
+    }
   />
 )
 

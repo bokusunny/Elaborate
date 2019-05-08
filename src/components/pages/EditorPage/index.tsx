@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router-dom'
+import * as H from 'history'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { checkDirectoryId } from '../../../actions/directories'
 import { checkBranchId } from '../../../actions/branches'
@@ -15,6 +16,7 @@ interface MatchParams {
 interface Props extends RouteComponentProps<MatchParams> {
   currentUser: firebase.User
   children: never
+  history: H.History
 }
 
 interface StateProps {
@@ -30,6 +32,7 @@ interface DispatchProps {
 const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
   currentUser,
   match,
+  history,
   isValidDirectory,
   checkDirectoryId,
   isValidBranch,
@@ -61,7 +64,14 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
 
   if (!isValidDirectory.data || !isValidBranch.data) return <h2>404 Not Found</h2>
 
-  return <EditorTemplate currentUser={currentUser} directoryId={directoryId} branchId={branchId} />
+  return (
+    <EditorTemplate
+      currentUser={currentUser}
+      directoryId={directoryId}
+      branchId={branchId}
+      history={history}
+    />
+  )
 }
 
 export default connect(

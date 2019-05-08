@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
 import * as H from 'history'
 import { auth } from '../../../utils/firebase'
 import { connect } from 'react-redux'
@@ -13,7 +12,7 @@ const { HeaderBlueBase, HeaderWhiteBase } = styles
 
 type History = H.History
 
-interface Props extends RouteComponentProps {
+interface Props {
   colorType: 'blueBase' | 'whiteBase'
   pageType: 'landing' | 'myPage' | 'edit'
   history: History
@@ -23,32 +22,26 @@ const onClickSignOut = () => {
   auth.signOut()
 }
 
-const onClickToMyPage = (history: History) => {
-  history.push('/MyPage')
-}
-
 const Header: React.FC<Props> = ({ colorType, pageType, history }) => {
   return colorType === 'blueBase' ? (
     <div className={HeaderBlueBase}>
-      <HeaderTitleButton onClick={() => onClickToMyPage(history)} />
+      <HeaderTitleButton history={history} />
       <AuthButtons />
     </div>
   ) : (
     <div className={HeaderWhiteBase}>
-      <HeaderTitleButton onClick={() => onClickToMyPage(history)} />
+      <HeaderTitleButton history={history} />
       <HeaderRight
         colorType="whiteBase"
         pageType={pageType}
         onClickSignOut={onClickSignOut}
-        onClickToMyPage={() => onClickToMyPage(history)}
+        history={history}
       />
     </div>
   )
 }
 
-export default withRouter(
-  connect(
-    null,
-    { AuthenticationModalOpen }
-  )(Header)
-)
+export default connect(
+  null,
+  { AuthenticationModalOpen }
+)(Header)
