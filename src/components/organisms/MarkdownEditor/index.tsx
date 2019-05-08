@@ -33,23 +33,7 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId })
 
   const contentState = editorState.getCurrentContent()
   const rawContentState = convertToRaw(contentState)
-  const rawContentBlocks = rawContentState.blocks
-
-  const getIsInputValueEmpty = () => {
-    return rawContentBlocks.length === 1 && rawContentBlocks[0].text === ''
-  }
-
-  const getIsSelectedTextEmpty = () => {
-    const selectionState = editorState.getSelection()
-    const anchorKey = selectionState.getAnchorKey()
-    const currentContent = editorState.getCurrentContent()
-    const currentContentBlock = currentContent.getBlockForKey(anchorKey)
-    const start = selectionState.getStartOffset()
-    const end = selectionState.getEndOffset()
-    const selectedText = currentContentBlock.getText().slice(start, end)
-
-    return selectedText === ''
-  }
+  const rawContentBlocks = rawContentState.blocks // 複数回使うのでここで定義
 
   const onChange = (editorState: EditorState) => {
     setEditorState(editorState)
@@ -67,10 +51,17 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId })
   }, [])
 
   useEffect(() => {
-    const isInputValueEmpty = getIsInputValueEmpty()
-    const isSelectedTextEmpty = getIsSelectedTextEmpty()
+    const selectionState = editorState.getSelection()
+    const anchorKey = selectionState.getAnchorKey()
+    const currentContent = editorState.getCurrentContent()
+    const currentContentBlock = currentContent.getBlockForKey(anchorKey)
+    const selectStart = selectionState.getStartOffset()
+    const selectEnd = selectionState.getEndOffset()
 
-    if (isInputValueEmpty) {
+    const isCurrentContentValueEmpty = currentContentBlock.getText() === ''
+    const isSelectedTextEmpty = currentContentBlock.getText().slice(selectStart, selectEnd) === ''
+
+    if (isCurrentContentValueEmpty) {
       setShouldShowToolBar(true)
       setShouldShowToolBarInline(false)
     } else if (isSelectedTextEmpty) {
