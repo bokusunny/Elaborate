@@ -1,3 +1,3 @@
-export const HeaderBlueBase: string
-export const HeaderWhiteBase: string
-export const title: string
+export const header: string
+export const blueBase: string
+export const whiteBase: string

@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import * as H from 'history'
 import Modal from '@material-ui/core/Modal'
 import { AuthenticationModalClose } from '../../../actions/modals'
 import { AuthenticationModal } from '../../../reducers/modals'
@@ -11,16 +12,21 @@ import * as styles from './style.css'
 interface Props {
   authenticationModals: AuthenticationModal
   AuthenticationModalClose: () => void
+  history: H.History
 }
 
 const { LandingTemplateWrapper } = styles
 
-const LandingTemplate: React.FC<Props> = ({ authenticationModals, AuthenticationModalClose }) => {
+const LandingTemplate: React.FC<Props> = ({
+  authenticationModals,
+  AuthenticationModalClose,
+  history,
+}) => {
   const { isAuthModalOpen, authenticationType } = authenticationModals
 
   return (
     <div className={LandingTemplateWrapper}>
-      <Header colorType="blueBase" />
+      <Header colorType="blueBase" pageType="landing" history={history} />
       <LandingMesasge />
       <Modal
         open={isAuthModalOpen}

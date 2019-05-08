@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { FirebaseSnapShot } from '../../../utils/firebase'
+import * as H from 'history'
 import Header from '../../molecules/Header'
 import MyPageList from '../../organisms/MyPageList'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
@@ -10,6 +11,7 @@ interface Props {
   directories: ReduxAPIStruct<FirebaseSnapShot[]>
   branches: ReduxAPIStruct<FirebaseSnapShot[]>
   selectedDirectoryId: string | null
+  history: H.History
 }
 
 const MyPageTemplate: React.FC<Props> = ({
@@ -17,11 +19,12 @@ const MyPageTemplate: React.FC<Props> = ({
   directories,
   branches,
   selectedDirectoryId,
+  history,
 }) => {
   // TODO: branchesのstatusがdefaultの時はBranchListを渡さないで、ディレクトリが選択されていませんみたいなUIを組む
   return (
     <Fragment>
-      <Header colorType="whiteBase" />
+      <Header colorType="whiteBase" pageType="myPage" history={history} />
       <div className={styles.container}>
         <MyPageList
           currentUser={currentUser}
