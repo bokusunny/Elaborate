@@ -18,7 +18,16 @@ interface CreateBranchAction extends BaseAction {
   payload: { newBranch: ReduxAPIStruct<FirebaseSnapShot> }
 }
 
-export type BranchesAction = FirebaseAPIRequest | FirebaseAPIFailure | CreateBranchAction
+interface MergeBranchAction extends BaseAction {
+  type: string
+  payload: { mergedBranchId: string }
+}
+
+export type BranchesAction =
+  | FirebaseAPIRequest
+  | FirebaseAPIFailure
+  | CreateBranchAction
+  | MergeBranchAction
 
 export const fetchBranches = (currentUserUid: string, directoryId: string) => {
   return (dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, CreateBranchAction>>) => {
@@ -45,7 +54,7 @@ export const fetchBranches = (currentUserUid: string, directoryId: string) => {
 }
 
 export const createBranch = (values: Values, currentUserUid: string, directoryId: string) => {
-  return async (dispatch: ThunkDispatch<{}, {}, BranchesAction>) => {
+  return async (dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, MergeBranchAction>>) => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
     db.collection('users')
       .doc(currentUserUid)
@@ -65,6 +74,53 @@ export const createBranch = (values: Values, currentUserUid: string, directoryId
             payload: { newBranch: snapShot },
           })
         })
+      })
+      .catch(error => dispatch(branchFirebaseFailure(error.message)))
+  }
+}
+
+export const mergeBranch = (currentUserUid: string, directoryId: string, branchId: string) => {
+  return (dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, CreateBranchAction>>) => {
+    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
+    const branchCollection = db
+      .collection('users')
+      .doc(currentUserUid)
+      .collection('directories')
+      .doc(directoryId)
+      .collection('branches')
+
+    branchCollection
+      .where('name', '==', 'master')
+      .get()
+      .then(querySnapShot => {
+        // バリデーションによりmasterブランチは各ディレクトリに1つしか存在しない
+        const masterBranchDocRef = querySnapShot.docs[0].ref
+        const currentBranchDocRef = branchCollection.doc(branchId)
+
+        currentBranchDocRef
+          .collection('commits')
+          .get()
+          .then(querySnapshot => {
+            const addCommitPromises = querySnapshot.docs.map(doc => {
+              return masterBranchDocRef.collection('commits').add(doc.data())
+            })
+
+            Promise.all(addCommitPromises)
+              .then(() => {
+                currentBranchDocRef
+                  .update({ state: 'merged' })
+                  .then(() => {
+                    // TODO: ここで'Successfully merged!'みたいなフラッシュを出せると良いかも
+                    dispatch({
+                      type: actionTypes.BRANCH__MERGE,
+                      payload: { mergedBranchId: branchId },
+                    })
+                  })
+                  .catch(error => dispatch(branchFirebaseFailure(error.message)))
+              })
+              .catch(error => dispatch(branchFirebaseFailure(error.message)))
+          })
+          .catch(error => dispatch(branchFirebaseFailure(error.message)))
       })
       .catch(error => dispatch(branchFirebaseFailure(error.message)))
   }
