@@ -21,8 +21,11 @@ interface ErrorMessages {
 const validate = (values: Values) => {
   const errors: ErrorMessages = {}
 
+  const lowercaseBranchName = values.branchName.toLowerCase()
   if (!values.branchName) {
     errors.branchName = 'Required'
+  } else if (lowercaseBranchName === 'master') {
+    errors.branchName = "'master' is not allowed for a branch name"
   }
 
   return errors
