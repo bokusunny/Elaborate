@@ -38,7 +38,12 @@ const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryI
           const { name } = branch.data()
           return (
             <div key={id}>
-              <BranchListItem directoryId={selectedDirectoryId} branchId={id} branchName={name} />
+              <BranchListItem
+                currentUserUid={currentUser.uid}
+                directoryId={selectedDirectoryId}
+                branchId={id}
+                branchName={name}
+              />
             </div>
           )
         })}
