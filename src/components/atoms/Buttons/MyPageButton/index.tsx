@@ -1,5 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
 import * as styles from './style.css'
 
 interface Props {
@@ -8,10 +7,8 @@ interface Props {
 }
 
 const MyPageButton: React.FC<Props> = ({ colorType, onClick }) => {
-  const btnClass = classNames(styles.button, styles[colorType])
-
   return (
-    <div className={btnClass} onClick={onClick}>
+    <div className={`${styles.button} ${styles[colorType]}`} onClick={onClick}>
       MyPage
     </div>
   )
