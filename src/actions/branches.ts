@@ -20,7 +20,7 @@ interface CreateBranchAction extends BaseAction {
 
 interface MergeBranchAction extends BaseAction {
   type: string
-  payload: { mergedBranchId: string }
+  payload: { branchId: string }
 }
 
 export type BranchesAction =
@@ -112,8 +112,8 @@ export const mergeBranch = (currentUserUid: string, directoryId: string, branchI
                   .then(() => {
                     // TODO: ここで'Successfully merged!'みたいなフラッシュを出せると良いかも
                     dispatch({
-                      type: actionTypes.BRANCH__MERGE,
-                      payload: { mergedBranchId: branchId },
+                      type: actionTypes.BRANCH__MERGE_OR_CLOSE,
+                      payload: { branchId: branchId },
                     })
                   })
                   .catch(error => dispatch(branchFirebaseFailure(error.message)))

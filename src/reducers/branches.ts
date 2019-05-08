@@ -21,12 +21,12 @@ export const branches = (
       if (!('newBranch' in action.payload) || state.data === null) return state
       return { ...state, status: 'success', data: state.data.concat(action.payload.newBranch) }
 
-    case actionTypes.BRANCH__MERGE:
-      if (!('mergedBranchId' in action.payload) || state.data === null) return state
+    case actionTypes.BRANCH__MERGE_OR_CLOSE:
+      if (!('branchId' in action.payload) || state.data === null) return state
       return {
         ...state,
         status: 'success',
-        data: state.data.filter(branch => branch.id !== action.payload.mergedBranchId),
+        data: state.data.filter(branch => branch.id !== action.payload.branchId),
       }
   }
   return state
