@@ -150,23 +150,32 @@ export const closeBranch = (currentUserUid: string, directoryId: string, branchI
 }
 
 // -------------------------------------------------------------------------
-// IsInvalidBranch
+// currentBranchData
 // -------------------------------------------------------------------------
-const isValidBranchFirebaseFailure = (message: string) => ({
-  type: actionTypes.BRANCH_IS_VALID__FIREBASE_REQUEST_FAILURE,
+const currentBranchDataFirebaseFailure = (message: string) => ({
+  type: actionTypes.CURRENT_BRANCH_DATA__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
 
-interface CheckBranchIdAction extends BaseAction {
-  type: string
-  payload: { isValidBranchId: ReduxAPIStruct<boolean> }
+export interface BranchData {
+  type?: 'master' | 'normal'
+  isValidBranch: boolean
 }
 
-export type IsInvalidBranchAction = FirebaseAPIRequest | FirebaseAPIFailure | CheckBranchIdAction
+interface CheckBranchDataAction extends BaseAction {
+  type: string
+  payload: { branchData: BranchData }
+}
 
-export const checkBranchId = (currentUserUid: string, directoryId: string, branchId: string) => {
+export type IsInvalidBranchAction = FirebaseAPIRequest | FirebaseAPIFailure | CheckBranchDataAction
+
+export const checkCurrentBranchData = (
+  currentUserUid: string,
+  directoryId: string,
+  branchId: string
+) => {
   return (dispatch: ThunkDispatch<{}, {}, IsInvalidBranchAction>) => {
-    dispatch({ type: actionTypes.BRANCH_IS_VALID__FIREBASE_REQUEST })
+    dispatch({ type: actionTypes.CURRENT_BRANCH_DATA__FIREBASE_REQUEST })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -175,18 +184,27 @@ export const checkBranchId = (currentUserUid: string, directoryId: string, branc
       .doc(branchId)
       .get()
       .then(snapShot => {
-        if (snapShot.exists) {
-          dispatch({
-            type: actionTypes.BRANCH__CHECK_ID,
-            payload: { isValidBranchId: true },
-          })
+        const snapShotData = snapShot.data()
+        // snapShot.existsはsnapShot.data()がundefinedでない事を保証するが、tsのエラー回避のために明示
+        if (snapShot.exists && snapShotData) {
+          if (snapShotData.name === 'master') {
+            dispatch({
+              type: actionTypes.CURRENT_BRANCH_DATA__CHECK,
+              payload: { branchData: { type: 'master', isValidBranch: true } },
+            })
+          } else {
+            dispatch({
+              type: actionTypes.CURRENT_BRANCH_DATA__CHECK,
+              payload: { branchData: { type: 'normal', isValidBranch: true } },
+            })
+          }
         } else {
           dispatch({
-            type: actionTypes.BRANCH__CHECK_ID,
-            payload: { isValidBranchId: false },
+            type: actionTypes.CURRENT_BRANCH_DATA__CHECK,
+            payload: { branchData: { isValidBranch: false } },
           })
         }
       })
-      .catch(error => isValidBranchFirebaseFailure(error.message))
+      .catch(error => currentBranchDataFirebaseFailure(error.message))
   }
 }

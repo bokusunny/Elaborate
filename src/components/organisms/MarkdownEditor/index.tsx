@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import {
   EditorState,
   RichUtils,
@@ -24,9 +24,10 @@ interface Props {
   currentUser: firebase.User
   directoryId: string
   branchId: string
+  branchType: 'master' | 'normal' | undefined // 理論上undefinedにはなり得ない
 }
 
-const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId }) => {
+const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, branchType }) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
   const [shouldShowToolBarInline, setShouldShowToolBarInline] = useState(false)
@@ -105,20 +106,25 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId })
         handleKeyCommand={handleKeyCommand}
         plugins={plugins}
         customStyleMap={STYLE_MAP}
+        readOnly={branchType === 'master'}
         // placeholder='placeholder'
       />
-      <EditorToolBar
-        shouldShowToolBar={shouldShowToolBar}
-        shouldShowToolBarInline={shouldShowToolBarInline}
-        toggleBlockType={toggleBlockType}
-        toggleInlineStyle={toggleInlineStyle}
-      />
-      <CommitForm
-        currentUser={currentUser}
-        directoryId={directoryId}
-        branchId={branchId}
-        rawContentBlocks={rawContentBlocks}
-      />
+      {branchType !== 'master' && (
+        <Fragment>
+          <EditorToolBar
+            shouldShowToolBar={shouldShowToolBar}
+            shouldShowToolBarInline={shouldShowToolBarInline}
+            toggleBlockType={toggleBlockType}
+            toggleInlineStyle={toggleInlineStyle}
+          />
+          <CommitForm
+            currentUser={currentUser}
+            directoryId={directoryId}
+            branchId={branchId}
+            rawContentBlocks={rawContentBlocks}
+          />
+        </Fragment>
+      )}
     </div>
   )
 }
