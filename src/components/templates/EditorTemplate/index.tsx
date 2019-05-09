@@ -7,7 +7,7 @@ interface Props {
   currentUser: firebase.User
   directoryId: string
   branchId: string
-  branchType: 'master' | 'normal' | undefined
+  branchType: 'master' | 'normal'
   history: H.History
 }
 

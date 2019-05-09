@@ -67,16 +67,19 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
     return <h2>An unexpected error occured...</h2>
   }
 
-  if (!isValidDirectory.data || !currentBranchData.data.isValidBranch) {
-    return <h2>404 Not Found</h2>
-  }
+  const { type, isValidBranch } = currentBranchData.data
+
+  if (!isValidDirectory.data || !isValidBranch) return <h2>404 Not Found</h2>
+
+  // 理論上ここはtrueになり得ない
+  if (type === undefined) return <h2>An unexpected error occured...</h2>
 
   return (
     <EditorTemplate
       currentUser={currentUser}
       directoryId={directoryId}
       branchId={branchId}
-      branchType={currentBranchData.data.type}
+      branchType={type}
       history={history}
     />
   )

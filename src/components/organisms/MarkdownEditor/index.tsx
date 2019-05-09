@@ -24,7 +24,7 @@ interface Props {
   currentUser: firebase.User
   directoryId: string
   branchId: string
-  branchType: 'master' | 'normal' | undefined // 理論上undefinedにはなり得ない
+  branchType: 'master' | 'normal'
 }
 
 const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, branchType }) => {
