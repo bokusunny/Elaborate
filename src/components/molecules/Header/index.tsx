@@ -10,7 +10,7 @@ import * as styles from './style.css'
 
 interface Props {
   colorType: 'blueBase' | 'whiteBase'
-  pageType: 'landing' | 'myPage' | 'edit'
+  pageType: 'landing' | 'myPage' | 'edit' | 'diff'
   history: H.History
 }
 
