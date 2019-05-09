@@ -18,7 +18,7 @@ export const actionTypes = keyMirror({
   BRANCH_IS_VALID__FIREBASE_REQUEST_FAILURE: null,
   BRANCH__SET: null,
   BRANCH__ADD: null,
-  BRANCH__MERGE: null,
+  BRANCH__MERGE_OR_CLOSE: null,
   BRANCH__CHECK_ID: null,
 
   // Commits

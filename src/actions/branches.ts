@@ -18,16 +18,16 @@ interface CreateBranchAction extends BaseAction {
   payload: { newBranch: ReduxAPIStruct<FirebaseSnapShot> }
 }
 
-interface MergeBranchAction extends BaseAction {
+interface MergeCloseBranchAction extends BaseAction {
   type: string
-  payload: { mergedBranchId: string }
+  payload: { branchId: string }
 }
 
 export type BranchesAction =
   | FirebaseAPIRequest
   | FirebaseAPIFailure
   | CreateBranchAction
-  | MergeBranchAction
+  | MergeCloseBranchAction
 
 export const fetchBranches = (currentUserUid: string, directoryId: string) => {
   return (dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, CreateBranchAction>>) => {
@@ -54,7 +54,9 @@ export const fetchBranches = (currentUserUid: string, directoryId: string) => {
 }
 
 export const createBranch = (values: Values, currentUserUid: string, directoryId: string) => {
-  return async (dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, MergeBranchAction>>) => {
+  return async (
+    dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, MergeCloseBranchAction>>
+  ) => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
     db.collection('users')
       .doc(currentUserUid)
@@ -112,8 +114,8 @@ export const mergeBranch = (currentUserUid: string, directoryId: string, branchI
                   .then(() => {
                     // TODO: ここで'Successfully merged!'みたいなフラッシュを出せると良いかも
                     dispatch({
-                      type: actionTypes.BRANCH__MERGE,
-                      payload: { mergedBranchId: branchId },
+                      type: actionTypes.BRANCH__MERGE_OR_CLOSE,
+                      payload: { branchId },
                     })
                   })
                   .catch(error => dispatch(branchFirebaseFailure(error.message)))
@@ -121,6 +123,27 @@ export const mergeBranch = (currentUserUid: string, directoryId: string, branchI
               .catch(error => dispatch(branchFirebaseFailure(error.message)))
           })
           .catch(error => dispatch(branchFirebaseFailure(error.message)))
+      })
+      .catch(error => dispatch(branchFirebaseFailure(error.message)))
+  }
+}
+
+export const closeBranch = (currentUserUid: string, directoryId: string, branchId: string) => {
+  return (dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, CreateBranchAction>>) => {
+    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
+    db.collection('users')
+      .doc(currentUserUid)
+      .collection('directories')
+      .doc(directoryId)
+      .collection('branches')
+      .doc(branchId)
+      .update({ state: 'closed' })
+      .then(() => {
+        // TODO: ここで'Successfully closed!'みたいなフラッシュを出せると良いかも
+        dispatch({
+          type: actionTypes.BRANCH__MERGE_OR_CLOSE,
+          payload: { branchId },
+        })
       })
       .catch(error => dispatch(branchFirebaseFailure(error.message)))
   }
