@@ -6,13 +6,13 @@ import * as styles from './style.css'
 
 interface Props {
   colorType: 'blueBase' | 'whiteBase'
-  pageType: 'landing' | 'myPage' | 'edit'
+  pageType: 'landing' | 'myPage' | 'edit' | 'diff'
   onClickSignOut: () => void
   history: H.History
 }
 
 const HeaderRight: React.FC<Props> = ({ colorType, pageType, onClickSignOut, history }) => {
-  return pageType === 'edit' ? (
+  return pageType === 'edit' || pageType === 'diff' ? (
     <div className={styles.HeaderButtonsWrapper}>
       <MyPageButton colorType={colorType} onClick={() => history.push('/mypage')} />
       <AuthButton buttonName="Sign out" colorType={colorType} onClick={onClickSignOut} />
