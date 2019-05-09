@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect, Fragment, Dispatch } from 'react'
 import {
   EditorState,
   RichUtils,
@@ -18,13 +18,57 @@ import { STYLE_MAP } from '../../../common/constants/editor'
 import * as styles from './style.css'
 const { editorWrapper } = styles
 
-import { Plugin } from './types'
-
 interface Props {
   currentUser: firebase.User
   directoryId: string
   branchId: string
   branchType: 'master' | 'normal'
+}
+
+const initEditorState = (
+  branchId: string,
+  editorState: EditorState,
+  setEditorState: Dispatch<React.SetStateAction<EditorState>>
+) => {
+  const rawStateSavedOnStorage = localStorage.getItem(branchId)
+  if (!rawStateSavedOnStorage) {
+    setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
+  } else {
+    const initRawState: RawDraftContentState = JSON.parse(rawStateSavedOnStorage)
+    const initContentState = convertFromRaw(initRawState)
+    setEditorState(EditorState.createWithContent(initContentState))
+  }
+}
+
+const changeToolBarDisplay = (
+  branchId: string,
+  editorState: EditorState,
+  setShouldShowToolBar: Dispatch<React.SetStateAction<boolean>>,
+  setShouldShowToolBarInline: Dispatch<React.SetStateAction<boolean>>,
+  rawContentState: RawDraftContentState
+) => {
+  const selectionState = editorState.getSelection()
+  const anchorKey = selectionState.getAnchorKey()
+  const currentContent = editorState.getCurrentContent()
+  const currentContentBlock = currentContent.getBlockForKey(anchorKey)
+  const selectStart = selectionState.getStartOffset()
+  const selectEnd = selectionState.getEndOffset()
+  const currentBlockText = currentContentBlock.getText()
+  const currentBlockType = currentContentBlock.getType()
+
+  const isCurrentContentValueEmpty = currentBlockText === '' && currentBlockType === 'unstyled'
+  const isSelectedTextEmpty = currentBlockText.slice(selectStart, selectEnd) === ''
+
+  if (isCurrentContentValueEmpty) {
+    setShouldShowToolBar(true)
+    setShouldShowToolBarInline(false)
+  } else if (isSelectedTextEmpty) {
+    setShouldShowToolBar(false)
+  } else {
+    setShouldShowToolBar(true)
+    setShouldShowToolBarInline(true)
+  }
+  localStorage.setItem(branchId, JSON.stringify(rawContentState))
 }
 
 const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, branchType }) => {
@@ -36,40 +80,16 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, b
   const rawContentState = convertToRaw(contentState)
   const rawContentBlocks = rawContentState.blocks // 複数回使うのでここで定義
 
-  useEffect(() => {
-    const rawStateSavedOnStorage = localStorage.getItem(branchId)
-    if (!rawStateSavedOnStorage) {
-      setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
-    } else {
-      const initRawState: RawDraftContentState = JSON.parse(rawStateSavedOnStorage)
-      const initContentState = convertFromRaw(initRawState)
-      setEditorState(EditorState.createWithContent(initContentState))
-    }
-  }, [])
+  useEffect(() => initEditorState(branchId, editorState, setEditorState), [])
 
   useEffect(() => {
-    const selectionState = editorState.getSelection()
-    const anchorKey = selectionState.getAnchorKey()
-    const currentContent = editorState.getCurrentContent()
-    const currentContentBlock = currentContent.getBlockForKey(anchorKey)
-    const selectStart = selectionState.getStartOffset()
-    const selectEnd = selectionState.getEndOffset()
-    const currentBlockText = currentContentBlock.getText()
-    const currentBlockType = currentContentBlock.getType()
-
-    const isCurrentContentValueEmpty = currentBlockText === '' && currentBlockType === 'unstyled'
-    const isSelectedTextEmpty = currentBlockText.slice(selectStart, selectEnd) === ''
-
-    if (isCurrentContentValueEmpty) {
-      setShouldShowToolBar(true)
-      setShouldShowToolBarInline(false)
-    } else if (isSelectedTextEmpty) {
-      setShouldShowToolBar(false)
-    } else {
-      setShouldShowToolBar(true)
-      setShouldShowToolBarInline(true)
-    }
-    localStorage.setItem(branchId, JSON.stringify(rawContentState))
+    changeToolBarDisplay(
+      branchId,
+      editorState,
+      setShouldShowToolBar,
+      setShouldShowToolBarInline,
+      rawContentState
+    )
   }, [editorState])
 
   const handleKeyCommand = (
@@ -84,9 +104,6 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, b
     return 'not-handled'
   }
 
-  // NOTE: Pluginの型は厳密につけられていないのでバグの温床になっていることに留意
-  const plugins: Plugin[] = [createMarkdownPlugin()]
-
   return (
     <div className={editorWrapper}>
       {/* HOPE TODO: placeholderをいい感じの文章のランダムにしたい */}
@@ -94,7 +111,7 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, b
         editorState={editorState}
         onChange={(editorState: EditorState) => setEditorState(editorState)}
         handleKeyCommand={handleKeyCommand}
-        plugins={plugins}
+        plugins={[createMarkdownPlugin()]}
         customStyleMap={STYLE_MAP}
         readOnly={branchType === 'master'}
         // placeholder='placeholder'
