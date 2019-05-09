@@ -36,10 +36,6 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, b
   const rawContentState = convertToRaw(contentState)
   const rawContentBlocks = rawContentState.blocks // 複数回使うのでここで定義
 
-  const onChange = (editorState: EditorState) => {
-    setEditorState(editorState)
-  }
-
   useEffect(() => {
     const rawStateSavedOnStorage = localStorage.getItem(branchId)
     if (!rawStateSavedOnStorage) {
@@ -58,9 +54,11 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, b
     const currentContentBlock = currentContent.getBlockForKey(anchorKey)
     const selectStart = selectionState.getStartOffset()
     const selectEnd = selectionState.getEndOffset()
+    const currentBlockText = currentContentBlock.getText()
+    const currentBlockType = currentContentBlock.getType()
 
-    const isCurrentContentValueEmpty = currentContentBlock.getText() === ''
-    const isSelectedTextEmpty = currentContentBlock.getText().slice(selectStart, selectEnd) === ''
+    const isCurrentContentValueEmpty = currentBlockText === '' && currentBlockType === 'unstyled'
+    const isSelectedTextEmpty = currentBlockText.slice(selectStart, selectEnd) === ''
 
     if (isCurrentContentValueEmpty) {
       setShouldShowToolBar(true)
@@ -80,18 +78,10 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, b
   ): DraftHandleValue => {
     const newState = RichUtils.handleKeyCommand(editorState, command)
     if (newState) {
-      onChange(newState)
+      setEditorState(newState)
       return 'handled'
     }
     return 'not-handled'
-  }
-
-  const toggleBlockType = (blockStyle: string): void => {
-    onChange(RichUtils.toggleBlockType(editorState, blockStyle))
-  }
-
-  const toggleInlineStyle = (inlineStyle: string): void => {
-    onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle))
   }
 
   // NOTE: Pluginの型は厳密につけられていないのでバグの温床になっていることに留意
@@ -102,7 +92,7 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, b
       {/* HOPE TODO: placeholderをいい感じの文章のランダムにしたい */}
       <Editor
         editorState={editorState}
-        onChange={onChange}
+        onChange={(editorState: EditorState) => setEditorState(editorState)}
         handleKeyCommand={handleKeyCommand}
         plugins={plugins}
         customStyleMap={STYLE_MAP}
@@ -114,8 +104,12 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, b
           <EditorToolBar
             shouldShowToolBar={shouldShowToolBar}
             shouldShowToolBarInline={shouldShowToolBarInline}
-            toggleBlockType={toggleBlockType}
-            toggleInlineStyle={toggleInlineStyle}
+            toggleBlockType={(blockStyle: string) => {
+              setEditorState(RichUtils.toggleBlockType(editorState, blockStyle))
+            }}
+            toggleInlineStyle={(inlineStyle: string) => {
+              setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle))
+            }}
           />
           <CommitForm
             currentUser={currentUser}
