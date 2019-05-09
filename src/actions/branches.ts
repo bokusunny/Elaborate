@@ -139,7 +139,7 @@ export const closeBranch = (currentUserUid: string, directoryId: string, branchI
       .doc(branchId)
       .update({ state: 'closed' })
       .then(() => {
-        // TODO: ここで'Successfully merged!'みたいなフラッシュを出せると良いかも
+        // TODO: ここで'Successfully closed!'みたいなフラッシュを出せると良いかも
         dispatch({
           type: actionTypes.BRANCH__MERGE_OR_CLOSE,
           payload: { branchId },
