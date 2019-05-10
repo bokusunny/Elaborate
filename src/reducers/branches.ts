@@ -48,3 +48,20 @@ export const isValidBranch = (
   }
   return state
 }
+
+export const branchesForDiff = (
+  state: ReduxAPIStruct<FirebaseSnapShot[]> = defaultSet(),
+  action: BranchesAction
+): ReduxAPIStruct<FirebaseSnapShot[]> => {
+  switch (action.type) {
+    case actionTypes.BRANCH__FIREBASE_REQUEST:
+      return { ...state, status: 'fetching' }
+
+    case actionTypes.BRANCH__FIREBASE_REQUEST_FAILURE:
+      return { ...state, status: 'failure', error: action.payload.message }
+
+    case actionTypes.BRANCH__SET:
+      return { ...state, status: 'success', data: action.payload.branches }
+  }
+  return state
+}

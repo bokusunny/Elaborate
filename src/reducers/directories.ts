@@ -4,6 +4,7 @@ import {
   DirectoriesAction,
   IsInvalidDirectoryAction,
   DirectoriesStatusAction,
+  DirectoriesStatusForDiffAction,
 } from '../actions/directories'
 import { FirebaseSnapShot } from '../utils/firebase'
 
@@ -57,6 +58,17 @@ export const selectedDirectoryId = (
 ): string | null => {
   switch (action.type) {
     case actionTypes.DIRECTORY__SET_SELECTED_DIRECTORY_ID:
+      return action.payload.selectedDirectoryId
+  }
+  return state
+}
+
+export const selectedDirectoryIdForDiff = (
+  state: string | null = null,
+  action: DirectoriesStatusForDiffAction
+): string | null => {
+  switch (action.type) {
+    case actionTypes.DIRECTORY__SET_SELECTED_DIRECTORY_ID_FOR_DIFF:
       return action.payload.selectedDirectoryId
   }
   return state

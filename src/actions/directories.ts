@@ -174,3 +174,23 @@ export const setSelectedDirectory = (selectedDirectoryId: string) => {
     })
   }
 }
+
+// -------------------------------------------------------------------------
+// DirectoriesStatusForDiff
+// -------------------------------------------------------------------------
+
+interface SetSelectedDirectoryForDiffAction extends BaseAction {
+  type: string
+  payload: { selectedDirectoryId: string }
+}
+
+export type DirectoriesStatusForDiffAction = SetSelectedDirectoryForDiffAction
+
+export const setSelectedIdDirectoryForDiff = (selectedDirectoryId: string) => {
+  return (dispatch: ThunkDispatch<{}, {}, DirectoriesStatusForDiffAction>) => {
+    dispatch({
+      type: actionTypes.DIRECTORY__SET_SELECTED_DIRECTORY_ID_FOR_DIFF,
+      payload: { selectedDirectoryId },
+    })
+  }
+}

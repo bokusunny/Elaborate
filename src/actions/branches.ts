@@ -190,3 +190,33 @@ export const checkBranchId = (currentUserUid: string, directoryId: string, branc
       .catch(error => isValidBranchFirebaseFailure(error.message))
   }
 }
+
+// -------------------------------------------------------------------------
+// BranchesForDiff
+// -------------------------------------------------------------------------
+
+export type BranchesForDiffAction = FirebaseAPIRequest | FirebaseAPIFailure
+
+export const fetchBranchesForDiff = (currentUserUid: string, directoryId: string) => {
+  return (dispatch: ThunkDispatch<{}, {}, BranchesForDiffAction>) => {
+    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
+    db.collection('users')
+      .doc(currentUserUid)
+      .collection('directories')
+      .doc(directoryId)
+      .collection('branches')
+      .where('state', '==', 'open')
+      .get()
+      .then(querySnapshot => {
+        // Firebaseのデータは取得時順番がランダムなので作成順にソートする
+        const orderedBranches = querySnapshot.docs.sort((doc1, doc2) => {
+          return doc1.data().createdAt - doc2.data().createdAt
+        })
+        dispatch({
+          type: actionTypes.BRANCH__SET_FOR_DIFF,
+          payload: { branches: orderedBranches },
+        })
+      })
+      .catch(error => dispatch(branchFirebaseFailure(error.message)))
+  }
+}
