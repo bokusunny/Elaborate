@@ -8,7 +8,6 @@ interface Props {
   currentUser: firebase.User
   directories: ReduxAPIStruct<FirebaseSnapShot[]>
   selectedDirectoryIdForDiff: string | null
-  branches: ReduxAPIStruct<FirebaseSnapShot[]>
   history: H.History
 }
 
@@ -16,10 +15,9 @@ const DiffTemplate: React.FC<Props> = ({
   currentUser,
   directories,
   selectedDirectoryIdForDiff,
-  branches,
   history,
 }) => {
-  console.log(currentUser, directories, selectedDirectoryIdForDiff, branches)
+  console.log(currentUser, directories, selectedDirectoryIdForDiff)
   return (
     <Fragment>
       <Header colorType="whiteBase" pageType="diff" history={history} />

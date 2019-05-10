@@ -15,7 +15,6 @@ interface Props extends RouteComponentProps {
 interface StateProps {
   directories: ReduxAPIStruct<FirebaseSnapShot[]>
   selectedDirectoryIdForDiff: string | null
-  branches: ReduxAPIStruct<FirebaseSnapShot[]>
 }
 
 const DiffPage: React.FC<Props & StateProps> = ({
@@ -23,7 +22,6 @@ const DiffPage: React.FC<Props & StateProps> = ({
   fetchDirectories,
   directories,
   selectedDirectoryIdForDiff,
-  branches,
   history,
 }) => {
   useEffect(() => {
@@ -36,7 +34,6 @@ const DiffPage: React.FC<Props & StateProps> = ({
   return (
     <DiffTemplate
       directories={directories}
-      branches={branches}
       selectedDirectoryIdForDiff={selectedDirectoryIdForDiff}
       currentUser={currentUser}
       history={history}
@@ -45,10 +42,9 @@ const DiffPage: React.FC<Props & StateProps> = ({
 }
 
 export default connect(
-  ({ directories, selectedDirectoryIdForDiff, branches }: StateProps) => ({
+  ({ directories, selectedDirectoryIdForDiff }: StateProps) => ({
     directories,
     selectedDirectoryIdForDiff,
-    branches,
   }),
   { fetchDirectories }
 )(DiffPage)
