@@ -76,6 +76,12 @@ export const createBranch = (values: Values, currentUserUid: string, directoryId
             payload: { newBranch: snapShot },
           })
         })
+
+        newDocRef.collection('commits').add({
+          name: 'initial commit',
+          body: '',
+          createdAt: Date.now(),
+        })
       })
       .catch(error => dispatch(branchFirebaseFailure(error.message)))
   }

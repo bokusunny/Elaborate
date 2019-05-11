@@ -5,6 +5,7 @@ import * as H from 'history'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { checkDirectoryId } from '../../../actions/directories'
 import { checkCurrentBranchData, BranchData } from '../../../actions/branches'
+import { fetchLatestCommitBody } from '../../../actions/commits'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import EditorTemplate from '../../templates/EditorTemplate'
 
@@ -22,6 +23,7 @@ interface Props extends RouteComponentProps<MatchParams> {
 interface StateProps {
   isValidDirectory: ReduxAPIStruct<boolean>
   currentBranchData: ReduxAPIStruct<BranchData>
+  latestCommitBody: ReduxAPIStruct<string>
 }
 
 interface DispatchProps {
@@ -37,6 +39,7 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
   checkDirectoryId,
   currentBranchData,
   checkCurrentBranchData,
+  latestCommitBody,
 }) => {
   if (!currentUser) return <CircularProgress />
 
@@ -80,15 +83,17 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
       directoryId={directoryId}
       branchId={branchId}
       branchType={type}
+      latestCommitBody={latestCommitBody}
       history={history}
     />
   )
 }
 
 export default connect(
-  ({ isValidDirectory, currentBranchData }: StateProps) => ({
+  ({ isValidDirectory, currentBranchData, latestCommitBody }: StateProps) => ({
     isValidDirectory,
     currentBranchData,
+    latestCommitBody,
   }),
-  { checkDirectoryId, checkCurrentBranchData }
+  { checkDirectoryId, checkCurrentBranchData, fetchLatestCommitBody }
 )(EditorPage)

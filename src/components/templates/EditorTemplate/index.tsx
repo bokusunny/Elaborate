@@ -2,12 +2,14 @@ import React, { Fragment } from 'react'
 import * as H from 'history'
 import Header from '../../molecules/Header'
 import MarkdownEditor from '../../organisms/MarkdownEditor'
+import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 
 interface Props {
   currentUser: firebase.User
   directoryId: string
   branchId: string
   branchType: 'master' | 'normal'
+  latestCommitBody: ReduxAPIStruct<string>
   history: H.History
 }
 

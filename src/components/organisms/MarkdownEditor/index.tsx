@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment, Dispatch } from 'react'
+import { connect } from 'react-redux'
 import {
   EditorState,
   RichUtils,
@@ -10,11 +11,14 @@ import {
 } from 'draft-js'
 import createMarkdownPlugin from 'draft-js-markdown-plugin'
 import Editor from 'draft-js-plugins-editor'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import EditorToolBar from '../../molecules/EditorToolBar'
 import CommitForm from '../../molecules/Forms/CommitForm'
 
 import { STYLE_MAP } from '../../../common/constants/editor'
+import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
+import { fetchLatestCommitBody } from '../../../actions/commits'
 import * as styles from './style.css'
 const { editorWrapper } = styles
 
@@ -23,16 +27,41 @@ interface Props {
   directoryId: string
   branchId: string
   branchType: 'master' | 'normal'
+  latestCommitBody: ReduxAPIStruct<string>
+}
+
+interface DispatchProps {
+  fetchLatestCommitBody: (
+    currentUserUid: string,
+    directoryId: string,
+    branchId: string
+  ) => Promise<void>
 }
 
 const initEditorState = (
+  currentUserUid: string,
+  directoryId: string,
   branchId: string,
   editorState: EditorState,
-  setEditorState: Dispatch<React.SetStateAction<EditorState>>
+  setEditorState: Dispatch<React.SetStateAction<EditorState>>,
+  latestCommitBody: string | null,
+  fetchLatestCommitBody: (
+    currentUserUid: string,
+    directoryId: string,
+    branchId: string
+  ) => Promise<void>
 ) => {
   const rawStateSavedOnStorage = localStorage.getItem(branchId)
   if (!rawStateSavedOnStorage) {
-    setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
+    fetchLatestCommitBody(currentUserUid, directoryId, branchId).then(() => {
+      if (latestCommitBody === null) return
+      if (latestCommitBody === '') {
+        // console.log('hi!')
+        setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
+      } else {
+        // ここでlatestCommitBodyをeditorStateに適用
+      }
+    })
   } else {
     const initRawState: RawDraftContentState = JSON.parse(rawStateSavedOnStorage)
     const initContentState = convertFromRaw(initRawState)
@@ -64,14 +93,22 @@ const changeToolBarDisplay = (
     setShouldShowToolBarInline(false)
   } else if (isSelectedTextEmpty) {
     setShouldShowToolBar(false)
+    localStorage.setItem(branchId, JSON.stringify(rawContentState))
   } else {
     setShouldShowToolBar(true)
     setShouldShowToolBarInline(true)
+    localStorage.setItem(branchId, JSON.stringify(rawContentState))
   }
-  localStorage.setItem(branchId, JSON.stringify(rawContentState))
 }
 
-const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, branchType }) => {
+const MarkdownEditor: React.FC<Props & DispatchProps> = ({
+  currentUser,
+  directoryId,
+  branchId,
+  branchType,
+  latestCommitBody,
+  fetchLatestCommitBody,
+}) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
   const [shouldShowToolBarInline, setShouldShowToolBarInline] = useState(false)
@@ -80,7 +117,19 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, b
   const rawContentState = convertToRaw(contentState)
   const rawContentBlocks = rawContentState.blocks // 複数回使うのでここで定義
 
-  useEffect(() => initEditorState(branchId, editorState, setEditorState), [])
+  useEffect(
+    () =>
+      initEditorState(
+        currentUser.uid,
+        directoryId,
+        branchId,
+        editorState,
+        setEditorState,
+        latestCommitBody.data,
+        fetchLatestCommitBody
+      ),
+    []
+  )
 
   useEffect(() => {
     changeToolBarDisplay(
@@ -103,6 +152,8 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, b
     }
     return 'not-handled'
   }
+
+  if (latestCommitBody.status === 'fetching') return <CircularProgress />
 
   return (
     <div className={editorWrapper}>
@@ -140,4 +191,7 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, b
   )
 }
 
-export default MarkdownEditor
+export default connect(
+  null,
+  { fetchLatestCommitBody }
+)(MarkdownEditor)
