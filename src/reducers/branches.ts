@@ -59,7 +59,7 @@ export const selectedBranchId = (
   action: BranchesStatusAction
 ): string | null => {
   switch (action.type) {
-    case actionTypes.BRANCH__SET_SELECTED_BRANCH_ID:
+    case actionTypes.SELECTED_BRANCH_ID_SET:
       return action.payload.selectedBranchId
   }
   return state

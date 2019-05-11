@@ -210,20 +210,20 @@ export const checkCurrentBranchData = (
 }
 
 // -------------------------------------------------------------------------
-// BranchesStatus
+// SelectedBranchIdStatus
 // -------------------------------------------------------------------------
 
-interface SetSelectedBranchAction extends BaseAction {
+interface SetSelectedBranchIdAction extends BaseAction {
   type: string
   payload: { selectedBranchId: string }
 }
 
-export type BranchesStatusAction = SetSelectedBranchAction
+export type BranchesStatusAction = SetSelectedBranchIdAction
 
 export const setSelectedBranch = (selectedBranchId: string) => {
   return (dispatch: ThunkDispatch<{}, {}, BranchesStatusAction>) => {
     dispatch({
-      type: actionTypes.BRANCH__SET_SELECTED_BRANCH_ID,
+      type: actionTypes.SELECTED_BRANCH_ID_SET,
       payload: { selectedBranchId },
     })
   }
