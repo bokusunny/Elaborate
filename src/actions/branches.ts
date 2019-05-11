@@ -224,7 +224,7 @@ export const checkCurrentBranchData = (
 // -------------------------------------------------------------------------
 // SelectedBranchIdStatus
 // -------------------------------------------------------------------------
-
+// TODO: あとで消す
 interface SetSelectedBranchIdAction extends BaseAction {
   type: string
   payload: string

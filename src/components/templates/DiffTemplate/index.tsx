@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react'
 import * as H from 'history'
-import { FirebaseSnapShot } from '../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import Header from '../../molecules/Header'
 
 interface Props {
   history: H.History
-  diffLeftFile: ReduxAPIStruct<FirebaseSnapShot>
-  diffRightFile: ReduxAPIStruct<FirebaseSnapShot>
+  diffLeftFile: ReduxAPIStruct<string>
+  diffRightFile: ReduxAPIStruct<string>
 }
 const DiffTemplate: React.FC<Props> = ({ history, diffLeftFile, diffRightFile }) => {
   return (

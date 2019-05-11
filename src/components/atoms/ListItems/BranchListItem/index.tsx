@@ -47,7 +47,7 @@ const BranchListItem: React.FC<Props & DispatchProps> = ({
         <button
           onClick={() => {
             setSelectedBranchId(branchId)
-            history.push(`/${directoryId}/diff`)
+            history.push(`/${directoryId}/diff/master/${branchId}`)
           }}
         >
           check diff
