@@ -66,6 +66,7 @@ export const createBranch = (values: Values, currentUserUid: string, directoryId
       .add({
         name: values.branchName,
         state: 'open',
+        body: '',
         createdAt: Date.now(),
         updatedAt: Date.now(),
       })
@@ -75,6 +76,12 @@ export const createBranch = (values: Values, currentUserUid: string, directoryId
             type: actionTypes.BRANCH__ADD,
             payload: { newBranch: snapShot },
           })
+        })
+
+        newDocRef.collection('commits').add({
+          name: 'initial commit',
+          body: '',
+          createdAt: Date.now(),
         })
       })
       .catch(error => dispatch(branchFirebaseFailure(error.message)))
@@ -119,6 +126,11 @@ export const mergeBranch = (currentUserUid: string, directoryId: string, branchI
                     })
                   })
                   .catch(error => dispatch(branchFirebaseFailure(error.message)))
+
+                currentBranchDocRef.get().then(snapShot => {
+                  const snapShotData = snapShot.data()
+                  snapShotData && masterBranchDocRef.update({ body: snapShotData.body })
+                })
               })
               .catch(error => dispatch(branchFirebaseFailure(error.message)))
           })
