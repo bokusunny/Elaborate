@@ -68,7 +68,7 @@ export const selectedDirectoryIdForDiff = (
   action: DirectoriesStatusForDiffAction
 ): string | null => {
   switch (action.type) {
-    case actionTypes.DIRECTORY__SET_SELECTED_DIRECTORY_ID_FOR_DIFF:
+    case actionTypes.DIRECTORY__FOR_DIFF_SET_SELECTED_DIRECTORY_ID:
       return action.payload.selectedDirectoryId
   }
   return state

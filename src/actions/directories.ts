@@ -189,7 +189,7 @@ export type DirectoriesStatusForDiffAction = SetSelectedDirectoryForDiffAction
 export const setSelectedIdDirectoryForDiff = (selectedDirectoryId: string) => {
   return (dispatch: ThunkDispatch<{}, {}, DirectoriesStatusForDiffAction>) => {
     dispatch({
-      type: actionTypes.DIRECTORY__SET_SELECTED_DIRECTORY_ID_FOR_DIFF,
+      type: actionTypes.DIRECTORY__FOR_DIFF_SET_SELECTED_DIRECTORY_ID,
       payload: { selectedDirectoryId },
     })
   }

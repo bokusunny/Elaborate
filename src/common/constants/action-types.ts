@@ -10,7 +10,9 @@ export const actionTypes = keyMirror({
   DIRECTORY__ADD: null,
   DIRECTORY__CHECK_ID: null,
   DIRECTORY__SET_SELECTED_DIRECTORY_ID: null,
-  DIRECTORY__SET_SELECTED_DIRECTORY_ID_FOR_DIFF: null,
+
+  // Directories for Diff
+  DIRECTORY__FOR_DIFF_SET_SELECTED_DIRECTORY_ID: null,
 
   // Branches
   BRANCH__FIREBASE_REQUEST: null,
@@ -21,7 +23,11 @@ export const actionTypes = keyMirror({
   BRANCH__ADD: null,
   BRANCH__MERGE_OR_CLOSE: null,
   BRANCH__CHECK_ID: null,
-  BRANCH__SET_FOR_DIFF: null,
+
+  // Branches for Diff
+  BRANCH__FOR_DIFF__FIREBASE_REQUEST: null,
+  BRANCH__FOR_DIFF__FIREBASE_REQUEST_FAILURE: null,
+  BRANCH__FOR_DIFF_SET: null,
 
   // Commits
   COMMIT__FIREBASE_REQUEST: null,

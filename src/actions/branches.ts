@@ -199,7 +199,7 @@ export type BranchesForDiffAction = FirebaseAPIRequest | FirebaseAPIFailure
 
 export const fetchBranchesForDiff = (currentUserUid: string, directoryId: string) => {
   return (dispatch: ThunkDispatch<{}, {}, BranchesForDiffAction>) => {
-    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
+    dispatch({ type: actionTypes.BRANCH__FOR_DIFF__FIREBASE_REQUEST })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -213,7 +213,7 @@ export const fetchBranchesForDiff = (currentUserUid: string, directoryId: string
           return doc1.data().createdAt - doc2.data().createdAt
         })
         dispatch({
-          type: actionTypes.BRANCH__SET_FOR_DIFF,
+          type: actionTypes.BRANCH__FOR_DIFF_SET,
           payload: { branches: orderedBranches },
         })
       })

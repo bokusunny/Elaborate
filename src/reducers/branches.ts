@@ -54,13 +54,13 @@ export const branchesForDiff = (
   action: BranchesAction
 ): ReduxAPIStruct<FirebaseSnapShot[]> => {
   switch (action.type) {
-    case actionTypes.BRANCH__FIREBASE_REQUEST:
+    case actionTypes.BRANCH__FOR_DIFF__FIREBASE_REQUEST:
       return { ...state, status: 'fetching' }
 
-    case actionTypes.BRANCH__FIREBASE_REQUEST_FAILURE:
+    case actionTypes.BRANCH__FOR_DIFF__FIREBASE_REQUEST_FAILURE:
       return { ...state, status: 'failure', error: action.payload.message }
 
-    case actionTypes.BRANCH__SET:
+    case actionTypes.BRANCH__FOR_DIFF_SET:
       return { ...state, status: 'success', data: action.payload.branches }
   }
   return state
