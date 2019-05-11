@@ -31,6 +31,7 @@ const DiffPage: React.FC<Props & StateProps> = ({
   selectedBranchId,
   history,
 }) => {
+  // TODO: リロードしたらここはtrueになるが想定内、URLからIDをfetchするように変える
   if (selectedDirectoryId === null || selectedBranchId === null)
     return <div>Ooops some unknown error happened</div>
 

@@ -223,7 +223,7 @@ export type BranchesStatusAction = SetSelectedBranchIdAction
 export const setSelectedBranch = (selectedBranchId: string) => {
   return (dispatch: ThunkDispatch<{}, {}, BranchesStatusAction>) => {
     dispatch({
-      type: actionTypes.SELECTED_BRANCH_ID_SET,
+      type: actionTypes.SELECTED_BRANCH_ID__SET,
       payload: { selectedBranchId },
     })
   }

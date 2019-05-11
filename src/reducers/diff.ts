@@ -1,12 +1,11 @@
 import { actionTypes } from '../common/constants/action-types'
 import { ReduxAPIStruct, defaultSet } from '../common/static-types/api-struct'
 import { DiffFilesAction } from '../actions/diff'
-import { FirebaseSnapShot } from '../utils/firebase'
 
 export const diffLeftFile = (
-  state: ReduxAPIStruct<FirebaseSnapShot[]> = defaultSet(),
+  state: ReduxAPIStruct<string> = defaultSet(),
   action: DiffFilesAction
-): ReduxAPIStruct<FirebaseSnapShot[]> => {
+): ReduxAPIStruct<string> => {
   switch (action.type) {
     case actionTypes.DIFF__FIREBASE_REQUEST:
       return { ...state, status: 'fetching' }
@@ -21,9 +20,9 @@ export const diffLeftFile = (
 }
 
 export const diffRightFile = (
-  state: ReduxAPIStruct<FirebaseSnapShot[]> = defaultSet(),
+  state: ReduxAPIStruct<string> = defaultSet(),
   action: DiffFilesAction
-): ReduxAPIStruct<FirebaseSnapShot[]> => {
+): ReduxAPIStruct<string> => {
   switch (action.type) {
     case actionTypes.DIFF__FIREBASE_REQUEST:
       return { ...state, status: 'fetching' }
