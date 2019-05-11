@@ -1,6 +1,11 @@
 import { actionTypes } from '../common/constants/action-types'
 import { ReduxAPIStruct, defaultSet } from '../common/static-types/api-struct'
-import { BranchesAction, IsInvalidBranchAction, BranchData } from '../actions/branches'
+import {
+  BranchesAction,
+  IsInvalidBranchAction,
+  BranchData,
+  BranchesStatusAction,
+} from '../actions/branches'
 import { FirebaseSnapShot } from '../utils/firebase'
 
 export const branches = (
@@ -45,6 +50,17 @@ export const currentBranchData = (
 
     case actionTypes.CURRENT_BRANCH_DATA__CHECK:
       return { ...state, status: 'success', data: action.payload.branchData }
+  }
+  return state
+}
+
+export const selectedBranchId = (
+  state: string | null = null,
+  action: BranchesStatusAction
+): string | null => {
+  switch (action.type) {
+    case actionTypes.BRANCH__SET_SELECTED_BRANCH_ID:
+      return action.payload.selectedBranchId
   }
   return state
 }

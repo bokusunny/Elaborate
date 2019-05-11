@@ -208,3 +208,23 @@ export const checkCurrentBranchData = (
       .catch(error => currentBranchDataFirebaseFailure(error.message))
   }
 }
+
+// -------------------------------------------------------------------------
+// BranchesStatus
+// -------------------------------------------------------------------------
+
+interface SetSelectedBranchAction extends BaseAction {
+  type: string
+  payload: { selectedBranchId: string }
+}
+
+export type BranchesStatusAction = SetSelectedBranchAction
+
+export const setSelectedBranch = (selectedBranchId: string) => {
+  return (dispatch: ThunkDispatch<{}, {}, BranchesStatusAction>) => {
+    dispatch({
+      type: actionTypes.BRANCH__SET_SELECTED_BRANCH_ID,
+      payload: { selectedBranchId },
+    })
+  }
+}
