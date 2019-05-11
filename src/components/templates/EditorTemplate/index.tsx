@@ -7,13 +7,14 @@ interface Props {
   currentUser: firebase.User
   directoryId: string
   branchId: string
+  branchType: 'master' | 'normal'
   history: H.History
 }
 
-const EditorTemplate: React.FC<Props> = props => (
+const EditorTemplate: React.FC<Props> = ({ history, ...rest }) => (
   <Fragment>
-    <Header colorType="whiteBase" pageType="edit" history={props.history} />
-    <MarkdownEditor {...props} />
+    <Header colorType="whiteBase" pageType="edit" history={history} />
+    <MarkdownEditor {...rest} />
   </Fragment>
 )
 

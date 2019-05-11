@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { directories, isValidDirectory, selectedDirectoryId } from './directories'
-import { branches, isValidBranch } from './branches'
+import { branches, currentBranchData } from './branches'
 import { authenticationModals } from './modals'
 
 const rootReducer = combineReducers({
@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   isValidDirectory,
   selectedDirectoryId,
   branches,
-  isValidBranch,
+  currentBranchData,
   authenticationModals,
 })
 
