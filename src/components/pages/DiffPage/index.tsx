@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
+import { FirebaseSnapShot } from '../../../utils/firebase'
 import { connect } from 'react-redux'
 import * as H from 'history'
 import { RouteComponentProps } from 'react-router-dom'
+import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import { fetchLeftFile, fetchRightFile } from '../../../actions/diff'
 import DiffTemplate from '../../templates/DiffTemplate'
 
@@ -13,8 +15,8 @@ interface Props extends RouteComponentProps {
 interface StateProps {
   fetchLeftFile: (currentUserId: string, directoryId: string) => void
   fetchRightFile: (currentUserId: string, directoryId: string, branchId: string) => void
-  diffLeftFile: string
-  diffRightFile: string
+  diffLeftFile: ReduxAPIStruct<FirebaseSnapShot>
+  diffRightFile: ReduxAPIStruct<FirebaseSnapShot>
   selectedDirectoryId: string | null
   selectedBranchId: string | null
 }
