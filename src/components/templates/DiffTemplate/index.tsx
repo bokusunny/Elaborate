@@ -8,8 +8,7 @@ interface Props {
   diffRightFile: string
 }
 const DiffTemplate: React.FC<Props> = ({ history, diffLeftFile, diffRightFile }) => {
-  console.log(diffLeftFile)
-  console.log(diffRightFile)
+  console.log(diffLeftFile, diffRightFile)
   return (
     <Fragment>
       <Header colorType="whiteBase" pageType="diff" history={history} />

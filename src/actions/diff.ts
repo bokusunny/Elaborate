@@ -1,8 +1,7 @@
-// import { db, FirebaseSnapShot } from '../utils/firebase'
-import { db } from '../utils/firebase'
+import { db, FirebaseSnapShot } from '../utils/firebase'
 import { ThunkDispatch } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
-// import { ReduxAPIStruct } from '../common/static-types/api-struct'
+import { ReduxAPIStruct } from '../common/static-types/api-struct'
 import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/static-types/actions'
 
 // -------------------------------------------------------------------------
@@ -11,7 +10,7 @@ import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/st
 
 interface SetDiffFileAction extends BaseAction {
   type: string
-  payload: string | null
+  payload: ReduxAPIStruct<FirebaseSnapShot>
 }
 
 const diffFirebaseFailure = (message: string) => ({
@@ -23,6 +22,7 @@ export type DiffFilesAction = FirebaseAPIRequest | FirebaseAPIFailure | SetDiffF
 
 export const fetchLeftFile = (currentUserUid: string, directoryId: string) => {
   return async (dispatch: ThunkDispatch<{}, {}, DiffFilesAction>) => {
+    dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -43,8 +43,8 @@ export const fetchLeftFile = (currentUserUid: string, directoryId: string) => {
 }
 
 export const fetchRightFile = (currentUserUid: string, directoryId: string, branchId: string) => {
-  console.log(currentUserUid, directoryId, branchId)
   return async (dispatch: ThunkDispatch<{}, {}, DiffFilesAction>) => {
+    dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')

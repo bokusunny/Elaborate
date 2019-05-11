@@ -8,7 +8,7 @@ export const diffLeftFile = (
   action: DiffFilesAction
 ): ReduxAPIStruct<FirebaseSnapShot[]> => {
   switch (action.type) {
-    case actionTypes.CURRENT_BRANCH_DATA__FIREBASE_REQUEST:
+    case actionTypes.DIFF__FIREBASE_REQUEST:
       return { ...state, status: 'fetching' }
 
     case actionTypes.DIFF__FIREBASE_REQUEST_FAILURE:
@@ -25,7 +25,7 @@ export const diffRightFile = (
   action: DiffFilesAction
 ): ReduxAPIStruct<FirebaseSnapShot[]> => {
   switch (action.type) {
-    case actionTypes.CURRENT_BRANCH_DATA__FIREBASE_REQUEST:
+    case actionTypes.DIFF__FIREBASE_REQUEST:
       return { ...state, status: 'fetching' }
 
     case actionTypes.DIFF__FIREBASE_REQUEST_FAILURE:
