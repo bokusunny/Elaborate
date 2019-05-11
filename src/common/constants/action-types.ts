@@ -27,6 +27,12 @@ export const actionTypes = keyMirror({
   COMMIT__FIREBASE_REQUEST_FAILURE: null,
   COMMIT__ADD: null,
 
+  // Diff
+  DIFF__FIREBASE_REQUEST: null,
+  DIFF__FIREBASE_REQUEST_FAILURE: null,
+  DIFF__LEFT_FILE_SET: null,
+  DIFF__RIGHT_FILE_SET: null,
+
   // Modal
   MODAL__AUTHENTICATION_OPEN: null,
   MODAL__AUTHENTICATION_CLOSE: null,

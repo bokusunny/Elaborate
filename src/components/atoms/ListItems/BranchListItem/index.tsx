@@ -46,7 +46,7 @@ const BranchListItem: React.FC<Props & DispatchProps> = ({
         </button>
         <button
           onClick={() => {
-            setSelectedBranch(directoryId)
+            setSelectedBranch(branchId)
             history.push(`/${directoryId}/diff`)
           }}
         >
