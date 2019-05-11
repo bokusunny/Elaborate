@@ -42,7 +42,7 @@ const BranchListItem: React.FC<Props & DispatchProps> = ({
         <button onClick={() => mergeBranch(currentUserUid, directoryId, branchId)}>
           merge to master
         </button>
-        <button onClick={() => history.push(`/${branchName}/diff`)}>check diff</button>
+        <button onClick={() => history.push(`/${directoryId}/diff`)}>check diff</button>
         <button onClick={() => closeBranch(currentUserUid, directoryId, branchId)}>
           close blanch
         </button>
