@@ -66,6 +66,7 @@ export const createBranch = (values: Values, currentUserUid: string, directoryId
       .add({
         name: values.branchName,
         state: 'open',
+        body: '',
         createdAt: Date.now(),
         updatedAt: Date.now(),
       })
