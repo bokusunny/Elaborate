@@ -67,9 +67,9 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
         createdAt: Date.now(),
         updatedAt: Date.now(),
       })
-      .then(newDoc => {
+      .then(newDirectoryDoc => {
         // newDirectoryをstoreへ保存
-        newDoc
+        newDirectoryDoc
           .get()
           .then(snapShot => {
             dispatch({
@@ -79,13 +79,20 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
           })
           .catch(error => dispatch(directoryFirebaseFailure(error.message)))
         // newDirectory配下にmaster branchを追加
-        newDoc
+        newDirectoryDoc
           .collection('branches')
           .add({
             name: 'master',
             state: 'open',
             createdAt: Date.now(),
             updatedAt: Date.now(),
+          })
+          .then(newBranchDoc => {
+            newBranchDoc.collection('commits').add({
+              name: 'initial commit',
+              body: '',
+              createdAt: Date.now(),
+            })
           })
           .catch(error => dispatch(directoryFirebaseFailure(error.message)))
       })
