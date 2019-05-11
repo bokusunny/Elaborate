@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
+import * as H from 'history'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -12,6 +13,7 @@ interface Props {
   directoryId: string
   branchId: string
   branchName: string
+  history: H.History
 }
 
 interface DispatchProps {
@@ -22,6 +24,7 @@ interface DispatchProps {
 const BranchListItem: React.FC<Props & DispatchProps> = ({
   currentUserUid,
   branchName,
+  history,
   directoryId,
   branchId,
   mergeBranch,
@@ -39,6 +42,7 @@ const BranchListItem: React.FC<Props & DispatchProps> = ({
         <button onClick={() => mergeBranch(currentUserUid, directoryId, branchId)}>
           merge to master
         </button>
+        <button onClick={() => history.push(`/${branchName}/diff`)}>check diff</button>
         <button onClick={() => closeBranch(currentUserUid, directoryId, branchId)}>
           close blanch
         </button>
