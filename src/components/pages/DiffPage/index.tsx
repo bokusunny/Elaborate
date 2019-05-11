@@ -12,16 +12,19 @@ interface Props extends RouteComponentProps {
   history: H.History
 }
 
-interface StateProps {
+interface DispatchProps {
   fetchLeftFile: (currentUserId: string, directoryId: string) => void
   fetchRightFile: (currentUserId: string, directoryId: string, branchId: string) => void
+}
+
+interface StateProps {
   diffLeftFile: ReduxAPIStruct<FirebaseSnapShot>
   diffRightFile: ReduxAPIStruct<FirebaseSnapShot>
   selectedDirectoryId: string | null
   selectedBranchId: string | null
 }
 
-const DiffPage: React.FC<Props & StateProps> = ({
+const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
   currentUser,
   fetchLeftFile,
   fetchRightFile,

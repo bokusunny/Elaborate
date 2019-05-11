@@ -215,7 +215,7 @@ export const checkCurrentBranchData = (
 
 interface SetSelectedBranchIdAction extends BaseAction {
   type: string
-  payload: { selectedBranchId: string }
+  payload: string
 }
 
 export type BranchesStatusAction = SetSelectedBranchIdAction
@@ -224,7 +224,7 @@ export const setSelectedBranchId = (selectedBranchId: string) => {
   return (dispatch: ThunkDispatch<{}, {}, BranchesStatusAction>) => {
     dispatch({
       type: actionTypes.SELECTED_BRANCH_ID__SET,
-      payload: { selectedBranchId },
+      payload: selectedBranchId,
     })
   }
 }

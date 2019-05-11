@@ -60,7 +60,7 @@ export const selectedBranchId = (
 ): string | null => {
   switch (action.type) {
     case actionTypes.SELECTED_BRANCH_ID__SET:
-      return action.payload.selectedBranchId
+      return action.payload
   }
   return state
 }

@@ -31,10 +31,10 @@ export const fetchLeftFile = (currentUserUid: string, directoryId: string) => {
       .where('name', '==', 'master')
       .get()
       .then(querySnapShot => {
-        const leftBranchDocRef = querySnapShot.docs[0].data().body
+        const leftBranchBody = querySnapShot.docs[0].data().body
         dispatch({
           type: actionTypes.DIFF__LEFT_FILE_SET,
-          payload: leftBranchDocRef,
+          payload: leftBranchBody,
         })
       })
       .catch(error => dispatch(diffFirebaseFailure(error.message)))
