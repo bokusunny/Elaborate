@@ -29,8 +29,10 @@ const DiffPage: React.FC<Props & StateProps> = ({
   selectedBranchId,
   history,
 }) => {
-  if (selectedDirectoryId === null || selectedBranchId === null) return <div>Loading ...</div>
+  if (selectedDirectoryId === null || selectedBranchId === null)
+    return <div>Ooops some unknown error happened</div>
 
+  // TODO: リロードに対応する
   useEffect(() => {
     fetchLeftFile(currentUser.uid, selectedDirectoryId)
     fetchRightFile(currentUser.uid, selectedDirectoryId, selectedBranchId)
