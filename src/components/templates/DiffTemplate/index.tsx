@@ -17,11 +17,13 @@ const DiffTemplate: React.FC<Props> = ({
   selectedDirectoryIdForDiff,
   history,
 }) => {
-  console.log(currentUser, directories, selectedDirectoryIdForDiff)
   return (
     <Fragment>
       <Header colorType="whiteBase" pageType="diff" history={history} />
-      <div>Diff Page</div>
+      {/* TODO: あとで変更する */}
+      <div>{currentUser.uid}</div>
+      <div>{directories.status}</div>
+      <div>{selectedDirectoryIdForDiff}</div>
     </Fragment>
   )
 }
