@@ -220,7 +220,7 @@ interface SetSelectedBranchIdAction extends BaseAction {
 
 export type BranchesStatusAction = SetSelectedBranchIdAction
 
-export const setSelectedBranch = (selectedBranchId: string) => {
+export const setSelectedBranchId = (selectedBranchId: string) => {
   return (dispatch: ThunkDispatch<{}, {}, BranchesStatusAction>) => {
     dispatch({
       type: actionTypes.SELECTED_BRANCH_ID__SET,
