@@ -42,15 +42,15 @@ const Router: React.FC<{}> = () => {
         />
         <PrivateRoute
           exact
-          path="/diff"
-          component={DiffPage}
+          path="/:directoryId"
+          component={DirectoryPage}
           currentUser={currentUser}
           isAuthorized={isAuthorized}
         />
         <PrivateRoute
           exact
-          path="/:directoryId"
-          component={DirectoryPage}
+          path="/:directoryId/diff"
+          component={DiffPage}
           currentUser={currentUser}
           isAuthorized={isAuthorized}
         />
