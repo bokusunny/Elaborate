@@ -20,7 +20,7 @@ const diffFirebaseFailure = (message: string) => ({
 export type DiffFilesAction = FirebaseAPIRequest | FirebaseAPIFailure | SetDiffFileAction
 
 export const fetchLeftFile = (currentUserUid: string, directoryId: string) => {
-  return async (dispatch: ThunkDispatch<{}, {}, DiffFilesAction>) => {
+  return (dispatch: ThunkDispatch<{}, {}, DiffFilesAction>) => {
     dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST })
     db.collection('users')
       .doc(currentUserUid)
@@ -42,7 +42,7 @@ export const fetchLeftFile = (currentUserUid: string, directoryId: string) => {
 }
 
 export const fetchRightFile = (currentUserUid: string, directoryId: string, branchId: string) => {
-  return async (dispatch: ThunkDispatch<{}, {}, DiffFilesAction>) => {
+  return (dispatch: ThunkDispatch<{}, {}, DiffFilesAction>) => {
     dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST })
     db.collection('users')
       .doc(currentUserUid)
