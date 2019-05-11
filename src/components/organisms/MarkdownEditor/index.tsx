@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Dispatch } from 'react'
+import React, { useState, useEffect, Fragment, Dispatch } from 'react'
 import {
   EditorState,
   RichUtils,
@@ -22,6 +22,7 @@ interface Props {
   currentUser: firebase.User
   directoryId: string
   branchId: string
+  branchType: 'master' | 'normal'
 }
 
 const initEditorState = (
@@ -70,7 +71,7 @@ const changeToolBarDisplay = (
   localStorage.setItem(branchId, JSON.stringify(rawContentState))
 }
 
-const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId }) => {
+const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, branchType }) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
   const [shouldShowToolBarInline, setShouldShowToolBarInline] = useState(false)
@@ -112,24 +113,29 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId })
         handleKeyCommand={handleKeyCommand}
         plugins={[createMarkdownPlugin()]}
         customStyleMap={STYLE_MAP}
+        readOnly={branchType === 'master'}
         // placeholder='placeholder'
       />
-      <EditorToolBar
-        shouldShowToolBar={shouldShowToolBar}
-        shouldShowToolBarInline={shouldShowToolBarInline}
-        toggleBlockType={(blockStyle: string) => {
-          setEditorState(RichUtils.toggleBlockType(editorState, blockStyle))
-        }}
-        toggleInlineStyle={(inlineStyle: string) => {
-          setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle))
-        }}
-      />
-      <CommitForm
-        currentUser={currentUser}
-        directoryId={directoryId}
-        branchId={branchId}
-        rawContentBlocks={rawContentBlocks}
-      />
+      {branchType !== 'master' && (
+        <Fragment>
+          <EditorToolBar
+            shouldShowToolBar={shouldShowToolBar}
+            shouldShowToolBarInline={shouldShowToolBarInline}
+            toggleBlockType={(blockStyle: string) => {
+              setEditorState(RichUtils.toggleBlockType(editorState, blockStyle))
+            }}
+            toggleInlineStyle={(inlineStyle: string) => {
+              setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle))
+            }}
+          />
+          <CommitForm
+            currentUser={currentUser}
+            directoryId={directoryId}
+            branchId={branchId}
+            rawContentBlocks={rawContentBlocks}
+          />
+        </Fragment>
+      )}
     </div>
   )
 }
