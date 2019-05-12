@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { FirebaseSnapShot } from '../../../utils/firebase'
 import { connect } from 'react-redux'
 import * as H from 'history'
 import { RouteComponentProps } from 'react-router-dom'
@@ -18,8 +17,8 @@ interface DispatchProps {
 }
 
 interface StateProps {
-  diffLeftFile: ReduxAPIStruct<FirebaseSnapShot>
-  diffRightFile: ReduxAPIStruct<FirebaseSnapShot>
+  diffLeftFile: ReduxAPIStruct<string>
+  diffRightFile: ReduxAPIStruct<string>
   selectedDirectoryId: string | null
   selectedBranchId: string | null
 }
