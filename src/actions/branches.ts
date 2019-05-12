@@ -220,3 +220,27 @@ export const checkCurrentBranchData = (
       .catch(error => currentBranchDataFirebaseFailure(error.message))
   }
 }
+
+// -------------------------------------------------------------------------
+// currentBranchBody
+// -------------------------------------------------------------------------
+// checkBranchDataと一元化できるかも
+export const fetchBranchBody = (currentUserUid: string, directoryId: string, branchId: string) => {
+  return async () => {
+    // TODO: 今後できればcatchを追記
+    return db
+      .collection('users')
+      .doc(currentUserUid)
+      .collection('directories')
+      .doc(directoryId)
+      .collection('branches')
+      .doc(branchId)
+      .get()
+      .then(doc => {
+        const docData = doc.data()
+        if (docData === undefined || typeof docData.body !== 'string') return null
+
+        return docData.body
+      })
+  }
+}

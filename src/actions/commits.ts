@@ -60,37 +60,3 @@ export const createCommit = (
       .catch(error => dispatch(commitFirebaseFailure(error.message)))
   }
 }
-
-// -------------------------------------------------------------------------
-// latestCommitBody
-// -------------------------------------------------------------------------
-// const latestCommitBodyFirebaseFailure = (message: string) => ({
-//   type: actionTypes.LATEST_COMMIT_BODY__FIREBASE_REQUEST_FAILURE,
-//   payload: { statusCode: 500, message },
-// })
-
-export type LatestCommitBodyAction = FirebaseAPIRequest | FirebaseAPIFailure
-
-export const fetchLatestCommitBody = (
-  currentUserUid: string,
-  directoryId: string,
-  branchId: string
-) => {
-  return async () => {
-    // TODO: 今後できればcatchを追記
-    return db
-      .collection('users')
-      .doc(currentUserUid)
-      .collection('directories')
-      .doc(directoryId)
-      .collection('branches')
-      .doc(branchId)
-      .get()
-      .then(doc => {
-        const docData = doc.data()
-        if (docData === undefined || typeof docData.body !== 'string') return null
-
-        return docData.body
-      })
-  }
-}

@@ -11,14 +11,12 @@ import {
 } from 'draft-js'
 import createMarkdownPlugin from 'draft-js-markdown-plugin'
 import Editor from 'draft-js-plugins-editor'
-import CircularProgress from '@material-ui/core/CircularProgress'
 
 import EditorToolBar from '../../molecules/EditorToolBar'
 import CommitForm from '../../molecules/Forms/CommitForm'
 
 import { STYLE_MAP } from '../../../common/constants/editor'
-import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
-import { fetchLatestCommitBody } from '../../../actions/commits'
+import { fetchBranchBody } from '../../../actions/branches'
 import * as styles from './style.css'
 const { editorWrapper } = styles
 
@@ -27,11 +25,10 @@ interface Props {
   directoryId: string
   branchId: string
   branchType: 'master' | 'normal'
-  latestCommitBody: ReduxAPIStruct<string>
 }
 
 interface DispatchProps {
-  fetchLatestCommitBody: (
+  fetchBranchBody: (
     currentUserUid: string,
     directoryId: string,
     branchId: string
@@ -44,8 +41,7 @@ const initEditorState = (
   branchId: string,
   editorState: EditorState,
   setEditorState: Dispatch<React.SetStateAction<EditorState>>,
-  latestCommitBody: string | null,
-  fetchLatestCommitBody: (
+  fetchBranchBody: (
     currentUserUid: string,
     directoryId: string,
     branchId: string
@@ -53,7 +49,7 @@ const initEditorState = (
 ) => {
   const rawStateSavedOnStorage = localStorage.getItem(branchId)
   if (!rawStateSavedOnStorage) {
-    fetchLatestCommitBody(currentUserUid, directoryId, branchId).then(body => {
+    fetchBranchBody(currentUserUid, directoryId, branchId).then(body => {
       if (body === null) return
       if (body === '') {
         setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
@@ -105,8 +101,7 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
   directoryId,
   branchId,
   branchType,
-  latestCommitBody,
-  fetchLatestCommitBody,
+  fetchBranchBody,
 }) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
@@ -124,13 +119,10 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
         branchId,
         editorState,
         setEditorState,
-        latestCommitBody.data,
-        fetchLatestCommitBody
+        fetchBranchBody
       ),
     []
   )
-
-  useEffect(() => {}, [latestCommitBody])
 
   useEffect(() => {
     changeToolBarDisplay(
@@ -153,8 +145,6 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
     }
     return 'not-handled'
   }
-
-  if (latestCommitBody.status === 'fetching') return <CircularProgress />
 
   return (
     <div className={editorWrapper}>
@@ -194,5 +184,5 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
 
 export default connect(
   null,
-  { fetchLatestCommitBody }
+  { fetchBranchBody }
 )(MarkdownEditor)

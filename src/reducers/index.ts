@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { directories, isValidDirectory, selectedDirectoryId } from './directories'
 import { branches, currentBranchData } from './branches'
-import { commits, latestCommitBody } from './commits'
+import { commits } from './commits'
 import { authenticationModals } from './modals'
 
 const rootReducer = combineReducers({
@@ -10,8 +10,7 @@ const rootReducer = combineReducers({
   selectedDirectoryId,
   branches,
   currentBranchData,
-  commits,
-  latestCommitBody,
+  commits, // 現状使っていない
   authenticationModals,
 })
 
