@@ -1,21 +1,20 @@
 import React, { Fragment } from 'react'
 import * as H from 'history'
-import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import Header from '../../molecules/Header'
 import Diff from '../../organisms/Diff'
 
 interface Props {
   history: H.History
-  diffLeftFile: ReduxAPIStruct<string>
-  diffRightFile: ReduxAPIStruct<string>
+  diffLeftFileBody: string
+  diffRightFileBody: string
 }
 
-const DiffTemplate: React.FC<Props> = ({ history, diffLeftFile, diffRightFile }) => {
+const DiffTemplate: React.FC<Props> = ({ history, diffLeftFileBody, diffRightFileBody }) => {
   return (
     <Fragment>
       <Header colorType="whiteBase" pageType="diff" history={history} />
       <div>Diff Page</div>
-      <Diff diffLeftFile={diffLeftFile} diffRightFile={diffRightFile} />
+      <Diff diffLeftFileBody={diffLeftFileBody} diffRightFileBody={diffRightFileBody} />
     </Fragment>
   )
 }

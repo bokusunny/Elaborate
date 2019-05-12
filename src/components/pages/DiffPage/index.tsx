@@ -37,6 +37,9 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
   if (selectedDirectoryId === null || selectedBranchId === null)
     return <div>Ooops some unknown error happened</div>
 
+  if (diffLeftFile.data === null || diffRightFile.data === null)
+    return <div>Ooops some unknown error happened</div>
+
   // TODO: リロードに対応する
   useEffect(() => {
     fetchLeftFile(currentUser.uid, selectedDirectoryId)
@@ -44,7 +47,11 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
   }, [])
 
   return (
-    <DiffTemplate history={history} diffLeftFile={diffLeftFile} diffRightFile={diffRightFile} />
+    <DiffTemplate
+      history={history}
+      diffLeftFileBody={diffLeftFile.data}
+      diffRightFileBody={diffRightFile.data}
+    />
   )
 }
 
