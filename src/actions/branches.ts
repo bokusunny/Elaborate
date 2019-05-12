@@ -66,6 +66,7 @@ export const createBranch = (values: Values, currentUserUid: string, directoryId
       .add({
         name: values.branchName,
         state: 'open',
+        body: '',
         createdAt: Date.now(),
         updatedAt: Date.now(),
       })
@@ -125,6 +126,11 @@ export const mergeBranch = (currentUserUid: string, directoryId: string, branchI
                     })
                   })
                   .catch(error => dispatch(branchFirebaseFailure(error.message)))
+
+                currentBranchDocRef.get().then(snapShot => {
+                  const snapShotData = snapShot.data()
+                  snapShotData && masterBranchDocRef.update({ body: snapShotData.body })
+                })
               })
               .catch(error => dispatch(branchFirebaseFailure(error.message)))
           })

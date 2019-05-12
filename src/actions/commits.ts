@@ -32,12 +32,15 @@ export const createCommit = (
   return async (dispatch: ThunkDispatch<{}, {}, CommitsAction>) => {
     const commitText = convertToText(rawContentBlocks)
     dispatch({ type: actionTypes.COMMIT__FIREBASE_REQUEST })
-    db.collection('users')
+    const currentBranchDocRef = db
+      .collection('users')
       .doc(currentUserUid)
       .collection('directories')
       .doc(directoryId)
       .collection('branches')
       .doc(branchId)
+
+    currentBranchDocRef
       .collection('commits')
       .add({
         name: values.commitName,
@@ -51,6 +54,8 @@ export const createCommit = (
             payload: { newCommit: snapShot },
           })
         })
+
+        currentBranchDocRef.update({ body: commitText })
       })
       .catch(error => dispatch(commitFirebaseFailure(error.message)))
   }
