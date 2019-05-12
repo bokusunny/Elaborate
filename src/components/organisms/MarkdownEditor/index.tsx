@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment, Dispatch } from 'react'
+import { connect } from 'react-redux'
 import {
   EditorState,
   RichUtils,
@@ -10,11 +11,13 @@ import {
 } from 'draft-js'
 import createMarkdownPlugin from 'draft-js-markdown-plugin'
 import Editor from 'draft-js-plugins-editor'
+import { markdownToDraft } from 'markdown-draft-js'
 
 import EditorToolBar from '../../molecules/EditorToolBar'
 import CommitForm from '../../molecules/Forms/CommitForm'
 
 import { STYLE_MAP } from '../../../common/constants/editor'
+import { fetchBranchBody } from '../../../actions/branches'
 import * as styles from './style.css'
 const { editorWrapper } = styles
 
@@ -25,14 +28,39 @@ interface Props {
   branchType: 'master' | 'normal'
 }
 
+interface DispatchProps {
+  fetchBranchBody: (
+    currentUserUid: string,
+    directoryId: string,
+    branchId: string
+  ) => Promise<string | undefined>
+}
+
 const initEditorState = (
+  currentUserUid: string,
+  directoryId: string,
   branchId: string,
   editorState: EditorState,
-  setEditorState: Dispatch<React.SetStateAction<EditorState>>
+  setEditorState: Dispatch<React.SetStateAction<EditorState>>,
+  fetchBranchBody: (
+    currentUserUid: string,
+    directoryId: string,
+    branchId: string
+  ) => Promise<string | undefined>
 ) => {
   const rawStateSavedOnStorage = localStorage.getItem(branchId)
   if (!rawStateSavedOnStorage) {
-    setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
+    fetchBranchBody(currentUserUid, directoryId, branchId).then(body => {
+      if (body === undefined) return
+      if (body === '') {
+        setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
+      } else {
+        // TODO: markdownToDraftはマークダウン記号に少し齟齬がある(*foo*がitalicになるなど)のでFix
+        const initRawState: RawDraftContentState = markdownToDraft(body)
+        const initContentState = convertFromRaw(initRawState)
+        setEditorState(EditorState.createWithContent(initContentState))
+      }
+    })
   } else {
     const initRawState: RawDraftContentState = JSON.parse(rawStateSavedOnStorage)
     const initContentState = convertFromRaw(initRawState)
@@ -64,14 +92,21 @@ const changeToolBarDisplay = (
     setShouldShowToolBarInline(false)
   } else if (isSelectedTextEmpty) {
     setShouldShowToolBar(false)
+    localStorage.setItem(branchId, JSON.stringify(rawContentState))
   } else {
     setShouldShowToolBar(true)
     setShouldShowToolBarInline(true)
+    localStorage.setItem(branchId, JSON.stringify(rawContentState))
   }
-  localStorage.setItem(branchId, JSON.stringify(rawContentState))
 }
 
-const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, branchType }) => {
+const MarkdownEditor: React.FC<Props & DispatchProps> = ({
+  currentUser,
+  directoryId,
+  branchId,
+  branchType,
+  fetchBranchBody,
+}) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
   const [shouldShowToolBarInline, setShouldShowToolBarInline] = useState(false)
@@ -80,7 +115,18 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, b
   const rawContentState = convertToRaw(contentState)
   const rawContentBlocks = rawContentState.blocks // 複数回使うのでここで定義
 
-  useEffect(() => initEditorState(branchId, editorState, setEditorState), [])
+  useEffect(
+    () =>
+      initEditorState(
+        currentUser.uid,
+        directoryId,
+        branchId,
+        editorState,
+        setEditorState,
+        fetchBranchBody
+      ),
+    []
+  )
 
   useEffect(() => {
     changeToolBarDisplay(
@@ -140,4 +186,7 @@ const MarkdownEditor: React.FC<Props> = ({ currentUser, directoryId, branchId, b
   )
 }
 
-export default MarkdownEditor
+export default connect(
+  null,
+  { fetchBranchBody }
+)(MarkdownEditor)
