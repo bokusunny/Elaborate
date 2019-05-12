@@ -89,7 +89,7 @@ export const createBranch = (values: Values, currentUserUid: string, directoryId
 }
 
 export const mergeBranch = (currentUserUid: string, directoryId: string, branchId: string) => {
-  return (dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, CreateBranchAction>>) => {
+  return async (dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, CreateBranchAction>>) => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
     const branchCollection = db
       .collection('users')

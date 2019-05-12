@@ -7,14 +7,17 @@ interface Props {
   history: H.History
   diffLeftFileBody: string
   diffRightFileBody: string
+  currentUserUid: string
+  directoryId: string
+  branchId: string
 }
 
-const DiffTemplate: React.FC<Props> = ({ history, diffLeftFileBody, diffRightFileBody }) => {
+const DiffTemplate: React.FC<Props> = props => {
   return (
     <Fragment>
-      <Header colorType="whiteBase" pageType="diff" history={history} />
+      <Header colorType="whiteBase" pageType="diff" history={props.history} />
       <div>Diff Page</div>
-      <Diff diffLeftFileBody={diffLeftFileBody} diffRightFileBody={diffRightFileBody} />
+      <Diff {...props} />
     </Fragment>
   )
 }

@@ -17,7 +17,7 @@ interface Props {
 }
 
 interface DispatchProps {
-  mergeBranch: (currentUserUid: string, directoryId: string, branchId: string) => void
+  mergeBranch: (currentUserUid: string, directoryId: string, branchId: string) => Promise<void>
   closeBranch: (currentUserUid: string, directoryId: string, branchId: string) => void
 }
 
@@ -39,14 +39,15 @@ const BranchListItem: React.FC<Props & DispatchProps> = ({
     </ListItem>
     {branchName !== 'master' && (
       <Fragment>
-        <button onClick={() => mergeBranch(currentUserUid, directoryId, branchId)}>
-          merge to master
-        </button>
         <button
           onClick={() => {
-            history.push(`/${directoryId}/diff/master/${branchId}`)
+            // TODO: 帰ってきたPromiseを何もせず放置しているのでどうにかしたい
+            mergeBranch(currentUserUid, directoryId, branchId)
           }}
         >
+          merge to master
+        </button>
+        <button onClick={() => history.push(`/${directoryId}/diff/master/${branchId}`)}>
           check diff
         </button>
         <button onClick={() => closeBranch(currentUserUid, directoryId, branchId)}>

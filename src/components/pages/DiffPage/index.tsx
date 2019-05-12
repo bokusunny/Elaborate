@@ -56,6 +56,9 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
       history={history}
       diffLeftFileBody={diffLeftFile.data}
       diffRightFileBody={diffRightFile.data}
+      currentUserUid={currentUser.uid}
+      directoryId={directoryId}
+      branchId={rightBranchId}
     />
   )
 }
