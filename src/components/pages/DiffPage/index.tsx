@@ -2,11 +2,17 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import * as H from 'history'
 import { RouteComponentProps } from 'react-router-dom'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import { fetchLeftFile, fetchRightFile } from '../../../actions/diff'
 import DiffTemplate from '../../templates/DiffTemplate'
 
-interface Props extends RouteComponentProps {
+interface MatchParams {
+  directoryId: string
+  rightBranchId: string
+}
+
+interface Props extends RouteComponentProps<MatchParams> {
   currentUser: firebase.User
   history: H.History
 }
@@ -29,20 +35,20 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
   fetchRightFile,
   diffLeftFile,
   diffRightFile,
-  selectedDirectoryId,
-  selectedBranchId,
   history,
+  match,
 }) => {
-  // TODO: リロードしたらここはtrueになるが想定内、URLからIDをfetchするように変える
-  if (selectedDirectoryId === null || selectedBranchId === null)
-    return <div>Ooops some unknown error happened</div>
+  if (!currentUser) return <CircularProgress />
+
+  const {
+    params: { directoryId, rightBranchId },
+  } = match
 
   if (diffLeftFile.data === null || diffRightFile.data === null) return <div>Loading...</div>
-
-  // TODO: リロードに対応する
+  
   useEffect(() => {
-    fetchLeftFile(currentUser.uid, selectedDirectoryId)
-    fetchRightFile(currentUser.uid, selectedDirectoryId, selectedBranchId)
+    fetchLeftFile(currentUser.uid, directoryId)
+    fetchRightFile(currentUser.uid, directoryId, rightBranchId)
   }, [])
 
   return (
