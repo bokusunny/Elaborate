@@ -37,8 +37,7 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
   if (selectedDirectoryId === null || selectedBranchId === null)
     return <div>Ooops some unknown error happened</div>
 
-  if (diffLeftFile.data === null || diffRightFile.data === null)
-    return <div>Ooops some unknown error happened</div>
+  if (diffLeftFile.data === null || diffRightFile.data === null) return <div>Loading...</div>
 
   // TODO: リロードに対応する
   useEffect(() => {
