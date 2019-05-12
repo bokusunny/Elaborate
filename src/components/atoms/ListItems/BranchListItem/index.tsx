@@ -6,7 +6,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCodeBranch } from '@fortawesome/free-solid-svg-icons'
-import { mergeBranch, closeBranch, setSelectedBranchId } from '../../../../actions/branches'
+import { mergeBranch, closeBranch } from '../../../../actions/branches'
 
 interface Props {
   currentUserUid: string
@@ -19,7 +19,6 @@ interface Props {
 interface DispatchProps {
   mergeBranch: (currentUserUid: string, directoryId: string, branchId: string) => void
   closeBranch: (currentUserUid: string, directoryId: string, branchId: string) => void
-  setSelectedBranchId: (currentBranchId: string) => void
 }
 
 const BranchListItem: React.FC<Props & DispatchProps> = ({
@@ -30,7 +29,6 @@ const BranchListItem: React.FC<Props & DispatchProps> = ({
   branchId,
   mergeBranch,
   closeBranch,
-  setSelectedBranchId,
 }) => (
   <Fragment>
     <ListItem button component="a" href={`${directoryId}/${branchId}/edit`}>
@@ -46,7 +44,6 @@ const BranchListItem: React.FC<Props & DispatchProps> = ({
         </button>
         <button
           onClick={() => {
-            setSelectedBranchId(branchId)
             history.push(`/${directoryId}/diff/master/${branchId}`)
           }}
         >
@@ -62,5 +59,5 @@ const BranchListItem: React.FC<Props & DispatchProps> = ({
 
 export default connect(
   null,
-  { mergeBranch, closeBranch, setSelectedBranchId }
+  { mergeBranch, closeBranch }
 )(BranchListItem)
