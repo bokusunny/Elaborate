@@ -35,7 +35,7 @@ interface DispatchProps {
     currentUserUid: string,
     directoryId: string,
     branchId: string
-  ) => Promise<void>
+  ) => Promise<string | null>
 }
 
 const initEditorState = (
@@ -49,17 +49,16 @@ const initEditorState = (
     currentUserUid: string,
     directoryId: string,
     branchId: string
-  ) => Promise<void>
+  ) => Promise<string | null>
 ) => {
   const rawStateSavedOnStorage = localStorage.getItem(branchId)
   if (!rawStateSavedOnStorage) {
-    fetchLatestCommitBody(currentUserUid, directoryId, branchId).then(() => {
-      if (latestCommitBody === null) return
-      if (latestCommitBody === '') {
-        // console.log('hi!')
+    fetchLatestCommitBody(currentUserUid, directoryId, branchId).then(body => {
+      if (body === null) return
+      if (body === '') {
         setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
       } else {
-        // ここでlatestCommitBodyをeditorStateに適用
+        // ここでbodyをeditorStateに適用
       }
     })
   } else {
@@ -130,6 +129,8 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
       ),
     []
   )
+
+  useEffect(() => {}, [latestCommitBody])
 
   useEffect(() => {
     changeToolBarDisplay(

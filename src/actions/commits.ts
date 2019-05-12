@@ -64,10 +64,10 @@ export const createCommit = (
 // -------------------------------------------------------------------------
 // latestCommitBody
 // -------------------------------------------------------------------------
-const latestCommitBodyFirebaseFailure = (message: string) => ({
-  type: actionTypes.LATEST_COMMIT_BODY__FIREBASE_REQUEST_FAILURE,
-  payload: { statusCode: 500, message },
-})
+// const latestCommitBodyFirebaseFailure = (message: string) => ({
+//   type: actionTypes.LATEST_COMMIT_BODY__FIREBASE_REQUEST_FAILURE,
+//   payload: { statusCode: 500, message },
+// })
 
 export type LatestCommitBodyAction = FirebaseAPIRequest | FirebaseAPIFailure
 
@@ -76,31 +76,21 @@ export const fetchLatestCommitBody = (
   directoryId: string,
   branchId: string
 ) => {
-  return async (dispatch: ThunkDispatch<{}, {}, LatestCommitBodyAction>) => {
-    dispatch({ type: actionTypes.LATEST_COMMIT_BODY__FIREBASE_REQUEST })
-    db.collection('users')
+  return async () => {
+    // TODO: 今後できればcatchを追記
+    return db
+      .collection('users')
       .doc(currentUserUid)
       .collection('directories')
       .doc(directoryId)
       .collection('branches')
       .doc(branchId)
-      .collection('commits')
       .get()
-      .then(querySnapshot => {
-        // Firebaseのデータは取得時順番がランダムなので作成が遅い順にソートする
-        // NOTE: 他のソートとは順番が逆なので注意
-        const orderedCommits = querySnapshot.docs.sort((doc1, doc2) => {
-          return doc2.data().createdAt - doc1.data().createdAt
-        })
+      .then(doc => {
+        const docData = doc.data()
+        if (docData === undefined || typeof docData.body !== 'string') return null
 
-        const latestCommitBody = orderedCommits[0].data().body
-        const bodyShouldDisplayOnEditor = latestCommitBody !== undefined ? latestCommitBody : ''
-
-        dispatch({
-          type: actionTypes.LATEST_COMMIT_BODY__SET,
-          payload: bodyShouldDisplayOnEditor,
-        })
+        return docData.body
       })
-      .catch(error => latestCommitBodyFirebaseFailure(error.message))
   }
 }
