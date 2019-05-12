@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import H from 'history'
 import List from '@material-ui/core/List'
 import BranchForm from '../../../molecules/Forms/BranchForm'
 import BranchListItem from '../../../atoms/ListItems/BranchListItem'
@@ -9,9 +10,10 @@ interface Props {
   branches: ReduxAPIStruct<FirebaseSnapShot[]>
   currentUser: firebase.User
   selectedDirectoryId: string | null
+  history: H.History
 }
 
-const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryId }) => {
+const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryId, history }) => {
   if (selectedDirectoryId === null) return <div>No directory is selected ...</div>
 
   if (branches.status === 'default' || branches.status === 'fetching') return <div>Loading...</div>
@@ -35,6 +37,7 @@ const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryI
                 directoryId={selectedDirectoryId}
                 branchId={id}
                 branchName={name}
+                history={history}
               />
             </Fragment>
           )

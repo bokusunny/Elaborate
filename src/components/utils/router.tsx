@@ -8,6 +8,7 @@ import LandingPage from '../pages/LandingPage'
 import MyPage from '../pages/MyPage'
 import DirectoryPage from '../pages/DirectoryPage'
 import EditorPage from '../pages/EditorPage'
+import DiffPage from '../pages/DiffPage'
 
 const Router: React.FC<{}> = () => {
   const [authState, setAuthState] = useState({ isLoading: true, isAuthorized: false })
@@ -43,6 +44,16 @@ const Router: React.FC<{}> = () => {
           exact
           path="/:directoryId"
           component={DirectoryPage}
+          currentUser={currentUser}
+          isAuthorized={isAuthorized}
+        />
+        <PrivateRoute
+          exact
+          // TODO:
+          // 現状base branchのIdをbranchが保持していないので暫定的に左側のURLはmaster
+          // https://github.com/bokusunny/Elaborate/issues/169 解決後に変更する
+          path="/:directoryId/diff/master/:rightBranchId"
+          component={DiffPage}
           currentUser={currentUser}
           isAuthorized={isAuthorized}
         />

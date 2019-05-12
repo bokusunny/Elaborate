@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
+import * as H from 'history'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -12,16 +13,18 @@ interface Props {
   directoryId: string
   branchId: string
   branchName: string
+  history: H.History
 }
 
 interface DispatchProps {
-  mergeBranch: (currentUserUid: string, directoryId: string, branchId: string) => void
+  mergeBranch: (currentUserUid: string, directoryId: string, branchId: string) => Promise<void>
   closeBranch: (currentUserUid: string, directoryId: string, branchId: string) => void
 }
 
 const BranchListItem: React.FC<Props & DispatchProps> = ({
   currentUserUid,
   branchName,
+  history,
   directoryId,
   branchId,
   mergeBranch,
@@ -36,8 +39,16 @@ const BranchListItem: React.FC<Props & DispatchProps> = ({
     </ListItem>
     {branchName !== 'master' && (
       <Fragment>
-        <button onClick={() => mergeBranch(currentUserUid, directoryId, branchId)}>
+        <button
+          onClick={() => {
+            // TODO: 帰ってきたPromiseを何もせず放置しているのでどうにかしたい
+            mergeBranch(currentUserUid, directoryId, branchId)
+          }}
+        >
           merge to master
+        </button>
+        <button onClick={() => history.push(`/${directoryId}/diff/master/${branchId}`)}>
+          check diff
         </button>
         <button onClick={() => closeBranch(currentUserUid, directoryId, branchId)}>
           close blanch
