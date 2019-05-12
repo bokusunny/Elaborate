@@ -7,8 +7,8 @@ try {
     process.env.FIREBASE_API_KEY === undefined ||
     process.env.FIREBASE_AUTH_ADMIN === undefined ||
     process.env.FIREBASE_DATABASE_URL === undefined ||
-    process.env.FIREBASE_FIREBASE_PROJECT_ID === undefined ||
-    process.env.FIREBASE_FIREBASE_STORAGE_BUCKET === undefined ||
+    process.env.FIREBASE_PROJECT_ID === undefined ||
+    process.env.FIREBASE_STORAGE_BUCKET === undefined ||
     process.env.FIREBASE_MESSAGING_SENDER_ID === undefined
   ) {
     throw '.env has not been set. Please make sure your root dir.'
