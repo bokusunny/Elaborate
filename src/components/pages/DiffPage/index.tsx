@@ -44,12 +44,12 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
     params: { directoryId, rightBranchId },
   } = match
 
-  if (diffLeftFile.data === null || diffRightFile.data === null) return <div>Loading...</div>
-
   useEffect(() => {
     fetchLeftFile(currentUser.uid, directoryId)
     fetchRightFile(currentUser.uid, directoryId, rightBranchId)
   }, [])
+
+  if (diffLeftFile.data === null || diffRightFile.data === null) return <div>Loading...</div>
 
   return (
     <DiffTemplate
