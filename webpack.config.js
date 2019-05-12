@@ -70,6 +70,10 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'FIREBASE_API_KEY': JSON.stringify(process.env.FIREBASE_API_KEY),
+        'FIREBASE_AUTH_ADMIN': JSON.stringify(process.env.FIREBASE_AUTH_ADMIN),
+        'FIREBASE_DATABASE_URL': JSON.stringify(process.env.FIREBASE_DATABASE_URL),
+        'FIREBASE_PROJECT_ID': JSON.stringify(process.env.FIREBASE_PROJECT_ID),
+        'FIREBASE_STORAGE_BUCKET': JSON.stringify(process.env.FIREBASE_API_KEY),
         'FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSAGING_SENDER_ID),
       }
     }),
