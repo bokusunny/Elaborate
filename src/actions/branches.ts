@@ -238,7 +238,7 @@ export const fetchBranchBody = (currentUserUid: string, directoryId: string, bra
       .get()
       .then(doc => {
         const docData = doc.data()
-        if (docData === undefined || typeof docData.body !== 'string') return null
+        if (docData === undefined || typeof docData.body !== 'string') return undefined
 
         return docData.body
       })

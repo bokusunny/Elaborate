@@ -11,6 +11,7 @@ import {
 } from 'draft-js'
 import createMarkdownPlugin from 'draft-js-markdown-plugin'
 import Editor from 'draft-js-plugins-editor'
+import { markdownToDraft } from 'markdown-draft-js'
 
 import EditorToolBar from '../../molecules/EditorToolBar'
 import CommitForm from '../../molecules/Forms/CommitForm'
@@ -32,7 +33,7 @@ interface DispatchProps {
     currentUserUid: string,
     directoryId: string,
     branchId: string
-  ) => Promise<string | null>
+  ) => Promise<string | undefined>
 }
 
 const initEditorState = (
@@ -45,16 +46,19 @@ const initEditorState = (
     currentUserUid: string,
     directoryId: string,
     branchId: string
-  ) => Promise<string | null>
+  ) => Promise<string | undefined>
 ) => {
   const rawStateSavedOnStorage = localStorage.getItem(branchId)
   if (!rawStateSavedOnStorage) {
     fetchBranchBody(currentUserUid, directoryId, branchId).then(body => {
-      if (body === null) return
+      if (body === undefined) return
       if (body === '') {
         setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
       } else {
-        // ここでbodyをeditorStateに適用
+        // TODO: markdownToDraftはマークダウン記号に少し齟齬がある(*foo*がitalicになるなど)のでFix
+        const initRawState: RawDraftContentState = markdownToDraft(body)
+        const initContentState = convertFromRaw(initRawState)
+        setEditorState(EditorState.createWithContent(initContentState))
       }
     })
   } else {
