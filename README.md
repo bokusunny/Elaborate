@@ -1,6 +1,6 @@
 <!-- statusの読み取り専用tokenなのでベタ書きで大丈夫-->
 # Elaborate
-[![CircleCI](https://circleci.com/gh/bokusunny/elaborate/tree/master.svg?style=svg&circle-token=8d7544d8acf5f6087de4c29987d454e2a9957357)](https://circleci.com/gh/bokusunny/elaborate/tree/master)
+[![CircleCI](https://circleci.com/gh/bokusunny/Elaborate/tree/master.svg?style=svg&circle-token=8d7544d8acf5f6087de4c29987d454e2a9957357)](https://circleci.com/gh/bokusunny/Elaborate/tree/master)
 
 A hosting, version controll service of documents. 
 
