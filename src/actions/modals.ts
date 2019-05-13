@@ -9,6 +9,7 @@ interface AuthenticationModalOpenAction extends BaseAction {
 
 interface AuthenticationModalCloseAction extends BaseAction {
   type: string
+  payload: null
 }
 
 export type AuthenticationModalsAction =
@@ -26,6 +27,9 @@ export const AuthenticationModalOpen = (authenticationType: 'Sign in' | 'Sign up
 
 export const AuthenticationModalClose = () => {
   return (dispatch: ThunkDispatch<{}, {}, AuthenticationModalCloseAction>) => {
-    dispatch({ type: actionTypes.MODAL__AUTHENTICATION_CLOSE })
+    dispatch({
+      type: actionTypes.MODAL__AUTHENTICATION_CLOSE,
+      payload: null,
+    })
   }
 }
