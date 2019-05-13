@@ -19,8 +19,9 @@ export const authenticationModals = (
     case actionTypes.MODAL__AUTHENTICATION_OPEN:
       return {
         isAuthModalOpen: true,
-        authenticationType: action.payload.authenticationType,
+        authenticationType: action.payload,
       }
+
     case actionTypes.MODAL__AUTHENTICATION_CLOSE:
       return { isAuthModalOpen: false }
   }
