@@ -128,8 +128,10 @@ export const mergeBranch = (currentUserUid: string, directoryId: string, branchI
                   .catch(error => dispatch(branchFirebaseFailure(error.message)))
 
                 currentBranchDocRef.get().then(snapShot => {
-                  const snapShotData = snapShot.data()
-                  snapShotData && masterBranchDocRef.update({ body: snapShotData.body })
+                  masterBranchDocRef.update({
+                    // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
+                    body: (snapShot.data() as firebase.firestore.DocumentData).body,
+                  })
                 })
               })
               .catch(error => dispatch(branchFirebaseFailure(error.message)))
@@ -196,10 +198,9 @@ export const checkCurrentBranchData = (
       .doc(branchId)
       .get()
       .then(snapShot => {
-        const snapShotData = snapShot.data()
-        // snapShot.existsはsnapShot.data()がundefinedでない事を保証するが、tsのエラー回避のために明示
-        if (snapShot.exists && snapShotData) {
-          if (snapShotData.name === 'master') {
+        if (snapShot.exists) {
+          // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
+          if ((snapShot.data() as firebase.firestore.DocumentData).name === 'master') {
             dispatch({
               type: actionTypes.CURRENT_BRANCH_DATA__CHECK,
               payload: { branchData: { type: 'master', isValidBranch: true } },
@@ -236,11 +237,13 @@ export const fetchBranchBody = (currentUserUid: string, directoryId: string, bra
       .collection('branches')
       .doc(branchId)
       .get()
-      .then(doc => {
-        const docData = doc.data()
-        if (docData === undefined || typeof docData.body !== 'string') return undefined
-
-        return docData.body
+      .then(snapShot => {
+        if (snapShot.exists) {
+          // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
+          return (snapShot.data() as firebase.firestore.DocumentData).body as string
+        } else {
+          return undefined
+        }
       })
   }
 }
