@@ -29,9 +29,10 @@ export const createCommit = (
   branchId: string,
   rawContentBlocks: RawDraftContentBlock[]
 ) => {
-  return async (dispatch: ThunkDispatch<{}, {}, CommitsAction>) => {
+  // TODO: Dispatchの型付け
+  return async (dispatch: ThunkDispatch<{}, {}, any>) => {
     const commitText = convertToText(rawContentBlocks)
-    dispatch({ type: actionTypes.COMMIT__FIREBASE_REQUEST })
+    dispatch({ type: actionTypes.COMMIT__FIREBASE_REQUEST, payload: null })
     const currentBranchDocRef = db
       .collection('users')
       .doc(currentUserUid)

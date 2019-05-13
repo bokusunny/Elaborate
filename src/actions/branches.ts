@@ -1,7 +1,6 @@
 import { db, FirebaseSnapShot } from '../utils/firebase'
 import { ThunkDispatch } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
-import { ReduxAPIStruct } from '../common/static-types/api-struct'
 import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/static-types/actions'
 import { Values } from '../components/molecules/Forms/BranchForm'
 
@@ -13,9 +12,14 @@ const branchFirebaseFailure = (message: string) => ({
   payload: { statusCode: 500, message },
 })
 
+interface FetchBranchesAction extends BaseAction {
+  type: string
+  payload: { branches: FirebaseSnapShot[] }
+}
+
 interface CreateBranchAction extends BaseAction {
   type: string
-  payload: { newBranch: ReduxAPIStruct<FirebaseSnapShot> }
+  payload: { newBranch: FirebaseSnapShot }
 }
 
 interface MergeCloseBranchAction extends BaseAction {
@@ -26,12 +30,14 @@ interface MergeCloseBranchAction extends BaseAction {
 export type BranchesAction =
   | FirebaseAPIRequest
   | FirebaseAPIFailure
+  | FetchBranchesAction
   | CreateBranchAction
   | MergeCloseBranchAction
 
 export const fetchBranches = (currentUserUid: string, directoryId: string) => {
-  return (dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, CreateBranchAction>>) => {
-    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
+  // TODO: Dispatchの型付け
+  return (dispatch: ThunkDispatch<{}, {}, any>) => {
+    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -54,10 +60,9 @@ export const fetchBranches = (currentUserUid: string, directoryId: string) => {
 }
 
 export const createBranch = (values: Values, currentUserUid: string, directoryId: string) => {
-  return async (
-    dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, MergeCloseBranchAction>>
-  ) => {
-    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
+  // TODO: Dispatchの型付け
+  return async (dispatch: ThunkDispatch<{}, {}, any>) => {
+    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -89,8 +94,9 @@ export const createBranch = (values: Values, currentUserUid: string, directoryId
 }
 
 export const mergeBranch = (currentUserUid: string, directoryId: string, branchId: string) => {
-  return async (dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, CreateBranchAction>>) => {
-    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
+  // TODO: Dispatchの型付け
+  return async (dispatch: ThunkDispatch<{}, {}, any>) => {
+    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     const branchCollection = db
       .collection('users')
       .doc(currentUserUid)
@@ -141,8 +147,9 @@ export const mergeBranch = (currentUserUid: string, directoryId: string, branchI
 }
 
 export const closeBranch = (currentUserUid: string, directoryId: string, branchId: string) => {
-  return (dispatch: ThunkDispatch<{}, {}, Exclude<BranchesAction, CreateBranchAction>>) => {
-    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
+  // TODO: Dispatchの型付け
+  return (dispatch: ThunkDispatch<{}, {}, any>) => {
+    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -186,8 +193,9 @@ export const checkCurrentBranchData = (
   directoryId: string,
   branchId: string
 ) => {
+  // TODO: Dispatchの型付け
   return (dispatch: ThunkDispatch<{}, {}, IsInvalidBranchAction>) => {
-    dispatch({ type: actionTypes.CURRENT_BRANCH_DATA__FIREBASE_REQUEST })
+    dispatch({ type: actionTypes.CURRENT_BRANCH_DATA__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')

@@ -7,9 +7,10 @@ export interface BaseAction {
 
 export interface FirebaseAPIRequest extends BaseAction {
   type: string
+  payload: null
 }
 
 export interface FirebaseAPIFailure extends BaseAction {
   type: string
-  payload: { error: ReduxAPIError }
+  payload: ReduxAPIError
 }

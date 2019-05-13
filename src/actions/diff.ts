@@ -7,9 +7,14 @@ import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/st
 // Diff Fetch Default Files Body
 // -------------------------------------------------------------------------
 
-interface SetDiffFileAction extends BaseAction {
+interface SetLeftDiffFileAction extends BaseAction {
   type: string
-  payload: string
+  payload: { leftBranchBody: string | null }
+}
+
+interface SetRishtDiffFileAction extends BaseAction {
+  type: string
+  payload: { rightBranchBody: string | null }
 }
 
 const diffFirebaseFailure = (message: string) => ({
@@ -17,11 +22,16 @@ const diffFirebaseFailure = (message: string) => ({
   payload: { statusCode: 500, message },
 })
 
-export type DiffFilesAction = FirebaseAPIRequest | FirebaseAPIFailure | SetDiffFileAction
+export type DiffFilesAction =
+  | FirebaseAPIRequest
+  | FirebaseAPIFailure
+  | SetLeftDiffFileAction
+  | SetRishtDiffFileAction
 
 export const fetchLeftFile = (currentUserUid: string, directoryId: string) => {
-  return (dispatch: ThunkDispatch<{}, {}, DiffFilesAction>) => {
-    dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST })
+  // TODO: Dispatchの型付け
+  return (dispatch: ThunkDispatch<{}, {}, any>) => {
+    dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -34,7 +44,7 @@ export const fetchLeftFile = (currentUserUid: string, directoryId: string) => {
         const leftBranchBody = querySnapShot.docs[0].data().body
         dispatch({
           type: actionTypes.DIFF__LEFT_FILE_SET,
-          payload: leftBranchBody,
+          payload: { leftBranchBody },
         })
       })
       .catch(error => dispatch(diffFirebaseFailure(error.message)))
@@ -42,8 +52,9 @@ export const fetchLeftFile = (currentUserUid: string, directoryId: string) => {
 }
 
 export const fetchRightFile = (currentUserUid: string, directoryId: string, branchId: string) => {
-  return (dispatch: ThunkDispatch<{}, {}, DiffFilesAction>) => {
-    dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST })
+  // TODO: Dispatchの型付け
+  return (dispatch: ThunkDispatch<{}, {}, any>) => {
+    dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -56,12 +67,12 @@ export const fetchRightFile = (currentUserUid: string, directoryId: string, bran
         if (snapShot.exists && documentSnapShotData) {
           dispatch({
             type: actionTypes.DIFF__RIGHT_FILE_SET,
-            payload: documentSnapShotData.body,
+            payload: { rightBranchBody: documentSnapShotData.body },
           })
         } else {
           dispatch({
             type: actionTypes.DIFF__RIGHT_FILE_SET,
-            payload: null,
+            payload: { rightBranchBody: null },
           })
         }
       })

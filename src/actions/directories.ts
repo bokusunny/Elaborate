@@ -1,7 +1,6 @@
 import { db, FirebaseSnapShot } from '../utils/firebase'
 import { ThunkDispatch } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
-import { ReduxAPIStruct } from '../common/static-types/api-struct'
 import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/static-types/actions'
 import { Values } from '../components/molecules/Forms/DirectoryForm'
 
@@ -15,12 +14,12 @@ const directoryFirebaseFailure = (message: string) => ({
 
 interface SetDirectoriesAction extends BaseAction {
   type: string
-  payload: { directories: ReduxAPIStruct<FirebaseSnapShot[]> }
+  payload: { directories: FirebaseSnapShot[] }
 }
 
 interface AddDirectoryAction extends BaseAction {
   type: string
-  payload: { newDir: ReduxAPIStruct<FirebaseSnapShot> }
+  payload: { newDir: FirebaseSnapShot }
 }
 
 export type DirectoriesAction =
@@ -32,9 +31,10 @@ export type DirectoriesAction =
 // NOTE: Firebaseはクライアント側のネットワーク不良などでデータのfetchに失敗してもerrorを吐かず、
 //       空配列を返してくる... :anger_jenkins:
 export const fetchDirectories = (currentUserUid: string | null) => {
-  return (dispatch: ThunkDispatch<{}, {}, Exclude<DirectoriesAction, AddDirectoryAction>>) => {
+  // TODO: Dispatchの型付け
+  return (dispatch: ThunkDispatch<{}, {}, any>) => {
     if (currentUserUid) {
-      dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST })
+      dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST, payload: null })
       db.collection('users')
         .doc(currentUserUid)
         .collection('directories')
@@ -55,10 +55,9 @@ export const fetchDirectories = (currentUserUid: string | null) => {
 }
 
 export const createDirectory = (values: Values, currentUserUid: string) => {
-  return async (
-    dispatch: ThunkDispatch<{}, {}, Exclude<DirectoriesAction, SetDirectoriesAction>>
-  ) => {
-    dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST })
+  // TODO: Dispatchの型付け
+  return async (dispatch: ThunkDispatch<{}, {}, any>) => {
+    dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -110,7 +109,7 @@ const isValidDirectoryFirebaseFailure = (message: string) => ({
 
 interface CheckDirectoryIdAction extends BaseAction {
   type: string
-  payload: { isValidDirectoryId: ReduxAPIStruct<boolean> }
+  payload: { isValidDirectoryId: boolean }
 }
 
 export type IsInvalidDirectoryAction =
@@ -119,8 +118,9 @@ export type IsInvalidDirectoryAction =
   | CheckDirectoryIdAction
 
 export const checkDirectoryId = (currentUserUid: string, directoryId: string) => {
-  return (dispatch: ThunkDispatch<{}, {}, IsInvalidDirectoryAction>) => {
-    dispatch({ type: actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST })
+  // TODO: Dispatchの型付け
+  return (dispatch: ThunkDispatch<{}, {}, any>) => {
+    dispatch({ type: actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST, payload: null })
     const directoryDocRef = db
       .collection('users')
       .doc(currentUserUid)
@@ -174,7 +174,8 @@ interface SetSelectedDirectoryAction extends BaseAction {
 export type DirectoriesStatusAction = SetSelectedDirectoryAction
 
 export const setSelectedDirectory = (selectedDirectoryId: string) => {
-  return (dispatch: ThunkDispatch<{}, {}, DirectoriesStatusAction>) => {
+  // TODO: Dispatchの型付け
+  return (dispatch: ThunkDispatch<{}, {}, any>) => {
     dispatch({
       type: actionTypes.DIRECTORY__SET_SELECTED_DIRECTORY_ID,
       payload: { selectedDirectoryId },
