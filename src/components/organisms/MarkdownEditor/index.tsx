@@ -129,13 +129,16 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
   )
 
   useEffect(() => {
-    changeToolBarDisplay(
-      branchId,
-      editorState,
-      setShouldShowToolBar,
-      setShouldShowToolBarInline,
-      rawContentState
-    )
+    // masterの場合はtoolBarは常に表示されない
+    if (branchType !== 'master') {
+      changeToolBarDisplay(
+        branchId,
+        editorState,
+        setShouldShowToolBar,
+        setShouldShowToolBarInline,
+        rawContentState
+      )
+    }
   }, [editorState])
 
   const handleKeyCommand = (
