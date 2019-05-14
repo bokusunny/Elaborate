@@ -1,23 +1,22 @@
 import { db } from '../utils/firebase'
-import { ThunkDispatch } from 'redux-thunk'
+import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
 import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/static-types/actions'
 
 // -------------------------------------------------------------------------
 // Diff Fetch Default Files Body
 // -------------------------------------------------------------------------
-
 interface SetLeftDiffFileAction extends BaseAction {
   type: string
   payload: { leftBranchBody: string | null }
 }
 
-interface SetRishtDiffFileAction extends BaseAction {
+interface SetRightDiffFileAction extends BaseAction {
   type: string
   payload: { rightBranchBody: string | null }
 }
 
-const diffFirebaseFailure = (message: string) => ({
+const diffFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   type: actionTypes.DIFF__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
@@ -26,11 +25,13 @@ export type DiffFilesAction =
   | FirebaseAPIRequest
   | FirebaseAPIFailure
   | SetLeftDiffFileAction
-  | SetRishtDiffFileAction
+  | SetRightDiffFileAction
 
-export const fetchLeftFile = (currentUserUid: string, directoryId: string) => {
-  // TODO: Dispatchの型付け
-  return (dispatch: ThunkDispatch<{}, {}, any>) => {
+export const fetchLeftFile = (
+  currentUserUid: string,
+  directoryId: string
+): ThunkAction<void, {}, {}, Exclude<DiffFilesAction, SetRightDiffFileAction>> => {
+  return dispatch => {
     dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
@@ -51,9 +52,12 @@ export const fetchLeftFile = (currentUserUid: string, directoryId: string) => {
   }
 }
 
-export const fetchRightFile = (currentUserUid: string, directoryId: string, branchId: string) => {
-  // TODO: Dispatchの型付け
-  return (dispatch: ThunkDispatch<{}, {}, any>) => {
+export const fetchRightFile = (
+  currentUserUid: string,
+  directoryId: string,
+  branchId: string
+): ThunkAction<void, {}, {}, Exclude<DiffFilesAction, SetLeftDiffFileAction>> => {
+  return dispatch => {
     dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)

@@ -1,5 +1,5 @@
 import { db, FirebaseSnapShot } from '../utils/firebase'
-import { ThunkDispatch } from 'redux-thunk'
+import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
 import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/static-types/actions'
 import { Values } from '../components/molecules/Forms/BranchForm'
@@ -7,12 +7,12 @@ import { Values } from '../components/molecules/Forms/BranchForm'
 // -------------------------------------------------------------------------
 // Branches
 // -------------------------------------------------------------------------
-const branchFirebaseFailure = (message: string) => ({
+const branchFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   type: actionTypes.BRANCH__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
 
-interface FetchBranchesAction extends BaseAction {
+export interface FetchBranchesAction extends BaseAction {
   type: string
   payload: { branches: FirebaseSnapShot[] }
 }
@@ -34,9 +34,16 @@ export type BranchesAction =
   | CreateBranchAction
   | MergeCloseBranchAction
 
-export const fetchBranches = (currentUserUid: string, directoryId: string) => {
-  // TODO: Dispatchの型付け
-  return (dispatch: ThunkDispatch<{}, {}, any>) => {
+export const fetchBranches = (
+  currentUserUid: string,
+  directoryId: string
+): ThunkAction<
+  void,
+  {},
+  {},
+  Exclude<BranchesAction, CreateBranchAction | MergeCloseBranchAction>
+> => {
+  return dispatch => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
@@ -59,9 +66,17 @@ export const fetchBranches = (currentUserUid: string, directoryId: string) => {
   }
 }
 
-export const createBranch = (values: Values, currentUserUid: string, directoryId: string) => {
-  // TODO: Dispatchの型付け
-  return async (dispatch: ThunkDispatch<{}, {}, any>) => {
+export const createBranch = (
+  values: Values,
+  currentUserUid: string,
+  directoryId: string
+): ThunkAction<
+  Promise<void>,
+  {},
+  {},
+  Exclude<BranchesAction, FetchBranchesAction | MergeCloseBranchAction>
+> => {
+  return async dispatch => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
@@ -79,7 +94,11 @@ export const createBranch = (values: Values, currentUserUid: string, directoryId
         newDocRef.get().then(snapShot => {
           dispatch({
             type: actionTypes.BRANCH__ADD,
-            payload: { newBranch: snapShot },
+            // TODO:
+            // 現状QueryDocumentSnapshotとDocumentSnapshotが混在していてエラーを出すべきところをasで無理やり
+            // 通している。後でFix。
+            // c.f) https://stackoverflow.com/questions/49859954/firestore-difference-between-documentsnapshot-and-querydocumentsnapshot
+            payload: { newBranch: snapShot as FirebaseSnapShot },
           })
         })
 
@@ -93,9 +112,17 @@ export const createBranch = (values: Values, currentUserUid: string, directoryId
   }
 }
 
-export const mergeBranch = (currentUserUid: string, directoryId: string, branchId: string) => {
-  // TODO: Dispatchの型付け
-  return async (dispatch: ThunkDispatch<{}, {}, any>) => {
+export const mergeBranch = (
+  currentUserUid: string,
+  directoryId: string,
+  branchId: string
+): ThunkAction<
+  Promise<void>,
+  {},
+  {},
+  Exclude<BranchesAction, FetchBranchesAction | CreateBranchAction>
+> => {
+  return async dispatch => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     const branchCollection = db
       .collection('users')
@@ -146,9 +173,12 @@ export const mergeBranch = (currentUserUid: string, directoryId: string, branchI
   }
 }
 
-export const closeBranch = (currentUserUid: string, directoryId: string, branchId: string) => {
-  // TODO: Dispatchの型付け
-  return (dispatch: ThunkDispatch<{}, {}, any>) => {
+export const closeBranch = (
+  currentUserUid: string,
+  directoryId: string,
+  branchId: string
+): ThunkAction<void, {}, {}, Exclude<BranchesAction, FetchBranchesAction | CreateBranchAction>> => {
+  return dispatch => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
@@ -192,9 +222,8 @@ export const checkCurrentBranchData = (
   currentUserUid: string,
   directoryId: string,
   branchId: string
-) => {
-  // TODO: Dispatchの型付け
-  return (dispatch: ThunkDispatch<{}, {}, IsInvalidBranchAction>) => {
+): ThunkAction<void, {}, {}, IsInvalidBranchAction> => {
+  return dispatch => {
     dispatch({ type: actionTypes.CURRENT_BRANCH_DATA__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)

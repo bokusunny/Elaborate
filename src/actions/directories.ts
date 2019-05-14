@@ -1,13 +1,14 @@
 import { db, FirebaseSnapShot } from '../utils/firebase'
-import { ThunkDispatch } from 'redux-thunk'
+import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
 import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/static-types/actions'
 import { Values } from '../components/molecules/Forms/DirectoryForm'
+import { FetchBranchesAction } from './branches'
 
 // -------------------------------------------------------------------------
 // Directories
 // -------------------------------------------------------------------------
-const directoryFirebaseFailure = (message: string) => ({
+const directoryFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   type: actionTypes.DIRECTORY__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
@@ -30,9 +31,10 @@ export type DirectoriesAction =
 
 // NOTE: Firebaseはクライアント側のネットワーク不良などでデータのfetchに失敗してもerrorを吐かず、
 //       空配列を返してくる... :anger_jenkins:
-export const fetchDirectories = (currentUserUid: string | null) => {
-  // TODO: Dispatchの型付け
-  return (dispatch: ThunkDispatch<{}, {}, any>) => {
+export const fetchDirectories = (
+  currentUserUid: string | null
+): ThunkAction<void, {}, {}, Exclude<DirectoriesAction, AddDirectoryAction>> => {
+  return dispatch => {
     if (currentUserUid) {
       dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST, payload: null })
       db.collection('users')
@@ -54,9 +56,11 @@ export const fetchDirectories = (currentUserUid: string | null) => {
   }
 }
 
-export const createDirectory = (values: Values, currentUserUid: string) => {
-  // TODO: Dispatchの型付け
-  return async (dispatch: ThunkDispatch<{}, {}, any>) => {
+export const createDirectory = (
+  values: Values,
+  currentUserUid: string
+): ThunkAction<Promise<void>, {}, {}, Exclude<DirectoriesAction, SetDirectoriesAction>> => {
+  return async dispatch => {
     dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
@@ -73,7 +77,11 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
           .then(snapShot => {
             dispatch({
               type: actionTypes.DIRECTORY__ADD,
-              payload: { newDir: snapShot },
+              // TODO:
+              // 現状QueryDocumentSnapshotとDocumentSnapshotが混在していてエラーを出すべきところをasで無理やり
+              // 通している。後でFix。
+              // c.f) https://stackoverflow.com/questions/49859954/firestore-difference-between-documentsnapshot-and-querydocumentsnapshot
+              payload: { newDir: snapShot as FirebaseSnapShot },
             })
           })
           .catch(error => dispatch(directoryFirebaseFailure(error.message)))
@@ -102,7 +110,7 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
 // -------------------------------------------------------------------------
 // IsInvalidDirectory
 // -------------------------------------------------------------------------
-const isValidDirectoryFirebaseFailure = (message: string) => ({
+const isValidDirectoryFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   type: actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
@@ -117,9 +125,11 @@ export type IsInvalidDirectoryAction =
   | FirebaseAPIFailure
   | CheckDirectoryIdAction
 
-export const checkDirectoryId = (currentUserUid: string, directoryId: string) => {
-  // TODO: Dispatchの型付け
-  return (dispatch: ThunkDispatch<{}, {}, any>) => {
+export const checkDirectoryId = (
+  currentUserUid: string,
+  directoryId: string
+): ThunkAction<void, {}, {}, IsInvalidDirectoryAction | FetchBranchesAction> => {
+  return dispatch => {
     dispatch({ type: actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST, payload: null })
     const directoryDocRef = db
       .collection('users')
@@ -131,7 +141,7 @@ export const checkDirectoryId = (currentUserUid: string, directoryId: string) =>
       .get()
       .then(doc => {
         if (doc.exists) {
-          dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
+          dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
           directoryDocRef
             .collection('branches')
             .get()
@@ -165,7 +175,6 @@ export const checkDirectoryId = (currentUserUid: string, directoryId: string) =>
 // -------------------------------------------------------------------------
 // DirectoriesStatus
 // -------------------------------------------------------------------------
-
 interface SetSelectedDirectoryAction extends BaseAction {
   type: string
   payload: { selectedDirectoryId: string }
@@ -173,9 +182,10 @@ interface SetSelectedDirectoryAction extends BaseAction {
 
 export type DirectoriesStatusAction = SetSelectedDirectoryAction
 
-export const setSelectedDirectory = (selectedDirectoryId: string) => {
-  // TODO: Dispatchの型付け
-  return (dispatch: ThunkDispatch<{}, {}, any>) => {
+export const setSelectedDirectory = (
+  selectedDirectoryId: string
+): ThunkAction<void, {}, {}, DirectoriesStatusAction> => {
+  return dispatch => {
     dispatch({
       type: actionTypes.DIRECTORY__SET_SELECTED_DIRECTORY_ID,
       payload: { selectedDirectoryId },

@@ -1,4 +1,4 @@
-import { ThunkDispatch } from 'redux-thunk'
+import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
 import { BaseAction } from '../common/static-types/actions'
 
@@ -16,8 +16,10 @@ export type AuthenticationModalsAction =
   | AuthenticationModalOpenAction
   | AuthenticationModalCloseAction
 
-export const AuthenticationModalOpen = (authenticationType: 'Sign in' | 'Sign up') => {
-  return (dispatch: ThunkDispatch<{}, {}, AuthenticationModalOpenAction>) => {
+export const AuthenticationModalOpen = (
+  authenticationType: 'Sign in' | 'Sign up'
+): ThunkAction<void, {}, {}, AuthenticationModalOpenAction> => {
+  return dispatch => {
     dispatch({
       type: actionTypes.MODAL__AUTHENTICATION_OPEN,
       payload: authenticationType,
@@ -25,8 +27,13 @@ export const AuthenticationModalOpen = (authenticationType: 'Sign in' | 'Sign up
   }
 }
 
-export const AuthenticationModalClose = () => {
-  return (dispatch: ThunkDispatch<{}, {}, AuthenticationModalCloseAction>) => {
+export const AuthenticationModalClose = (): ThunkAction<
+  void,
+  {},
+  {},
+  AuthenticationModalCloseAction
+> => {
+  return dispatch => {
     dispatch({
       type: actionTypes.MODAL__AUTHENTICATION_CLOSE,
       payload: null,
