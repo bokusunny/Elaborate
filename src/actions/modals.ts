@@ -4,7 +4,7 @@ import { BaseAction } from '../common/static-types/actions'
 
 interface AuthenticationModalOpenAction extends BaseAction {
   type: string
-  payload: { authenticationType: 'Sign in' | 'Sign up' }
+  payload: 'Sign in' | 'Sign up'
 }
 
 interface AuthenticationModalCloseAction extends BaseAction {
@@ -19,7 +19,7 @@ export const AuthenticationModalOpen = (authenticationType: 'Sign in' | 'Sign up
   return (dispatch: ThunkDispatch<{}, {}, AuthenticationModalOpenAction>) => {
     dispatch({
       type: actionTypes.MODAL__AUTHENTICATION_OPEN,
-      payload: { authenticationType },
+      payload: authenticationType,
     })
   }
 }
