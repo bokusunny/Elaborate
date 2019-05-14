@@ -1,7 +1,7 @@
 import { db } from '../utils/firebase'
 import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
-import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/static-types/actions'
+import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/static-types/actions'
 
 // -------------------------------------------------------------------------
 // Diff Fetch Default Files Body
@@ -21,16 +21,12 @@ const diffFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   payload: { statusCode: 500, message },
 })
 
-export type DiffFilesAction =
-  | FirebaseAPIRequest
-  | FirebaseAPIFailure
-  | SetLeftDiffFileAction
-  | SetRightDiffFileAction
+export type DiffFilesAction = FirebaseAPIAction | SetLeftDiffFileAction | SetRightDiffFileAction
 
 export const fetchLeftFile = (
   currentUserUid: string,
   directoryId: string
-): ThunkAction<void, {}, {}, Exclude<DiffFilesAction, SetRightDiffFileAction>> => {
+): ThunkAction<void, {}, {}, FirebaseAPIAction | SetLeftDiffFileAction> => {
   return dispatch => {
     dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST, payload: null })
     db.collection('users')
@@ -56,7 +52,7 @@ export const fetchRightFile = (
   currentUserUid: string,
   directoryId: string,
   branchId: string
-): ThunkAction<void, {}, {}, Exclude<DiffFilesAction, SetLeftDiffFileAction>> => {
+): ThunkAction<void, {}, {}, FirebaseAPIAction | SetRightDiffFileAction> => {
   return dispatch => {
     dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST, payload: null })
     db.collection('users')

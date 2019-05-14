@@ -1,7 +1,7 @@
 import { db, FirebaseSnapShot } from '../utils/firebase'
 import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
-import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/static-types/actions'
+import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/static-types/actions'
 import { Values } from '../components/molecules/Forms/BranchForm'
 
 // -------------------------------------------------------------------------
@@ -28,8 +28,7 @@ interface MergeCloseBranchAction extends BaseAction {
 }
 
 export type BranchesAction =
-  | FirebaseAPIRequest
-  | FirebaseAPIFailure
+  | FirebaseAPIAction
   | FetchBranchesAction
   | CreateBranchAction
   | MergeCloseBranchAction
@@ -37,12 +36,7 @@ export type BranchesAction =
 export const fetchBranches = (
   currentUserUid: string,
   directoryId: string
-): ThunkAction<
-  void,
-  {},
-  {},
-  Exclude<BranchesAction, CreateBranchAction | MergeCloseBranchAction>
-> => {
+): ThunkAction<void, {}, {}, FirebaseAPIAction | FetchBranchesAction> => {
   return dispatch => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     db.collection('users')
@@ -70,12 +64,7 @@ export const createBranch = (
   values: Values,
   currentUserUid: string,
   directoryId: string
-): ThunkAction<
-  Promise<void>,
-  {},
-  {},
-  Exclude<BranchesAction, FetchBranchesAction | MergeCloseBranchAction>
-> => {
+): ThunkAction<Promise<void>, {}, {}, FirebaseAPIAction | CreateBranchAction> => {
   return async dispatch => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     db.collection('users')
@@ -116,12 +105,7 @@ export const mergeBranch = (
   currentUserUid: string,
   directoryId: string,
   branchId: string
-): ThunkAction<
-  Promise<void>,
-  {},
-  {},
-  Exclude<BranchesAction, FetchBranchesAction | CreateBranchAction>
-> => {
+): ThunkAction<Promise<void>, {}, {}, FirebaseAPIAction | MergeCloseBranchAction> => {
   return async dispatch => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     const branchCollection = db
@@ -177,7 +161,7 @@ export const closeBranch = (
   currentUserUid: string,
   directoryId: string,
   branchId: string
-): ThunkAction<void, {}, {}, Exclude<BranchesAction, FetchBranchesAction | CreateBranchAction>> => {
+): ThunkAction<void, {}, {}, FirebaseAPIAction | MergeCloseBranchAction> => {
   return dispatch => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     db.collection('users')
@@ -201,7 +185,7 @@ export const closeBranch = (
 // -------------------------------------------------------------------------
 // currentBranchData
 // -------------------------------------------------------------------------
-const currentBranchDataFirebaseFailure = (message: string) => ({
+const currentBranchDataFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   type: actionTypes.CURRENT_BRANCH_DATA__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
@@ -216,7 +200,7 @@ interface CheckBranchDataAction extends BaseAction {
   payload: { branchData: BranchData }
 }
 
-export type IsInvalidBranchAction = FirebaseAPIRequest | FirebaseAPIFailure | CheckBranchDataAction
+export type IsInvalidBranchAction = FirebaseAPIAction | CheckBranchDataAction
 
 export const checkCurrentBranchData = (
   currentUserUid: string,

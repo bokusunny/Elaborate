@@ -1,7 +1,7 @@
 import { db, FirebaseSnapShot } from '../utils/firebase'
 import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
-import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/static-types/actions'
+import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/static-types/actions'
 import { Values } from '../components/molecules/Forms/DirectoryForm'
 import { FetchBranchesAction } from './branches'
 
@@ -23,17 +23,13 @@ interface AddDirectoryAction extends BaseAction {
   payload: { newDir: FirebaseSnapShot }
 }
 
-export type DirectoriesAction =
-  | FirebaseAPIRequest
-  | FirebaseAPIFailure
-  | SetDirectoriesAction
-  | AddDirectoryAction
+export type DirectoriesAction = FirebaseAPIAction | SetDirectoriesAction | AddDirectoryAction
 
 // NOTE: Firebaseはクライアント側のネットワーク不良などでデータのfetchに失敗してもerrorを吐かず、
 //       空配列を返してくる... :anger_jenkins:
 export const fetchDirectories = (
   currentUserUid: string | null
-): ThunkAction<void, {}, {}, Exclude<DirectoriesAction, AddDirectoryAction>> => {
+): ThunkAction<void, {}, {}, FirebaseAPIAction | SetDirectoriesAction> => {
   return dispatch => {
     if (currentUserUid) {
       dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST, payload: null })
@@ -59,7 +55,7 @@ export const fetchDirectories = (
 export const createDirectory = (
   values: Values,
   currentUserUid: string
-): ThunkAction<Promise<void>, {}, {}, Exclude<DirectoriesAction, SetDirectoriesAction>> => {
+): ThunkAction<Promise<void>, {}, {}, FirebaseAPIAction | AddDirectoryAction> => {
   return async dispatch => {
     dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST, payload: null })
     db.collection('users')
@@ -120,10 +116,7 @@ interface CheckDirectoryIdAction extends BaseAction {
   payload: { isValidDirectoryId: boolean }
 }
 
-export type IsInvalidDirectoryAction =
-  | FirebaseAPIRequest
-  | FirebaseAPIFailure
-  | CheckDirectoryIdAction
+export type IsInvalidDirectoryAction = FirebaseAPIAction | CheckDirectoryIdAction
 
 export const checkDirectoryId = (
   currentUserUid: string,

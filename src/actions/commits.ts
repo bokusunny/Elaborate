@@ -3,7 +3,7 @@ import { ThunkAction } from 'redux-thunk'
 import { RawDraftContentBlock } from 'draft-js'
 import { convertToText } from '../common/functions'
 import { actionTypes } from '../common/constants/action-types'
-import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/static-types/actions'
+import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/static-types/actions'
 import { Values } from '../components/molecules/Forms/CommitForm'
 
 // -------------------------------------------------------------------------
@@ -19,7 +19,7 @@ interface CreateCommitAction extends BaseAction {
   payload: { newCommit: firebase.firestore.DocumentSnapshot }
 }
 
-export type CommitsAction = FirebaseAPIRequest | FirebaseAPIFailure | CreateCommitAction
+export type CommitsAction = FirebaseAPIAction | CreateCommitAction
 
 export const createCommit = (
   values: Values,
