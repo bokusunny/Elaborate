@@ -34,7 +34,7 @@ jobs:
           command: |
             mkdir /tmp/test-results
             mkdir /tmp/test-results/eslint
-            node_modules/.bin/eslint src/**/*.{ts,tsx} \
+            node_modules/.bin/eslint src/**/*.{ts,tsx} --quiet \
               --format junit \
               --output-file /tmp/test-results/eslint/results.xml
 
