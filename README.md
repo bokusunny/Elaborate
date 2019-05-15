@@ -23,10 +23,29 @@ Firebase config keys like below are required. But the config keys are NOT curren
 
 ```
 FIREBASE_API_KEY=
+FIREBASE_AUTH_ADMIN=
+FIREBASE_DATABASE_URL=
+FIREBASE_PROJECT_ID=
+FIREBASE_STORAGE_BUCKET=
 FIREBASE_MESSAGING_SENDER_ID=
 ```
- 
+
 ### building
+以下のどちらかを行ったのち、http://localhost:8080 にアクセス
+- With docker(recommended)
+```sh
+# https://hub.docker.com/search/?offering=community&type=edition で予めDockerのインストールをしておく
+$ git clone git@github.com:bokusunny/elaborate.git
+
+$ docker-compose build # 初回のみ
+$ docker-compose up # 自動でjsがビルドされる
+
+# ターミナルで別タブ開き以下を実行
+$ docker exec elaborate node -v # v10.15.3と表示されたら成功
+$ docker stop elaborate # コンテナを停止
+```
+
+- Without docker
 ```sh
 $ git clone git@github.com:bokusunny/elaborate.git
 $ npm install
