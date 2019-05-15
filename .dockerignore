@@ -1,13 +1,2 @@
-.circleci
-.firebase
-.github
 .vscode
-functions
 node_modules
-.env.example
-.firebaserc
-.gitignore
-.node-version
-firebase.json
-LICENSE
-README.md

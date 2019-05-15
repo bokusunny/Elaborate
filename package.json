@@ -10,7 +10,7 @@
     "url": "https://github.com/bokusunny/elaborate.git"
   },
   "scripts": {
-    "watch": "webpack-dev-server --mode development",
+    "watch": "webpack-dev-server --mode development --history-api-fallback",
     "build": "webpack --mode production",
     "storybook": "start-storybook -p 9001 -c src/.storybook",
     "lint": "eslint src/**/*.{ts,tsx}",
