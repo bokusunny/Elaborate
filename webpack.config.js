@@ -21,7 +21,8 @@ module.exports = {
     port: 8080,
     historyApiFallback: true,
     inline: true,
-    host: "0.0.0.0",
+    hot: true,
+    host: '0.0.0.0'
   },
   module: {
     rules: [

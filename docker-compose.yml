@@ -1,13 +1,14 @@
 version: '3'
 services:
-  webpack:
-    build: ./
-    image: elaborate/webpack
-    container_name: webpack-container
+  elaborate:
+    build: ./ # Dockerfileがあるディレクトリのパス
+    image: elaborate/webpack # イメージを指定(IMAGEタグはコンテナ作成後docker ps -aで得られる)
+    container_name: elaborate
     ports:
-      - "80:8080"
+      - "0.0.0.0:8080:8080" # "ホストのポート:コンテナのポート"
     volumes:
       - ./src:/app/src
       - ./dist:/app/dist
       - ./package.json:/app/package.json
       - ./webpack.config.js:/app/webpack.config.js
+    command: npm run watch # コンテナ起動時に自動で叩かれるコマンド
