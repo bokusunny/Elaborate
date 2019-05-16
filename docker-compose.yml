@@ -11,4 +11,4 @@ services:
       - ./dist:/app/dist
       - ./package.json:/app/package.json
       - ./webpack.config.js:/app/webpack.config.js
-    command: npm run watch # コンテナ起動時に自動で叩かれるコマンド
+    command: node_modules/.bin/webpack-dev-server --host 0.0.0.0 # コンテナ起動時に自動で叩かれるコマンド
