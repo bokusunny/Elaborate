@@ -67,6 +67,17 @@ export const createBranch = (
 ): ThunkAction<Promise<void>, {}, {}, FirebaseAPIAction | CreateBranchAction> => {
   return async dispatch => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
+
+    const baseBranchBody = await db
+      .collection('users')
+      .doc(currentUserUid)
+      .collection('directories')
+      .doc(directoryId)
+      .collection('branches')
+      .doc(values.baseBranchId)
+      .get()
+      .then(snapShot => (snapShot.data() as firebase.firestore.DocumentData).body as string)
+
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -76,7 +87,7 @@ export const createBranch = (
         name: values.newBranchName,
         baseBranchId: values.baseBranchId,
         state: 'open',
-        body: '',
+        body: baseBranchBody,
         createdAt: Date.now(),
         updatedAt: Date.now(),
       })
