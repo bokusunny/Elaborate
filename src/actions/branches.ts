@@ -73,7 +73,8 @@ export const createBranch = (
       .doc(directoryId)
       .collection('branches')
       .add({
-        name: values.branchName,
+        name: values.newBranchName,
+        baseBranchId: values.baseBranchId,
         state: 'open',
         body: '',
         createdAt: Date.now(),

@@ -25,7 +25,7 @@ const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryI
 
   return (
     <Fragment>
-      <BranchForm currentUser={currentUser} directoryId={selectedDirectoryId} />
+      <BranchForm currentUser={currentUser} directoryId={selectedDirectoryId} branches={branches} />
       <List component="nav">
         {branches.data.map((branch: FirebaseSnapShot) => {
           const { id } = branch

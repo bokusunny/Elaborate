@@ -86,7 +86,9 @@ export const createDirectory = (
           .collection('branches')
           .add({
             name: 'master',
+            baseBranchId: null,
             state: 'open',
+            body: '',
             createdAt: Date.now(),
             updatedAt: Date.now(),
           })
