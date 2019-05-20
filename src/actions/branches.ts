@@ -120,27 +120,31 @@ export const mergeBranch = (
 ): ThunkAction<Promise<void>, {}, {}, FirebaseAPIAction | MergeCloseBranchAction> => {
   return async dispatch => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
-    const branchCollection = db
+    const currentBranchDocRef = db
       .collection('users')
       .doc(currentUserUid)
       .collection('directories')
       .doc(directoryId)
       .collection('branches')
+      .doc(branchId)
 
-    branchCollection
-      .where('name', '==', 'master')
+    currentBranchDocRef
       .get()
-      .then(querySnapShot => {
-        // バリデーションによりmasterブランチは各ディレクトリに1つしか存在しない
-        const masterBranchDocRef = querySnapShot.docs[0].ref
-        const currentBranchDocRef = branchCollection.doc(branchId)
+      .then(doc => {
+        const baseBranchDocRef = db
+          .collection('users')
+          .doc(currentUserUid)
+          .collection('directories')
+          .doc(directoryId)
+          .collection('branches')
+          .doc((doc.data() as firebase.firestore.DocumentData).baseBranchId as string)
 
         currentBranchDocRef
           .collection('commits')
           .get()
           .then(querySnapshot => {
             const addCommitPromises = querySnapshot.docs.map(doc => {
-              return masterBranchDocRef.collection('commits').add(doc.data())
+              return baseBranchDocRef.collection('commits').add(doc.data())
             })
 
             Promise.all(addCommitPromises)
@@ -158,7 +162,7 @@ export const mergeBranch = (
 
                 currentBranchDocRef.get().then(snapShot => {
                   const snapShotData = snapShot.data()
-                  snapShotData && masterBranchDocRef.update({ body: snapShotData.body })
+                  snapShotData && baseBranchDocRef.update({ body: snapShotData.body as string })
                 })
               })
               .catch(error => dispatch(branchFirebaseFailure(error.message)))

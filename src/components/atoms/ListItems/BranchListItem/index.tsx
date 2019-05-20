@@ -45,7 +45,7 @@ const BranchListItem: React.FC<Props & DispatchProps> = ({
             mergeBranch(currentUserUid, directoryId, branchId)
           }}
         >
-          merge to master
+          merge
         </button>
         <button onClick={() => history.push(`/${directoryId}/diff/master/${branchId}`)}>
           check diff
