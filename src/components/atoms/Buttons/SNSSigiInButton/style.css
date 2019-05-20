@@ -13,17 +13,17 @@
 
 .google {
   background-color: rgba(221, 75, 57, .9);
-  transition: .15s
+  transition: .15s;
 }
 
 .twitter {
   background-color: rgba(85, 172, 238, .9);
-  transition: .15s
+  transition: .15s;
 }
 
 .facebook {
   background-color: rgba(59, 89, 153, .9);
-  transition: .15s
+  transition: .15s;
 }
 
 .google:hover {

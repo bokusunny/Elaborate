@@ -25,6 +25,10 @@
     "*.{ts,tsx}": [
       "npm run lint:fix",
       "git add"
+    ],
+    "*.css": [
+      "stylelint 'src/**/*.css' --fix",
+      "git add"
     ]
   },
   "dependencies": {
