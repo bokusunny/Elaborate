@@ -37,6 +37,9 @@ jobs:
             node_modules/.bin/eslint src/**/*.{ts,tsx} \
               --format junit \
               --output-file /tmp/test-results/eslint/results.xml
+      - run:
+          name: stylelint
+          command: node_modules/.bin/stylelint 'src/**/*.css'
 
       # collect reports
       - store_test_results:
