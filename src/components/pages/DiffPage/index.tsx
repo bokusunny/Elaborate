@@ -9,6 +9,7 @@ import DiffTemplate from '../../templates/DiffTemplate'
 
 interface MatchParams {
   directoryId: string
+  leftBranchId: string
   rightBranchId: string
 }
 
@@ -18,7 +19,7 @@ interface Props extends RouteComponentProps<MatchParams> {
 }
 
 interface DispatchProps {
-  fetchLeftFile: (currentUserId: string, directoryId: string) => void
+  fetchLeftFile: (currentUserId: string, directoryId: string, branchId: string) => void
   fetchRightFile: (currentUserId: string, directoryId: string, branchId: string) => void
 }
 
@@ -41,11 +42,11 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
   if (!currentUser) return <CircularProgress />
 
   const {
-    params: { directoryId, rightBranchId },
+    params: { directoryId, leftBranchId, rightBranchId },
   } = match
 
   useEffect(() => {
-    fetchLeftFile(currentUser.uid, directoryId)
+    fetchLeftFile(currentUser.uid, directoryId, leftBranchId)
     fetchRightFile(currentUser.uid, directoryId, rightBranchId)
   }, [])
 
