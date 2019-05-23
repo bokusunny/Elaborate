@@ -5,7 +5,7 @@ export interface BaseAction {
   payload: unknown
 }
 
-export interface FirebaseAPIRequest extends BaseAction {
+interface FirebaseAPIRequest extends BaseAction {
   type: string
   payload: null
 }
@@ -14,3 +14,5 @@ export interface FirebaseAPIFailure extends BaseAction {
   type: string
   payload: ReduxAPIError
 }
+
+export type FirebaseAPIAction = FirebaseAPIRequest | FirebaseAPIFailure
