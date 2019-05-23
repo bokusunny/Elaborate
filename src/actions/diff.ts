@@ -25,7 +25,8 @@ export type DiffFilesAction = FirebaseAPIAction | SetLeftDiffFileAction | SetRig
 
 export const fetchLeftFile = (
   currentUserUid: string,
-  directoryId: string
+  directoryId: string,
+  branchId: string
 ): ThunkAction<void, {}, {}, FirebaseAPIAction | SetLeftDiffFileAction> => {
   return dispatch => {
     dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST, payload: null })
@@ -34,15 +35,20 @@ export const fetchLeftFile = (
       .collection('directories')
       .doc(directoryId)
       .collection('branches')
-      // 早めにURLから取ってくように変更する
-      .where('name', '==', 'master')
+      .doc(branchId)
       .get()
-      .then(querySnapShot => {
-        const leftBranchBody = querySnapShot.docs[0].data().body
-        dispatch({
-          type: actionTypes.DIFF__LEFT_FILE_SET,
-          payload: { leftBranchBody },
-        })
+      .then(snapShot => {
+        if (snapShot.exists) {
+          dispatch({
+            type: actionTypes.DIFF__LEFT_FILE_SET,
+            payload: { leftBranchBody: (snapShot.data() as firebase.firestore.DocumentData).body },
+          })
+        } else {
+          dispatch({
+            type: actionTypes.DIFF__LEFT_FILE_SET,
+            payload: { leftBranchBody: null },
+          })
+        }
       })
       .catch(error => dispatch(diffFirebaseFailure(error.message)))
   }
