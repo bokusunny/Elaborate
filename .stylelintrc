@@ -1,0 +1,7 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "number-leading-zero": null,
+    "font-family-no-missing-generic-family-keyword": null
+  }
+}
