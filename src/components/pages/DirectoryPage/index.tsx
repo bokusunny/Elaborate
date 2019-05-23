@@ -39,7 +39,8 @@ const DirectoryPage: React.FC<Props & StateProps> = ({
   if (
     isValidDirectory.status === 'default' ||
     isValidDirectory.status === 'fetching' ||
-    !branches.data
+    branches.status === 'default' ||
+    branches.status === 'fetching'
   ) {
     return <CircularProgress />
   }
@@ -50,10 +51,12 @@ const DirectoryPage: React.FC<Props & StateProps> = ({
     <Fragment>
       <p>This is directory page.</p>
       <p>
-        ID: {directoryId}, {branches.data.length} branch(es).
+        {/* ReduxAPIStructの構造上branches.dataはnullになり得ない */}
+        ID: {directoryId}, {(branches.data as FirebaseSnapShot[]).length} branch(es).
       </p>
       <ol>
-        {branches.data.map((querySnapShot: FirebaseSnapShot, index) => (
+        {/* ReduxAPIStructの構造上branches.dataはnullになり得ない */}
+        {(branches.data as FirebaseSnapShot[]).map((querySnapShot: FirebaseSnapShot, index) => (
           <li key={index}>
             {querySnapShot.data().name}
             <Link to={`/${directoryId}/${querySnapShot.id}/edit`}>edit</Link>

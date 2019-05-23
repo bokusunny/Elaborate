@@ -69,11 +69,13 @@ export const fetchRightFile = (
       .doc(branchId)
       .get()
       .then(snapShot => {
-        const documentSnapShotData = snapShot.data()
-        if (snapShot.exists && documentSnapShotData) {
+        if (snapShot.exists) {
           dispatch({
             type: actionTypes.DIFF__RIGHT_FILE_SET,
-            payload: { rightBranchBody: documentSnapShotData.body },
+            // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
+            payload: {
+              rightBranchBody: (snapShot.data() as firebase.firestore.DocumentData).body as string,
+            },
           })
         } else {
           dispatch({

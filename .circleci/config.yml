@@ -4,40 +4,41 @@
 #
 version: 2.0
 jobs:
-  build:
+  test:
     docker:
-      # specify the version you desire here
-      - image: circleci/node:10.6.0
-
+      - image: circleci/node:10.15.3
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-
       - run:
           name: install node modules
           command: npm install
-
       - save_cache:
-          paths:
-            - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
+          paths:
+            - ~/cache
       # run tests!
       - run:
           name: ESLint
           command: |
             mkdir /tmp/test-results
             mkdir /tmp/test-results/eslint
-            node_modules/.bin/eslint src/**/*.{ts,tsx} \
+            node_modules/.bin/eslint src/**/*.{ts,tsx} --quiet \
               --format junit \
               --output-file /tmp/test-results/eslint/results.xml
-
+      - run:
+          name: stylelint
+          command: node_modules/.bin/stylelint 'src/**/*.css'
       # collect reports
       - store_test_results:
           path: /tmp/test-results/eslint
+
+workflows:
+  version: 2
+  test_deploy:
+    jobs:
+      - test
