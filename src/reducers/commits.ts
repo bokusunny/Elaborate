@@ -3,6 +3,7 @@ import { ReduxAPIStruct, defaultSet } from '../common/static-types/api-struct'
 import { CommitsAction } from '../actions/commits'
 import { FirebaseSnapShot } from '../utils/firebase'
 
+// NOTE: 現状commits storeは使われていない
 export const commits = (
   state: ReduxAPIStruct<FirebaseSnapShot[]> = defaultSet(),
   action: CommitsAction
