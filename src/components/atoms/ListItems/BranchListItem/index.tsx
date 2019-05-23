@@ -11,7 +11,8 @@ import { mergeBranch, closeBranch } from '../../../../actions/branches'
 interface Props {
   currentUserUid: string
   directoryId: string
-  branchId: string
+  currentBranchId: string
+  baseBranchId: string
   branchName: string
   history: H.History
 }
@@ -26,12 +27,13 @@ const BranchListItem: React.FC<Props & DispatchProps> = ({
   branchName,
   history,
   directoryId,
-  branchId,
+  currentBranchId,
+  baseBranchId,
   mergeBranch,
   closeBranch,
 }) => (
   <Fragment>
-    <ListItem button component="a" href={`${directoryId}/${branchId}/edit`}>
+    <ListItem button component="a" href={`${directoryId}/${currentBranchId}/edit`}>
       <ListItemIcon>
         <FontAwesomeIcon icon={faCodeBranch} />
       </ListItemIcon>
@@ -42,15 +44,17 @@ const BranchListItem: React.FC<Props & DispatchProps> = ({
         <button
           onClick={() => {
             // TODO: 帰ってきたPromiseを何もせず放置しているのでどうにかしたい
-            mergeBranch(currentUserUid, directoryId, branchId)
+            mergeBranch(currentUserUid, directoryId, currentBranchId)
           }}
         >
-          merge to master
+          merge
         </button>
-        <button onClick={() => history.push(`/${directoryId}/diff/master/${branchId}`)}>
+        <button
+          onClick={() => history.push(`/${directoryId}/diff/${baseBranchId}/${currentBranchId}`)}
+        >
           check diff
         </button>
-        <button onClick={() => closeBranch(currentUserUid, directoryId, branchId)}>
+        <button onClick={() => closeBranch(currentUserUid, directoryId, currentBranchId)}>
           close blanch
         </button>
       </Fragment>

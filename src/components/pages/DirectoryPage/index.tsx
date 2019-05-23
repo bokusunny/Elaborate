@@ -60,7 +60,7 @@ const DirectoryPage: React.FC<Props & StateProps> = ({
           </li>
         ))}
       </ol>
-      <BranchForm directoryId={directoryId} currentUser={currentUser} />
+      <BranchForm directoryId={directoryId} currentUser={currentUser} branches={branches} />
     </Fragment>
   )
 }
