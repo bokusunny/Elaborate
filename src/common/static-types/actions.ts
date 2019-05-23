@@ -2,14 +2,17 @@ import { ReduxAPIError } from './api-struct'
 
 export interface BaseAction {
   type: string
-  payload?: any
+  payload: unknown
 }
 
-export interface FirebaseAPIRequest extends BaseAction {
+interface FirebaseAPIRequest extends BaseAction {
   type: string
+  payload: null
 }
 
 export interface FirebaseAPIFailure extends BaseAction {
   type: string
-  payload: { error: ReduxAPIError }
+  payload: ReduxAPIError
 }
+
+export type FirebaseAPIAction = FirebaseAPIRequest | FirebaseAPIFailure

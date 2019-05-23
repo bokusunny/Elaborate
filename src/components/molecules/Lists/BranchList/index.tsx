@@ -22,19 +22,20 @@ const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryI
 
   return (
     <Fragment>
-      <BranchForm currentUser={currentUser} directoryId={selectedDirectoryId} />
+      <BranchForm currentUser={currentUser} directoryId={selectedDirectoryId} branches={branches} />
       <List component="nav">
         {/* ReduxAPIStructの構造上branches.dataはnullになり得ない */}
         {(branches.data as FirebaseSnapShot[]).map(branch => {
           const { id } = branch
-          const { name } = branch.data()
+          const { name, baseBranchId } = branch.data()
           return (
             <Fragment key={id}>
               <BranchListItem
                 currentUserUid={currentUser.uid}
                 directoryId={selectedDirectoryId}
-                branchId={id}
-                branchName={name}
+                currentBranchId={id}
+                baseBranchId={baseBranchId as string}
+                branchName={name as string}
                 history={history}
               />
             </Fragment>

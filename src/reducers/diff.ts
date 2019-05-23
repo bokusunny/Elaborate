@@ -8,13 +8,16 @@ export const diffLeftFile = (
 ): ReduxAPIStruct<string> => {
   switch (action.type) {
     case actionTypes.DIFF__FIREBASE_REQUEST:
+      if (action.payload !== null) return state
       return { ...state, status: 'fetching' }
 
     case actionTypes.DIFF__FIREBASE_REQUEST_FAILURE:
-      return { ...state, status: 'failure', error: action.payload.message }
+      if (action.payload === null || !('message' in action.payload)) return state
+      return { ...state, status: 'failure', error: action.payload }
 
     case actionTypes.DIFF__LEFT_FILE_SET:
-      return { ...state, status: 'success', data: action.payload }
+      if (action.payload === null || !('leftBranchBody' in action.payload)) return state
+      return { ...state, status: 'success', data: action.payload.leftBranchBody }
   }
   return state
 }
@@ -25,13 +28,16 @@ export const diffRightFile = (
 ): ReduxAPIStruct<string> => {
   switch (action.type) {
     case actionTypes.DIFF__FIREBASE_REQUEST:
+      if (action.payload !== null) return state
       return { ...state, status: 'fetching' }
 
     case actionTypes.DIFF__FIREBASE_REQUEST_FAILURE:
-      return { ...state, status: 'failure', error: action.payload.message }
+      if (action.payload === null || !('message' in action.payload)) return state
+      return { ...state, status: 'failure', error: action.payload }
 
     case actionTypes.DIFF__RIGHT_FILE_SET:
-      return { ...state, status: 'success', data: action.payload }
+      if (action.payload === null || !('rightBranchBody' in action.payload)) return state
+      return { ...state, status: 'success', data: action.payload.rightBranchBody }
   }
   return state
 }

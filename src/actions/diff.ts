@@ -1,49 +1,66 @@
 import { db } from '../utils/firebase'
-import { ThunkDispatch } from 'redux-thunk'
+import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
-import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/static-types/actions'
+import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/static-types/actions'
 
 // -------------------------------------------------------------------------
 // Diff Fetch Default Files Body
 // -------------------------------------------------------------------------
-
-interface SetDiffFileAction extends BaseAction {
+interface SetLeftDiffFileAction extends BaseAction {
   type: string
-  payload: string
+  payload: { leftBranchBody: string | null }
 }
 
-const diffFirebaseFailure = (message: string) => ({
+interface SetRightDiffFileAction extends BaseAction {
+  type: string
+  payload: { rightBranchBody: string | null }
+}
+
+const diffFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   type: actionTypes.DIFF__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
 
-export type DiffFilesAction = FirebaseAPIRequest | FirebaseAPIFailure | SetDiffFileAction
+export type DiffFilesAction = FirebaseAPIAction | SetLeftDiffFileAction | SetRightDiffFileAction
 
-export const fetchLeftFile = (currentUserUid: string, directoryId: string) => {
-  return (dispatch: ThunkDispatch<{}, {}, DiffFilesAction>) => {
-    dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST })
+export const fetchLeftFile = (
+  currentUserUid: string,
+  directoryId: string,
+  branchId: string
+): ThunkAction<void, {}, {}, FirebaseAPIAction | SetLeftDiffFileAction> => {
+  return dispatch => {
+    dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
       .doc(directoryId)
       .collection('branches')
-      // 早めにURLから取ってくように変更する
-      .where('name', '==', 'master')
+      .doc(branchId)
       .get()
-      .then(querySnapShot => {
-        const leftBranchBody = querySnapShot.docs[0].data().body as string
-        dispatch({
-          type: actionTypes.DIFF__LEFT_FILE_SET,
-          payload: leftBranchBody,
-        })
+      .then(snapShot => {
+        if (snapShot.exists) {
+          dispatch({
+            type: actionTypes.DIFF__LEFT_FILE_SET,
+            payload: { leftBranchBody: (snapShot.data() as firebase.firestore.DocumentData).body },
+          })
+        } else {
+          dispatch({
+            type: actionTypes.DIFF__LEFT_FILE_SET,
+            payload: { leftBranchBody: null },
+          })
+        }
       })
       .catch(error => dispatch(diffFirebaseFailure(error.message)))
   }
 }
 
-export const fetchRightFile = (currentUserUid: string, directoryId: string, branchId: string) => {
-  return (dispatch: ThunkDispatch<{}, {}, DiffFilesAction>) => {
-    dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST })
+export const fetchRightFile = (
+  currentUserUid: string,
+  directoryId: string,
+  branchId: string
+): ThunkAction<void, {}, {}, FirebaseAPIAction | SetRightDiffFileAction> => {
+  return dispatch => {
+    dispatch({ type: actionTypes.DIFF__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -56,12 +73,14 @@ export const fetchRightFile = (currentUserUid: string, directoryId: string, bran
           dispatch({
             type: actionTypes.DIFF__RIGHT_FILE_SET,
             // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
-            payload: (snapShot.data() as firebase.firestore.DocumentData).body as string,
+            payload: {
+              rightBranchBody: (snapShot.data() as firebase.firestore.DocumentData).body as string,
+            },
           })
         } else {
           dispatch({
             type: actionTypes.DIFF__RIGHT_FILE_SET,
-            payload: null,
+            payload: { rightBranchBody: null },
           })
         }
       })

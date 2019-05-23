@@ -1,40 +1,38 @@
 import { db, FirebaseSnapShot } from '../utils/firebase'
-import { ThunkDispatch } from 'redux-thunk'
+import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
-import { ReduxAPIStruct } from '../common/static-types/api-struct'
-import { BaseAction, FirebaseAPIRequest, FirebaseAPIFailure } from '../common/static-types/actions'
+import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/static-types/actions'
 import { Values } from '../components/molecules/Forms/DirectoryForm'
+import { FetchBranchesAction } from './branches'
 
 // -------------------------------------------------------------------------
 // Directories
 // -------------------------------------------------------------------------
-const directoryFirebaseFailure = (message: string) => ({
+const directoryFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   type: actionTypes.DIRECTORY__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
 
 interface SetDirectoriesAction extends BaseAction {
   type: string
-  payload: { directories: ReduxAPIStruct<FirebaseSnapShot[]> }
+  payload: { directories: FirebaseSnapShot[] }
 }
 
 interface AddDirectoryAction extends BaseAction {
   type: string
-  payload: { newDir: ReduxAPIStruct<FirebaseSnapShot> }
+  payload: { newDir: FirebaseSnapShot }
 }
 
-export type DirectoriesAction =
-  | FirebaseAPIRequest
-  | FirebaseAPIFailure
-  | SetDirectoriesAction
-  | AddDirectoryAction
+export type DirectoriesAction = FirebaseAPIAction | SetDirectoriesAction | AddDirectoryAction
 
 // NOTE: Firebaseはクライアント側のネットワーク不良などでデータのfetchに失敗してもerrorを吐かず、
 //       空配列を返してくる... :anger_jenkins:
-export const fetchDirectories = (currentUserUid: string | null) => {
-  return (dispatch: ThunkDispatch<{}, {}, Exclude<DirectoriesAction, AddDirectoryAction>>) => {
+export const fetchDirectories = (
+  currentUserUid: string | null
+): ThunkAction<void, {}, {}, FirebaseAPIAction | SetDirectoriesAction> => {
+  return dispatch => {
     if (currentUserUid) {
-      dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST })
+      dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST, payload: null })
       db.collection('users')
         .doc(currentUserUid)
         .collection('directories')
@@ -54,11 +52,12 @@ export const fetchDirectories = (currentUserUid: string | null) => {
   }
 }
 
-export const createDirectory = (values: Values, currentUserUid: string) => {
-  return async (
-    dispatch: ThunkDispatch<{}, {}, Exclude<DirectoriesAction, SetDirectoriesAction>>
-  ) => {
-    dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST })
+export const createDirectory = (
+  values: Values,
+  currentUserUid: string
+): ThunkAction<Promise<void>, {}, {}, FirebaseAPIAction | AddDirectoryAction> => {
+  return async dispatch => {
+    dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -74,7 +73,11 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
           .then(snapShot => {
             dispatch({
               type: actionTypes.DIRECTORY__ADD,
-              payload: { newDir: snapShot },
+              // TODO:
+              // 現状QueryDocumentSnapshotとDocumentSnapshotが混在していてエラーを出すべきところをasで無理やり
+              // 通している。後でFix。
+              // c.f) https://stackoverflow.com/questions/49859954/firestore-difference-between-documentsnapshot-and-querydocumentsnapshot
+              payload: { newDir: snapShot as FirebaseSnapShot },
             })
           })
           .catch(error => dispatch(directoryFirebaseFailure(error.message)))
@@ -83,7 +86,9 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
           .collection('branches')
           .add({
             name: 'master',
+            baseBranchId: null,
             state: 'open',
+            body: '',
             createdAt: Date.now(),
             updatedAt: Date.now(),
           })
@@ -103,24 +108,24 @@ export const createDirectory = (values: Values, currentUserUid: string) => {
 // -------------------------------------------------------------------------
 // IsInvalidDirectory
 // -------------------------------------------------------------------------
-const isValidDirectoryFirebaseFailure = (message: string) => ({
+const isValidDirectoryFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   type: actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
 
 interface CheckDirectoryIdAction extends BaseAction {
   type: string
-  payload: { isValidDirectoryId: ReduxAPIStruct<boolean> }
+  payload: { isValidDirectoryId: boolean }
 }
 
-export type IsInvalidDirectoryAction =
-  | FirebaseAPIRequest
-  | FirebaseAPIFailure
-  | CheckDirectoryIdAction
+export type IsInvalidDirectoryAction = FirebaseAPIAction | CheckDirectoryIdAction
 
-export const checkDirectoryId = (currentUserUid: string, directoryId: string) => {
-  return (dispatch: ThunkDispatch<{}, {}, IsInvalidDirectoryAction>) => {
-    dispatch({ type: actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST })
+export const checkDirectoryId = (
+  currentUserUid: string,
+  directoryId: string
+): ThunkAction<void, {}, {}, IsInvalidDirectoryAction | FetchBranchesAction> => {
+  return dispatch => {
+    dispatch({ type: actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST, payload: null })
     const directoryDocRef = db
       .collection('users')
       .doc(currentUserUid)
@@ -131,7 +136,7 @@ export const checkDirectoryId = (currentUserUid: string, directoryId: string) =>
       .get()
       .then(doc => {
         if (doc.exists) {
-          dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST })
+          dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
           directoryDocRef
             .collection('branches')
             .get()
@@ -165,7 +170,6 @@ export const checkDirectoryId = (currentUserUid: string, directoryId: string) =>
 // -------------------------------------------------------------------------
 // DirectoriesStatus
 // -------------------------------------------------------------------------
-
 interface SetSelectedDirectoryAction extends BaseAction {
   type: string
   payload: { selectedDirectoryId: string }
@@ -173,8 +177,10 @@ interface SetSelectedDirectoryAction extends BaseAction {
 
 export type DirectoriesStatusAction = SetSelectedDirectoryAction
 
-export const setSelectedDirectory = (selectedDirectoryId: string) => {
-  return (dispatch: ThunkDispatch<{}, {}, DirectoriesStatusAction>) => {
+export const setSelectedDirectory = (
+  selectedDirectoryId: string
+): ThunkAction<void, {}, {}, DirectoriesStatusAction> => {
+  return dispatch => {
     dispatch({
       type: actionTypes.DIRECTORY__SET_SELECTED_DIRECTORY_ID,
       payload: { selectedDirectoryId },
