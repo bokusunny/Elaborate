@@ -31,7 +31,7 @@ export const fetchLeftFile = (currentUserUid: string, directoryId: string) => {
       .where('name', '==', 'master')
       .get()
       .then(querySnapShot => {
-        const leftBranchBody = querySnapShot.docs[0].data().body
+        const leftBranchBody = querySnapShot.docs[0].data().body as string
         dispatch({
           type: actionTypes.DIFF__LEFT_FILE_SET,
           payload: leftBranchBody,
@@ -52,11 +52,11 @@ export const fetchRightFile = (currentUserUid: string, directoryId: string, bran
       .doc(branchId)
       .get()
       .then(snapShot => {
-        const documentSnapShotData = snapShot.data()
-        if (snapShot.exists && documentSnapShotData) {
+        if (snapShot.exists) {
           dispatch({
             type: actionTypes.DIFF__RIGHT_FILE_SET,
-            payload: documentSnapShotData.body,
+            // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
+            payload: (snapShot.data() as firebase.firestore.DocumentData).body as string,
           })
         } else {
           dispatch({

@@ -62,24 +62,17 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
     return <CircularProgress />
   }
 
-  // 理論上ここはtrueになり得ない
-  if (isValidDirectory.data === null || currentBranchData.data === null) {
-    return <h2>An unexpected error occured...</h2>
-  }
-
-  const { type, isValidBranch } = currentBranchData.data
+  // ReduxAPIStructの構造的にcurrentBranchData.dataはnullになり得ない
+  const { type, isValidBranch } = currentBranchData.data as BranchData
 
   if (!isValidDirectory.data || !isValidBranch) return <h2>404 Not Found</h2>
-
-  // 理論上ここはtrueになり得ない
-  if (type === undefined) return <h2>An unexpected error occured...</h2>
 
   return (
     <EditorTemplate
       currentUser={currentUser}
       directoryId={directoryId}
       branchId={branchId}
-      branchType={type}
+      branchType={type as 'master' | 'normal'} // ReduxAPIStructの構造的にここはundefinedになり得ない
       history={history}
     />
   )
