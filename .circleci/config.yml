@@ -2,7 +2,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2
+version: 2.0
 jobs:
   test:
     docker:
@@ -27,9 +27,12 @@ jobs:
           command: |
             mkdir /tmp/test-results
             mkdir /tmp/test-results/eslint
-            node_modules/.bin/eslint src/**/*.{ts,tsx} \
+            node_modules/.bin/eslint src/**/*.{ts,tsx} --quiet \
               --format junit \
               --output-file /tmp/test-results/eslint/results.xml
+      - run:
+          name: stylelint
+          command: node_modules/.bin/stylelint 'src/**/*.css'
       # collect reports
       - store_test_results:
           path: /tmp/test-results/eslint

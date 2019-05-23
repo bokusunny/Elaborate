@@ -20,23 +20,22 @@ const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryI
 
   if (branches.status === 'failure') return <div>Error occured: {branches.error.message}</div>
 
-  // MEMO：これが出る場合はバグであることに留意
-  if (branches.data === null) return <div>Ooops! Some unknown error happened</div>
-
   return (
     <Fragment>
-      <BranchForm currentUser={currentUser} directoryId={selectedDirectoryId} />
+      <BranchForm currentUser={currentUser} directoryId={selectedDirectoryId} branches={branches} />
       <List component="nav">
-        {branches.data.map((branch: FirebaseSnapShot) => {
+        {/* ReduxAPIStructの構造上branches.dataはnullになり得ない */}
+        {(branches.data as FirebaseSnapShot[]).map(branch => {
           const { id } = branch
-          const { name } = branch.data()
+          const { name, baseBranchId } = branch.data()
           return (
             <Fragment key={id}>
               <BranchListItem
                 currentUserUid={currentUser.uid}
                 directoryId={selectedDirectoryId}
-                branchId={id}
-                branchName={name}
+                currentBranchId={id}
+                baseBranchId={baseBranchId as string}
+                branchName={name as string}
                 history={history}
               />
             </Fragment>

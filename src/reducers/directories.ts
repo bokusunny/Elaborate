@@ -13,23 +13,25 @@ export const directories = (
 ): ReduxAPIStruct<FirebaseSnapShot[]> => {
   switch (action.type) {
     case actionTypes.DIRECTORY__FIREBASE_REQUEST:
+      if (action.payload !== null) return state
       return { ...state, status: 'fetching' }
 
     case actionTypes.DIRECTORY__FIREBASE_REQUEST_FAILURE:
-      return { ...state, status: 'failure', error: action.payload.message }
+      if (action.payload === null || !('message' in action.payload)) return state
+      return { ...state, status: 'failure', error: action.payload }
 
     case actionTypes.DIRECTORY__SET:
-      if ('directories' in action.payload) {
-        return { ...state, status: 'success', data: action.payload.directories }
-      }
-      return state
+      if (action.payload === null || !('directories' in action.payload)) return state
+      return { ...state, status: 'success', data: action.payload.directories }
 
     case actionTypes.DIRECTORY__ADD:
-      if ('newDir' in action.payload) {
-        if (state.data === null) return state
-        return { ...state, status: 'success', data: state.data.concat(action.payload.newDir) }
+      if (action.payload === null || !('newDir' in action.payload)) return state
+      return {
+        ...state,
+        status: 'success',
+        // ReduxAPIStructの構造上state.dataはnullにはなり得ない
+        data: (state.data as FirebaseSnapShot[]).concat(action.payload.newDir),
       }
-      return state
   }
   return state
 }
@@ -40,12 +42,15 @@ export const isValidDirectory = (
 ): ReduxAPIStruct<boolean> => {
   switch (action.type) {
     case actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST:
+      if (action.payload !== null) return state
       return { ...state, status: 'fetching' }
 
     case actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST_FAILURE:
-      return { ...state, status: 'failure', error: action.payload.message }
+      if (action.payload === null || !('message' in action.payload)) return state
+      return { ...state, status: 'failure', error: action.payload }
 
     case actionTypes.DIRECTORY__CHECK_ID:
+      if (action.payload === null || !('isValidDirectoryId' in action.payload)) return state
       return { ...state, status: 'success', data: action.payload.isValidDirectoryId }
   }
   return state

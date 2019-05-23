@@ -1,5 +1,5 @@
 .styleButton {
-  margin-left: 8px; 
+  margin-left: 8px;
   font-size: 16px;
   font-weight: 500;
   color: #000;
@@ -8,7 +8,7 @@
   cursor: pointer;
 }
 
-.styleButton:hover{
+.styleButton:hover {
   opacity: .75;
   transition: all .3s;
 }

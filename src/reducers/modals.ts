@@ -17,6 +17,7 @@ export const authenticationModals = (
 ): AuthenticationModal => {
   switch (action.type) {
     case actionTypes.MODAL__AUTHENTICATION_OPEN:
+      if (action.payload === null) return state
       return {
         isAuthModalOpen: true,
         authenticationType: action.payload,
