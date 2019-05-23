@@ -49,10 +49,7 @@ const Router: React.FC<{}> = () => {
         />
         <PrivateRoute
           exact
-          // TODO:
-          // 現状base branchのIdをbranchが保持していないので暫定的に左側のURLはmaster
-          // https://github.com/bokusunny/Elaborate/issues/169 解決後に変更する
-          path="/:directoryId/diff/master/:rightBranchId"
+          path="/:directoryId/diff/:leftBranchId/:rightBranchId"
           component={DiffPage}
           currentUser={currentUser}
           isAuthorized={isAuthorized}
