@@ -16,7 +16,7 @@ import { markdownToDraft } from 'markdown-draft-js'
 import EditorToolBar from '../../molecules/EditorToolBar'
 import CommitForm from '../../molecules/Forms/CommitForm'
 
-import { STYLE_MAP } from '../../../common/constants/editor'
+import { STYLE_MAP, features } from '../../../common/constants/editor'
 import { fetchBranchBody } from '../../../actions/branches'
 import * as styles from './style.css'
 const { editorWrapper } = styles
@@ -160,7 +160,7 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
         editorState={editorState}
         onChange={(editorState: EditorState) => setEditorState(editorState)}
         handleKeyCommand={handleKeyCommand}
-        plugins={[createMarkdownPlugin()]}
+        plugins={[createMarkdownPlugin({ features })]}
         customStyleMap={STYLE_MAP}
         readOnly={branchType === 'master'}
         // placeholder='placeholder'
