@@ -13,14 +13,10 @@ interface Props {
   history: H.History
 }
 
-const onClickSignOut = () => {
-  auth.signOut()
-}
-
 const Header: React.FC<Props> = props => (
   <header className={`${styles.header} ${styles[props.colorType]}`}>
     <HeaderTitleButton history={props.history} />
-    <HeaderRight {...props} onClickSignOut={onClickSignOut} />
+    <HeaderRight {...props} onClickSignOut={() => auth.signOut()} />
   </header>
 )
 
