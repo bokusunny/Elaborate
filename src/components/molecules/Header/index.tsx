@@ -4,7 +4,6 @@ import { auth } from '../../../utils/firebase'
 import { connect } from 'react-redux'
 import HeaderRight from '../HeaderRight'
 import HeaderTitleButton from '../../atoms/Buttons/HeaderTitleButton'
-import AuthButtons from '../../atoms/Buttons/AuthButtons'
 import { AuthenticationModalOpen } from '../../../actions/modals'
 import * as styles from './style.css'
 
@@ -18,24 +17,12 @@ const onClickSignOut = () => {
   auth.signOut()
 }
 
-const Header: React.FC<Props> = ({ colorType, pageType, history }) => {
-  return colorType === 'blueBase' ? (
-    <div className={`${styles.header} ${styles[colorType]}`}>
-      <HeaderTitleButton history={history} />
-      <AuthButtons />
-    </div>
-  ) : (
-    <div className={`${styles.header} ${styles[colorType]}`}>
-      <HeaderTitleButton history={history} />
-      <HeaderRight
-        colorType="whiteBase"
-        pageType={pageType}
-        onClickSignOut={onClickSignOut}
-        history={history}
-      />
-    </div>
-  )
-}
+const Header: React.FC<Props> = props => (
+  <header className={`${styles.header} ${styles[props.colorType]}`}>
+    <HeaderTitleButton history={props.history} />
+    <HeaderRight {...props} onClickSignOut={onClickSignOut} />
+  </header>
+)
 
 export default connect(
   null,
