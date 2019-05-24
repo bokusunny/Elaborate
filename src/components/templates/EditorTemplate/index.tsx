@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import * as H from 'history'
-import Header from '../../molecules/Header'
+import Header from '../../organisms/Header'
 import MarkdownEditor from '../../organisms/MarkdownEditor'
 
 interface Props {
