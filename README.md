@@ -58,6 +58,3 @@ $ npm run watch
 
 ## Content Strategist
 - [Yuta Tsurusaki](https://github.com/yuta-tsurusaki)
-
-## License
-[MIT](http://b4b4r07.mit-license.org)
