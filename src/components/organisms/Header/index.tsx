@@ -1,6 +1,5 @@
 import React from 'react'
 import * as H from 'history'
-import { auth } from '../../../utils/firebase'
 import { connect } from 'react-redux'
 import HeaderLeft from '../../molecules/HeaderLeft'
 import HeaderRight from '../../molecules/HeaderRight'
@@ -18,12 +17,7 @@ interface Props {
 const Header: React.FC<Props> = ({ colorType, ...rest }) => (
   <header className={`${styles.header} ${styles[colorType]}`}>
     <HeaderLeft {...rest} />
-    <HeaderRight
-      colorType={colorType}
-      pageType={rest.pageType}
-      history={rest.history}
-      onClickSignOut={() => auth.signOut()}
-    />
+    <HeaderRight colorType={colorType} pageType={rest.pageType} history={rest.history} />
   </header>
 )
 
