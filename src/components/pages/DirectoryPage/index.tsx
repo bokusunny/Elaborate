@@ -1,8 +1,8 @@
-import React, { useEffect, Fragment } from 'react'
+import React, { /*useEffect,*/ Fragment } from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps, Link } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { checkDirectoryId } from '../../../actions/directories'
+// import { checkDirectoryId } from '../../../actions/directories'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import { FirebaseSnapShot } from '../../../utils/firebase'
 import BranchForm from '../../molecules/Forms/BranchForm'
@@ -13,7 +13,7 @@ interface MatchParams {
 
 interface Props extends RouteComponentProps<MatchParams> {
   currentUser: firebase.User | null
-  checkDirectoryId: (currentUserUid: string, directoryId: string) => void
+  // checkDirectoryId: (currentUserUid: string, directoryId: string) => void
 }
 
 interface StateProps {
@@ -26,7 +26,7 @@ const DirectoryPage: React.FC<Props & StateProps> = ({
   currentUser,
   isValidDirectory,
   branches,
-  checkDirectoryId,
+  // checkDirectoryId,
 }) => {
   if (!currentUser) return <CircularProgress />
 
@@ -34,7 +34,7 @@ const DirectoryPage: React.FC<Props & StateProps> = ({
     params: { directoryId },
   } = match
 
-  useEffect(() => checkDirectoryId(currentUser.uid, directoryId), [])
+  // useEffect(() => checkDirectoryId(currentUser.uid, directoryId), [])
 
   if (
     isValidDirectory.status === 'default' ||
@@ -73,5 +73,6 @@ export default connect(
     isValidDirectory,
     branches,
   }),
-  { checkDirectoryId }
+  // { checkDirectoryId }
+  null
 )(DirectoryPage)
