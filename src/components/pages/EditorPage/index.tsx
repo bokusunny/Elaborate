@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router-dom'
 import * as H from 'history'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { checkDirectoryId } from '../../../actions/directories'
-import { checkCurrentBranchData, BranchData } from '../../../actions/branches'
+import { fetchCurrentDirectory, DirectoryData } from '../../../actions/directories'
+import { fetchCurrentBranch, BranchData } from '../../../actions/branches'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import EditorTemplate from '../../templates/EditorTemplate'
 
@@ -20,23 +20,23 @@ interface Props extends RouteComponentProps<MatchParams> {
 }
 
 interface StateProps {
-  isValidDirectory: ReduxAPIStruct<boolean>
-  currentBranchData: ReduxAPIStruct<BranchData>
+  currentDirectory: ReduxAPIStruct<DirectoryData>
+  currentBranch: ReduxAPIStruct<BranchData>
 }
 
 interface DispatchProps {
-  checkDirectoryId: (currentUserUid: string, directoryId: string) => void
-  checkCurrentBranchData: (currentUserUid: string, directoryId: string, branchId: string) => void
+  fetchCurrentDirectory: (currentUserUid: string, directoryId: string) => void
+  fetchCurrentBranch: (currentUserUid: string, directoryId: string, branchId: string) => void
 }
 
 const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
   currentUser,
   match,
   history,
-  isValidDirectory,
-  checkDirectoryId,
-  currentBranchData,
-  checkCurrentBranchData,
+  currentDirectory,
+  fetchCurrentDirectory,
+  currentBranch,
+  fetchCurrentBranch,
 }) => {
   if (!currentUser) return <CircularProgress />
 
@@ -45,27 +45,28 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
   } = match
 
   useEffect(() => {
-    if (isValidDirectory.status === 'default') {
-      checkDirectoryId(currentUser.uid, directoryId)
+    if (currentDirectory.status === 'default') {
+      fetchCurrentDirectory(currentUser.uid, directoryId)
     }
-    if (currentBranchData.status === 'default') {
-      checkCurrentBranchData(currentUser.uid, directoryId, branchId)
+    if (currentBranch.status === 'default') {
+      fetchCurrentBranch(currentUser.uid, directoryId, branchId)
     }
   }, [])
 
   if (
-    isValidDirectory.status === 'default' ||
-    isValidDirectory.status === 'fetching' ||
-    currentBranchData.status === 'default' ||
-    currentBranchData.status === 'fetching'
+    currentDirectory.status === 'default' ||
+    currentDirectory.status === 'fetching' ||
+    currentBranch.status === 'default' ||
+    currentBranch.status === 'fetching'
   ) {
     return <CircularProgress />
   }
 
-  // ReduxAPIStructの構造的にcurrentBranchData.dataはnullになり得ない
-  const { type, isValidBranch } = currentBranchData.data as BranchData
+  // ReduxAPIStructの構造的にcurrentBranch.dataはnullになり得ない
+  const { type, isValidBranch, body } = currentBranch.data as BranchData
+  const { isValidDirectoryId } = currentDirectory.data as DirectoryData
 
-  if (!isValidDirectory.data || !isValidBranch) return <h2>404 Not Found</h2>
+  if (!isValidDirectoryId || !isValidBranch) return <h2>404 Not Found</h2>
 
   return (
     <EditorTemplate
@@ -73,15 +74,16 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
       directoryId={directoryId}
       branchId={branchId}
       branchType={type as 'master' | 'normal'} // ReduxAPIStructの構造的にここはundefinedになり得ない
+      body={body as string}
       history={history}
     />
   )
 }
 
 export default connect(
-  ({ isValidDirectory, currentBranchData }: StateProps) => ({
-    isValidDirectory,
-    currentBranchData,
+  ({ currentDirectory, currentBranch }: StateProps) => ({
+    currentDirectory,
+    currentBranch,
   }),
-  { checkDirectoryId, checkCurrentBranchData }
+  { fetchCurrentDirectory, fetchCurrentBranch }
 )(EditorPage)

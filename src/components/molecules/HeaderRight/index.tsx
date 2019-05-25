@@ -1,5 +1,6 @@
 import React from 'react'
 import * as H from 'history'
+import AuthButtons from '../../molecules/AuthButtons'
 import MyPageButton from '../../atoms/Buttons/MyPageButton'
 import AuthButton from '../../atoms/Buttons/AuthButton'
 import * as styles from './style.css'
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const HeaderRight: React.FC<Props> = ({ colorType, pageType, onClickSignOut, history }) => {
+  if (colorType === 'blueBase') return <AuthButtons />
   return pageType === 'edit' || pageType === 'diff' ? (
     <div className={styles.HeaderButtonsWrapper}>
       <MyPageButton colorType={colorType} onClick={() => history.push('/mypage')} />

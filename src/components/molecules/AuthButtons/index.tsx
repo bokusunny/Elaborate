@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import AuthButton from '../AuthButton'
-import { AuthenticationModalOpen } from '../../../../actions/modals'
+import AuthButton from '../../atoms/Buttons/AuthButton'
+import { AuthenticationModalOpen } from '../../../actions/modals'
 import * as styles from './style.css'
 
 interface Props {
