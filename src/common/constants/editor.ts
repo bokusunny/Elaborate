@@ -29,9 +29,3 @@ export const BLOCK_TYPES = [
   { label: 'Quote', style: 'blockquote' },
   { label: 'List', style: 'unordered-list-item' },
 ]
-
-// editorで使えるマークダウン一覧
-export const features = {
-  inline: ['BOLD', 'ITALIC'],
-  block: ['header-one', 'header-two', 'unordered-list-item', 'blockquote'],
-}

@@ -8,14 +8,14 @@ import {
   RawDraftContentState,
   convertFromRaw,
 } from 'draft-js'
-import createMarkdownPlugin from 'draft-js-markdown-plugin'
+import createMarkdownShortcutsPlugin from 'draft-js-markdown-shortcuts-plugin'
 import Editor from 'draft-js-plugins-editor'
 import { markdownToDraft } from 'markdown-draft-js'
 
 import EditorToolBar from '../../molecules/EditorToolBar'
 import CommitForm from '../../molecules/Forms/CommitForm'
 
-import { STYLE_MAP, features } from '../../../common/constants/editor'
+import { STYLE_MAP } from '../../../common/constants/editor'
 import * as styles from './style.css'
 const { editorWrapper } = styles
 
@@ -131,7 +131,7 @@ const MarkdownEditor: React.FC<Props> = ({
         editorState={editorState}
         onChange={(editorState: EditorState) => setEditorState(editorState)}
         handleKeyCommand={handleKeyCommand}
-        plugins={[createMarkdownPlugin({ features })]}
+        plugins={[createMarkdownShortcutsPlugin()]}
         customStyleMap={STYLE_MAP}
         readOnly={branchType === 'master'}
         // placeholder='placeholder'
