@@ -5,7 +5,7 @@ import Modal from '@material-ui/core/Modal'
 import { AuthenticationModalClose } from '../../../actions/modals'
 import { AuthenticationModal } from '../../../reducers/modals'
 import SNSButtons from '../../molecules/SNSButtons'
-import Header from '../../molecules/Header'
+import Header from '../../organisms/Header'
 import LandingMesasge from '../../molecules/LandingMessage'
 import * as styles from './style.css'
 

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import * as H from 'history'
-import Header from '../../molecules/Header'
+import Header from '../../organisms/Header'
 import Diff from '../../organisms/Diff'
 
 interface Props {

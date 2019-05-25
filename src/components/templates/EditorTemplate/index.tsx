@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import * as H from 'history'
-import Header from '../../molecules/Header'
+import Header from '../../organisms/Header'
 import MarkdownEditor from '../../organisms/MarkdownEditor'
 
 interface Props {
@@ -8,6 +8,7 @@ interface Props {
   directoryId: string
   branchId: string
   branchType: 'master' | 'normal'
+  body: string
   history: H.History
 }
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment, Dispatch } from 'react'
-import { connect } from 'react-redux'
 import {
   EditorState,
   RichUtils,
@@ -17,7 +16,6 @@ import EditorToolBar from '../../molecules/EditorToolBar'
 import CommitForm from '../../molecules/Forms/CommitForm'
 
 import { STYLE_MAP } from '../../../common/constants/editor'
-import { fetchBranchBody } from '../../../actions/branches'
 import * as styles from './style.css'
 const { editorWrapper } = styles
 
@@ -26,41 +24,25 @@ interface Props {
   directoryId: string
   branchId: string
   branchType: 'master' | 'normal'
-}
-
-interface DispatchProps {
-  fetchBranchBody: (
-    currentUserUid: string,
-    directoryId: string,
-    branchId: string
-  ) => Promise<string | undefined>
+  body: string
 }
 
 const initEditorState = (
-  currentUserUid: string,
-  directoryId: string,
   branchId: string,
+  body: string,
   editorState: EditorState,
-  setEditorState: Dispatch<React.SetStateAction<EditorState>>,
-  fetchBranchBody: (
-    currentUserUid: string,
-    directoryId: string,
-    branchId: string
-  ) => Promise<string | undefined>
+  setEditorState: Dispatch<React.SetStateAction<EditorState>>
 ) => {
   const rawStateSavedOnStorage = localStorage.getItem(branchId)
   if (!rawStateSavedOnStorage) {
-    fetchBranchBody(currentUserUid, directoryId, branchId).then(body => {
-      if (body === undefined) return
-      if (body === '') {
-        setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
-      } else {
-        // TODO: markdownToDraftはマークダウン記号に少し齟齬がある(*foo*がitalicになるなど)のでFix
-        const initRawState: RawDraftContentState = markdownToDraft(body)
-        const initContentState = convertFromRaw(initRawState)
-        setEditorState(EditorState.createWithContent(initContentState))
-      }
-    })
+    if (body === '') {
+      setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
+    } else {
+      // TODO: markdownToDraftはマークダウン記号に少し齟齬がある(*foo*がitalicになるなど)のでFix
+      const initRawState: RawDraftContentState = markdownToDraft(body)
+      const initContentState = convertFromRaw(initRawState)
+      setEditorState(EditorState.createWithContent(initContentState))
+    }
   } else {
     const initRawState: RawDraftContentState = JSON.parse(rawStateSavedOnStorage)
     const initContentState = convertFromRaw(initRawState)
@@ -100,12 +82,12 @@ const changeToolBarDisplay = (
   }
 }
 
-const MarkdownEditor: React.FC<Props & DispatchProps> = ({
+const MarkdownEditor: React.FC<Props> = ({
   currentUser,
   directoryId,
   branchId,
   branchType,
-  fetchBranchBody,
+  body,
 }) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
@@ -115,18 +97,7 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
   const rawContentState = convertToRaw(contentState)
   const rawContentBlocks = rawContentState.blocks // 複数回使うのでここで定義
 
-  useEffect(
-    () =>
-      initEditorState(
-        currentUser.uid,
-        directoryId,
-        branchId,
-        editorState,
-        setEditorState,
-        fetchBranchBody
-      ),
-    []
-  )
+  useEffect(() => initEditorState(branchId, body, editorState, setEditorState), [])
 
   useEffect(() => {
     // masterの場合はtoolBarは常に表示されない
@@ -189,7 +160,4 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
   )
 }
 
-export default connect(
-  null,
-  { fetchBranchBody }
-)(MarkdownEditor)
+export default MarkdownEditor

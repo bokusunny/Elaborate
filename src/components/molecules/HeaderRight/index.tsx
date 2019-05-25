@@ -1,6 +1,6 @@
 import React from 'react'
 import * as H from 'history'
-import AuthButtons from '../../atoms/Buttons/AuthButtons'
+import AuthButtons from '../../molecules/AuthButtons'
 import MyPageButton from '../../atoms/Buttons/MyPageButton'
 import AuthButton from '../../atoms/Buttons/AuthButton'
 import * as styles from './style.css'

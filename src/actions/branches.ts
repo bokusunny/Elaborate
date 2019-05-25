@@ -201,16 +201,20 @@ export const closeBranch = (
 }
 
 // -------------------------------------------------------------------------
-// currentBranchData
+// currentBranch
 // -------------------------------------------------------------------------
-const currentBranchDataFirebaseFailure = (message: string): FirebaseAPIFailure => ({
+const currentBranchFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   type: actionTypes.CURRENT_BRANCH_DATA__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
 
 export interface BranchData {
-  type?: 'master' | 'normal'
   isValidBranch: boolean
+  type?: 'master' | 'normal'
+  id?: string
+  name?: string
+  body?: string
+  baseBranchId?: string
 }
 
 interface CheckBranchDataAction extends BaseAction {
@@ -218,13 +222,13 @@ interface CheckBranchDataAction extends BaseAction {
   payload: { branchData: BranchData }
 }
 
-export type IsInvalidBranchAction = FirebaseAPIAction | CheckBranchDataAction
+export type FetchCurrentBranchAction = FirebaseAPIAction | CheckBranchDataAction
 
-export const checkCurrentBranchData = (
+export const fetchCurrentBranch = (
   currentUserUid: string,
   directoryId: string,
   branchId: string
-): ThunkAction<void, {}, {}, IsInvalidBranchAction> => {
+): ThunkAction<void, {}, {}, FetchCurrentBranchAction> => {
   return dispatch => {
     dispatch({ type: actionTypes.CURRENT_BRANCH_DATA__FIREBASE_REQUEST, payload: null })
     db.collection('users')
@@ -237,15 +241,34 @@ export const checkCurrentBranchData = (
       .then(snapShot => {
         if (snapShot.exists) {
           // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
-          if ((snapShot.data() as firebase.firestore.DocumentData).name === 'master') {
+          const { name, body, baseBranchId } = snapShot.data() as firebase.firestore.DocumentData
+          if (name === 'master') {
             dispatch({
               type: actionTypes.CURRENT_BRANCH_DATA__CHECK,
-              payload: { branchData: { type: 'master', isValidBranch: true } },
+              payload: {
+                branchData: {
+                  isValidBranch: true,
+                  type: 'master',
+                  id: branchId,
+                  name,
+                  body,
+                  baseBranchId,
+                },
+              },
             })
           } else {
             dispatch({
               type: actionTypes.CURRENT_BRANCH_DATA__CHECK,
-              payload: { branchData: { type: 'normal', isValidBranch: true } },
+              payload: {
+                branchData: {
+                  isValidBranch: true,
+                  type: 'normal',
+                  id: branchId,
+                  name,
+                  body,
+                  baseBranchId,
+                },
+              },
             })
           }
         } else {
@@ -255,32 +278,6 @@ export const checkCurrentBranchData = (
           })
         }
       })
-      .catch(error => currentBranchDataFirebaseFailure(error.message))
-  }
-}
-
-// -------------------------------------------------------------------------
-// currentBranchBody
-// -------------------------------------------------------------------------
-// checkBranchDataと一元化できるかも
-export const fetchBranchBody = (currentUserUid: string, directoryId: string, branchId: string) => {
-  return async () => {
-    // TODO: 今後できればcatchを追記
-    return db
-      .collection('users')
-      .doc(currentUserUid)
-      .collection('directories')
-      .doc(directoryId)
-      .collection('branches')
-      .doc(branchId)
-      .get()
-      .then(snapShot => {
-        if (snapShot.exists) {
-          // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
-          return (snapShot.data() as firebase.firestore.DocumentData).body as string
-        } else {
-          return undefined
-        }
-      })
+      .catch(error => currentBranchFirebaseFailure(error.message))
   }
 }

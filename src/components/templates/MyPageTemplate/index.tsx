@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { FirebaseSnapShot } from '../../../utils/firebase'
 import * as H from 'history'
-import Header from '../../molecules/Header'
+import Header from '../../organisms/Header'
 import MyPageList from '../../organisms/MyPageList'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import * as styles from './style.css'
