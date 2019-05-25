@@ -16,7 +16,6 @@ const DiffTemplate: React.FC<Props> = props => {
   return (
     <Fragment>
       <Header colorType="whiteBase" pageType="diff" history={props.history} />
-      <div>Diff Page</div>
       <Diff {...props} />
     </Fragment>
   )
