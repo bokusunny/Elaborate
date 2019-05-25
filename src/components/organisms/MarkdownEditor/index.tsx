@@ -16,7 +16,6 @@ import EditorToolBar from '../../molecules/EditorToolBar'
 import CommitForm from '../../molecules/Forms/CommitForm'
 
 import { STYLE_MAP, features } from '../../../common/constants/editor'
-import { fetchBranchBody } from '../../../actions/branches'
 import * as styles from './style.css'
 const { editorWrapper } = styles
 
