@@ -52,7 +52,7 @@
     "diff2html": "2.9.0",
     "dotenv": "7.0.0",
     "draft-js": "0.10.5",
-    "draft-js-markdown-plugin": "3.0.5",
+    "draft-js-markdown-shortcuts-plugin": "0.5.0",
     "draft-js-plugins-editor": "2.1.1",
     "formik": "1.5.4",
     "jquery": "3.4.1",
