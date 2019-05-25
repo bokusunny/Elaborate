@@ -281,29 +281,3 @@ export const fetchCurrentBranch = (
       .catch(error => currentBranchFirebaseFailure(error.message))
   }
 }
-
-// -------------------------------------------------------------------------
-// currentBranchBody
-// -------------------------------------------------------------------------
-// checkBranchDataと一元化できるかも
-export const fetchBranchBody = (currentUserUid: string, directoryId: string, branchId: string) => {
-  return async () => {
-    // TODO: 今後できればcatchを追記
-    return db
-      .collection('users')
-      .doc(currentUserUid)
-      .collection('directories')
-      .doc(directoryId)
-      .collection('branches')
-      .doc(branchId)
-      .get()
-      .then(snapShot => {
-        if (snapShot.exists) {
-          // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
-          return (snapShot.data() as firebase.firestore.DocumentData).body as string
-        } else {
-          return undefined
-        }
-      })
-  }
-}

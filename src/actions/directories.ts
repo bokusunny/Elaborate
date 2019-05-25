@@ -108,22 +108,28 @@ export const createDirectory = (
 // -------------------------------------------------------------------------
 // IsInvalidDirectory
 // -------------------------------------------------------------------------
-const isValidDirectoryFirebaseFailure = (message: string): FirebaseAPIFailure => ({
+const currentDirectoryFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   type: actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
 })
 
-interface CheckDirectoryIdAction extends BaseAction {
-  type: string
-  payload: { isValidDirectoryId: boolean }
+export interface DirectoryData {
+  isValidDirectoryId: boolean
+  id?: string
+  name?: string
 }
 
-export type IsInvalidDirectoryAction = FirebaseAPIAction | CheckDirectoryIdAction
+interface CheckDirectoryIdAction extends BaseAction {
+  type: string
+  payload: DirectoryData
+}
 
-export const checkDirectoryId = (
+export type FetchDirectoryAction = FirebaseAPIAction | CheckDirectoryIdAction
+
+export const fetchCurrentDirectory = (
   currentUserUid: string,
   directoryId: string
-): ThunkAction<void, {}, {}, IsInvalidDirectoryAction | FetchBranchesAction> => {
+): ThunkAction<void, {}, {}, FetchDirectoryAction | FetchBranchesAction> => {
   return dispatch => {
     dispatch({ type: actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST, payload: null })
     const directoryDocRef = db
@@ -145,17 +151,18 @@ export const checkDirectoryId = (
               const orderedDocs = querySnapshot.docs.sort((doc1, doc2) => {
                 return doc1.data().createdAt - doc2.data().createdAt
               })
+              const { name } = doc.data() as firebase.firestore.DocumentData
 
               dispatch({
                 type: actionTypes.DIRECTORY__CHECK_ID,
-                payload: { isValidDirectoryId: true },
+                payload: { isValidDirectoryId: true, id: directoryId, name },
               })
               dispatch({
                 type: actionTypes.BRANCH__SET,
                 payload: { branches: orderedDocs },
               })
             })
-            .catch(error => dispatch(isValidDirectoryFirebaseFailure(error.message)))
+            .catch(error => dispatch(currentDirectoryFirebaseFailure(error.message)))
         } else {
           dispatch({
             type: actionTypes.DIRECTORY__CHECK_ID,
@@ -163,13 +170,14 @@ export const checkDirectoryId = (
           })
         }
       })
-      .catch(error => dispatch(isValidDirectoryFirebaseFailure(error.message)))
+      .catch(error => dispatch(currentDirectoryFirebaseFailure(error.message)))
   }
 }
 
 // -------------------------------------------------------------------------
 // DirectoriesStatus
 // -------------------------------------------------------------------------
+// TODO: 上のcurrentDirectoryと一元化できるかも？
 interface SetSelectedDirectoryAction extends BaseAction {
   type: string
   payload: { selectedDirectoryId: string }
