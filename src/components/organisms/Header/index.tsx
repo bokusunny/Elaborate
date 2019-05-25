@@ -11,12 +11,19 @@ interface Props {
   colorType: 'blueBase' | 'whiteBase'
   pageType: 'landing' | 'myPage' | 'edit' | 'diff'
   history: H.History
+  directoryName?: string
+  branchName?: string
 }
 
-const Header: React.FC<Props> = props => (
-  <header className={`${styles.header} ${styles[props.colorType]}`}>
-    <HeaderLeft history={props.history} />
-    <HeaderRight {...props} onClickSignOut={() => auth.signOut()} />
+const Header: React.FC<Props> = ({ colorType, ...rest }) => (
+  <header className={`${styles.header} ${styles[colorType]}`}>
+    <HeaderLeft {...rest} />
+    <HeaderRight
+      colorType={colorType}
+      pageType={rest.pageType}
+      history={rest.history}
+      onClickSignOut={() => auth.signOut()}
+    />
   </header>
 )
 
