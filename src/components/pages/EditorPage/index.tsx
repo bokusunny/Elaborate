@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import * as H from 'history'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { checkDirectoryId } from '../../../actions/directories'
-import { checkCurrentBranchData, BranchData } from '../../../actions/branches'
+import { fetchCurrentBranch, BranchData } from '../../../actions/branches'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import EditorTemplate from '../../templates/EditorTemplate'
 
@@ -21,12 +21,12 @@ interface Props extends RouteComponentProps<MatchParams> {
 
 interface StateProps {
   isValidDirectory: ReduxAPIStruct<boolean>
-  currentBranchData: ReduxAPIStruct<BranchData>
+  currentBranch: ReduxAPIStruct<BranchData>
 }
 
 interface DispatchProps {
   checkDirectoryId: (currentUserUid: string, directoryId: string) => void
-  checkCurrentBranchData: (currentUserUid: string, directoryId: string, branchId: string) => void
+  fetchCurrentBranch: (currentUserUid: string, directoryId: string, branchId: string) => void
 }
 
 const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
@@ -35,8 +35,8 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
   history,
   isValidDirectory,
   checkDirectoryId,
-  currentBranchData,
-  checkCurrentBranchData,
+  currentBranch,
+  fetchCurrentBranch,
 }) => {
   if (!currentUser) return <CircularProgress />
 
@@ -48,22 +48,22 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
     if (isValidDirectory.status === 'default') {
       checkDirectoryId(currentUser.uid, directoryId)
     }
-    if (currentBranchData.status === 'default') {
-      checkCurrentBranchData(currentUser.uid, directoryId, branchId)
+    if (currentBranch.status === 'default') {
+      fetchCurrentBranch(currentUser.uid, directoryId, branchId)
     }
   }, [])
 
   if (
     isValidDirectory.status === 'default' ||
     isValidDirectory.status === 'fetching' ||
-    currentBranchData.status === 'default' ||
-    currentBranchData.status === 'fetching'
+    currentBranch.status === 'default' ||
+    currentBranch.status === 'fetching'
   ) {
     return <CircularProgress />
   }
 
-  // ReduxAPIStructの構造的にcurrentBranchData.dataはnullになり得ない
-  const { type, isValidBranch } = currentBranchData.data as BranchData
+  // ReduxAPIStructの構造的にcurrentBranch.dataはnullになり得ない
+  const { type, isValidBranch } = currentBranch.data as BranchData
 
   if (!isValidDirectory.data || !isValidBranch) return <h2>404 Not Found</h2>
 
@@ -79,9 +79,9 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
 }
 
 export default connect(
-  ({ isValidDirectory, currentBranchData }: StateProps) => ({
+  ({ isValidDirectory, currentBranch }: StateProps) => ({
     isValidDirectory,
-    currentBranchData,
+    currentBranch,
   }),
-  { checkDirectoryId, checkCurrentBranchData }
+  { checkDirectoryId, fetchCurrentBranch }
 )(EditorPage)
