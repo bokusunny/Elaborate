@@ -8,6 +8,7 @@ interface Props {
   directoryId: string
   branchId: string
   branchType: 'master' | 'normal'
+  body: string
   history: H.History
 }
 
