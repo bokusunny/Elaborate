@@ -30,8 +30,10 @@ const EditorTemplate: React.FC<Props> = ({
       currentUser={currentUser}
       directoryId={currentDirectory.id as string}
       branchId={currentBranch.id as string}
+      baseBranchId={currentBranch.baseBranchId as string}
       branchType={currentBranch.type as 'master' | 'normal'}
       body={currentBranch.body as string}
+      history={history}
     />
   </Fragment>
 )

@@ -43,3 +43,9 @@
   right: 15%;
   bottom: 5%;
 }
+
+.checkDiff {
+  position: fixed;
+  right: 7%;
+  bottom: 5%;
+}
