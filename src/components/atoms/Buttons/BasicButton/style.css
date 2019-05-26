@@ -1,6 +1,5 @@
-.blueBase {
+.button {
   border-radius: 4px;
-  color: #fff;
   font-family: 'Montserrat';
   font-size: 16px;
   font-weight: 100;
@@ -8,6 +7,10 @@
   padding: 16px;
   cursor: pointer;
   transition: .15s;
+}
+
+.blueBase {
+  color: #fff;
 }
 
 .blueBase:hover {
@@ -18,19 +21,25 @@
 
 .whiteBase {
   margin-right: 16px;
-  border-radius: 4px;
   color: rgba(18, 151, 226, .6);
-  font-family: 'Montserrat';
-  font-size: 16px;
-  font-weight: 100;
-  line-height: 1.5;
-  padding: 16px;
-  cursor: pointer;
-  transition: .15s;
 }
 
 .whiteBase:hover {
   background-color: rgba(18, 151, 226, .6);
   color: #fff;
   transition: all .5s;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 500;
+  margin: auto 0 auto 32px;
+  vertical-align: middle;
+  padding: 0;
+}
+
+.commit {
+  position: fixed;
+  right: 15%;
+  bottom: 5%;
 }

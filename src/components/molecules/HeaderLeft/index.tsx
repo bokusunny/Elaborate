@@ -1,21 +1,30 @@
 import React, { Fragment } from 'react'
 import * as H from 'history'
-import HeaderTitleButton from '../../atoms/Buttons/HeaderTitleButton'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
+import BasicButton from '../../atoms/Buttons/BasicButton'
 import TopicPath from '../../atoms/TopicPath'
+import { BranchData } from '../../../actions/branches'
+import { DirectoryData } from '../../../actions/directories'
 
 interface Props {
   history: H.History
   pageType: 'landing' | 'myPage' | 'edit' | 'diff'
-  directoryName?: string
-  branchName?: string
+  currentDirectory?: DirectoryData
+  currentBranch?: BranchData
 }
 
-const HeaderLeft: React.FC<Props> = ({ history, pageType, directoryName, branchName }) => {
+const HeaderLeft: React.FC<Props> = ({ history, pageType, currentDirectory, currentBranch }) => {
   return (
     <Fragment>
-      <HeaderTitleButton history={history} pageType={pageType} />
+      <BasicButton className="title" onClick={() => history.push('/mypage')}>
+        {pageType === 'edit' ? <FontAwesomeIcon icon={faHome} /> : 'Elaborate'}
+      </BasicButton>
       {pageType === 'edit' && (
-        <TopicPath directoryName={directoryName as string} branchName={branchName as string} />
+        <TopicPath
+          directoryName={(currentDirectory as DirectoryData).name as string}
+          branchName={(currentBranch as BranchData).name as string}
+        />
       )}
     </Fragment>
   )
