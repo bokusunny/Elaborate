@@ -13,7 +13,7 @@ import Editor from 'draft-js-plugins-editor'
 import { markdownToDraft } from 'markdown-draft-js'
 
 import EditorToolBar from '../../molecules/EditorToolBar'
-import CommitForm from '../../molecules/Forms/CommitForm'
+import CommitFormWithButton from '../../molecules/CommitFormWithButton'
 
 import { STYLE_MAP } from '../../../common/constants/editor'
 import * as styles from './style.css'
@@ -38,7 +38,6 @@ const initEditorState = (
     if (body === '') {
       setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
     } else {
-      // TODO: markdownToDraftはマークダウン記号に少し齟齬がある(*foo*がitalicになるなど)のでFix
       const initRawState: RawDraftContentState = markdownToDraft(body)
       const initContentState = convertFromRaw(initRawState)
       setEditorState(EditorState.createWithContent(initContentState))
@@ -148,7 +147,7 @@ const MarkdownEditor: React.FC<Props> = ({
               setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle))
             }}
           />
-          <CommitForm
+          <CommitFormWithButton
             currentUser={currentUser}
             directoryId={directoryId}
             branchId={branchId}
