@@ -1,29 +1,25 @@
 import React from 'react'
 import * as H from 'history'
-import { auth } from '../../../utils/firebase'
 import { connect } from 'react-redux'
 import HeaderLeft from '../../molecules/HeaderLeft'
 import HeaderRight from '../../molecules/HeaderRight'
 import { AuthenticationModalOpen } from '../../../actions/modals'
 import * as styles from './style.css'
+import { BranchData } from '../../../actions/branches'
+import { DirectoryData } from '../../../actions/directories'
 
 interface Props {
   colorType: 'blueBase' | 'whiteBase'
   pageType: 'landing' | 'myPage' | 'edit' | 'diff'
   history: H.History
-  directoryName?: string
-  branchName?: string
+  currentDirectory?: DirectoryData
+  currentBranch?: BranchData
 }
 
-const Header: React.FC<Props> = ({ colorType, ...rest }) => (
-  <header className={`${styles.header} ${styles[colorType]}`}>
-    <HeaderLeft {...rest} />
-    <HeaderRight
-      colorType={colorType}
-      pageType={rest.pageType}
-      history={rest.history}
-      onClickSignOut={() => auth.signOut()}
-    />
+const Header: React.FC<Props> = props => (
+  <header className={`${styles.header} ${styles[props.colorType]}`}>
+    <HeaderLeft {...props} />
+    <HeaderRight {...props} />
   </header>
 )
 

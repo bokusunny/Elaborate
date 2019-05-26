@@ -2,28 +2,37 @@ import React, { Fragment } from 'react'
 import * as H from 'history'
 import Header from '../../organisms/Header'
 import MarkdownEditor from '../../organisms/MarkdownEditor'
+import { DirectoryData } from '../../../actions/directories'
+import { BranchData } from '../../../actions/branches'
 
 interface Props {
   currentUser: firebase.User
-  directoryId: string
-  directoryName: string
-  branchId: string
-  branchName: string
-  branchType: 'master' | 'normal'
-  body: string
+  currentDirectory: DirectoryData
+  currentBranch: BranchData
   history: H.History
 }
 
-const EditorTemplate: React.FC<Props> = ({ history, directoryName, branchName, ...rest }) => (
+const EditorTemplate: React.FC<Props> = ({
+  currentUser,
+  currentDirectory,
+  currentBranch,
+  history,
+}) => (
   <Fragment>
     <Header
       colorType="whiteBase"
       pageType="edit"
+      currentBranch={currentBranch}
+      currentDirectory={currentDirectory}
       history={history}
-      directoryName={directoryName}
-      branchName={branchName}
     />
-    <MarkdownEditor {...rest} />
+    <MarkdownEditor
+      currentUser={currentUser}
+      directoryId={currentDirectory.id as string}
+      branchId={currentBranch.id as string}
+      branchType={currentBranch.type as 'master' | 'normal'}
+      body={currentBranch.body as string}
+    />
   </Fragment>
 )
 

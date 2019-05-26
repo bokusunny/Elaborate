@@ -63,20 +63,16 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
   }
 
   // ReduxAPIStructの構造的にcurrentBranch.dataはnullになり得ない
-  const { type, isValidBranch, body, name: branchName } = currentBranch.data as BranchData
-  const { isValidDirectoryId, name: directoryName } = currentDirectory.data as DirectoryData
+  const { isValidBranch } = currentBranch.data as BranchData
+  const { isValidDirectoryId } = currentDirectory.data as DirectoryData
 
   if (!isValidDirectoryId || !isValidBranch) return <h2>404 Not Found</h2>
 
   return (
     <EditorTemplate
       currentUser={currentUser}
-      directoryId={directoryId}
-      directoryName={directoryName as string}
-      branchId={branchId}
-      branchName={branchName as string}
-      branchType={type as 'master' | 'normal'} // ReduxAPIStructの構造的にここはundefinedになり得ない
-      body={body as string}
+      currentDirectory={currentDirectory.data as DirectoryData}
+      currentBranch={currentBranch.data as BranchData}
       history={history}
     />
   )
