@@ -26,7 +26,7 @@ const CommitFormWithButton: React.FC<Props> = props => {
 
   return (
     <Fragment>
-      <BasicButton colorType="whiteBase" className="commit" onClick={handleClickButton}>
+      <BasicButton className="commit" onClick={handleClickButton}>
         Commit
       </BasicButton>
       <CommitFormPopover
