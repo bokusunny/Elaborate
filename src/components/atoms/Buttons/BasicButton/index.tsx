@@ -5,7 +5,7 @@ const { button } = styles
 interface Props {
   children: React.ReactNode
   colorType?: 'blueBase' | 'whiteBase'
-  className?: 'title'
+  className?: 'title' | 'commit'
   onClick: () => void
 }
 
