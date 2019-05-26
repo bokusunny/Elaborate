@@ -22,6 +22,16 @@ interface SetRightDiffFileAction extends BaseAction {
   }
 }
 
+export interface LeftFile {
+  leftFileBody: string | null
+  leftFileName: string | null
+}
+
+export interface RightFile {
+  rightFileBody: string | null
+  rightFileName: string | null
+}
+
 const diffFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   type: actionTypes.DIFF__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },

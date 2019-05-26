@@ -1,16 +1,6 @@
 import { actionTypes } from '../common/constants/action-types'
 import { ReduxAPIStruct, defaultSet } from '../common/static-types/api-struct'
-import { DiffFilesAction } from '../actions/diff'
-
-export interface LeftFile {
-  leftFileBody: string | null
-  leftFileName: string | null
-}
-
-export interface RightFile {
-  rightFileBody: string | null
-  rightFileName: string | null
-}
+import { DiffFilesAction, LeftFile, RightFile } from '../actions/diff'
 
 export const diffLeftFile = (
   state: ReduxAPIStruct<LeftFile> = defaultSet(),

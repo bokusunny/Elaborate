@@ -6,7 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import { fetchLeftFile, fetchRightFile } from '../../../actions/diff'
 import DiffTemplate from '../../templates/DiffTemplate/index'
-import { LeftFile, RightFile } from '../../../reducers/diff'
+import { LeftFile, RightFile } from '../../../actions/diff'
 
 interface MatchParams {
   directoryId: string
@@ -51,9 +51,9 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
     fetchRightFile(currentUser.uid, directoryId, rightBranchId)
   }, [])
 
-  if (diffLeftFile.data === null || diffRightFile.data === null) return <div>Loading...</div>
-
   if (
+    diffLeftFile.data === null ||
+    diffRightFile.data === null ||
     diffLeftFile.data.leftFileBody === null ||
     diffLeftFile.data.leftFileName === null ||
     diffRightFile.data.rightFileBody === null ||
