@@ -14,6 +14,7 @@ interface Props {
   directoryId: string
   branchId: string
   rawContentBlocks: RawDraftContentBlock[]
+  handleClose: () => void
 }
 
 interface DispatchProps {
@@ -45,6 +46,7 @@ const CommitForm: React.FC<Props & DispatchProps> = ({
   directoryId,
   branchId,
   rawContentBlocks,
+  handleClose,
   createCommit,
 }) => (
   <Fragment>
@@ -55,6 +57,7 @@ const CommitForm: React.FC<Props & DispatchProps> = ({
       onSubmit={(values: Values, { setSubmitting }: FormikActions<Values>) => {
         createCommit(values, currentUser.uid, directoryId, branchId, rawContentBlocks).then(() => {
           setSubmitting(false)
+          handleClose()
         })
       }}
       render={() => (

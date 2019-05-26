@@ -2,8 +2,6 @@ import React from 'react'
 import * as H from 'history'
 import { auth } from '../../../utils/firebase'
 import AuthButtons from '../../molecules/AuthButtons'
-import MyPageButton from '../../atoms/Buttons/MyPageButton'
-import AuthButton from '../../atoms/Buttons/AuthButton'
 import BasicButton from '../../atoms/Buttons/BasicButton'
 import * as styles from './style.css'
 import { BranchData } from '../../../actions/branches'
@@ -30,7 +28,9 @@ const HeaderRight: React.FC<Props> = ({
 
     case 'myPage':
       return (
-        <AuthButton buttonName="Sign out" colorType={colorType} onClick={() => auth.signOut()} />
+        <BasicButton colorType={colorType} onClick={() => auth.signOut()}>
+          Sign out
+        </BasicButton>
       )
 
     case 'edit': {
@@ -50,12 +50,7 @@ const HeaderRight: React.FC<Props> = ({
     }
 
     case 'diff':
-      return (
-        <div className={styles.HeaderButtonsWrapper}>
-          <MyPageButton colorType={colorType} onClick={() => history.push('/mypage')} />
-          <AuthButton buttonName="Sign out" colorType={colorType} onClick={() => auth.signOut()} />
-        </div>
-      )
+      return null
   }
   return <div>Sorry, something went wrong... Please reload.</div>
 }
