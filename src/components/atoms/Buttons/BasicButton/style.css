@@ -35,6 +35,7 @@
   font-weight: 500;
   margin: auto 0 auto 32px;
   vertical-align: middle;
+  padding: 0;
 }
 
 .commit {
