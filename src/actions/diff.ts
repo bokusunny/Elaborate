@@ -9,16 +9,16 @@ import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/sta
 interface SetLeftDiffFileAction extends BaseAction {
   type: string
   payload: {
-    leftBranchBody: string
-    leftBranchName: string
+    leftFileBody: string | null
+    leftFileName: string | null
   }
 }
 
 interface SetRightDiffFileAction extends BaseAction {
   type: string
   payload: {
-    rightBranchBody: string
-    rightBranchName: string
+    rightFileBody: string | null
+    rightFileName: string | null
   }
 }
 
@@ -48,16 +48,16 @@ export const fetchLeftFile = (
           dispatch({
             type: actionTypes.DIFF__LEFT_FILE_SET,
             payload: {
-              leftBranchBody: (snapShot.data() as firebase.firestore.DocumentData).body,
-              leftBranchName: (snapShot.data() as firebase.firestore.DocumentData).name,
+              leftFileBody: (snapShot.data() as firebase.firestore.DocumentData).body,
+              leftFileName: (snapShot.data() as firebase.firestore.DocumentData).name,
             },
           })
         } else {
           dispatch({
             type: actionTypes.DIFF__LEFT_FILE_SET,
             payload: {
-              leftBranchBody: '',
-              leftBranchName: '',
+              leftFileBody: null,
+              leftFileName: null,
             },
           })
         }
@@ -86,16 +86,16 @@ export const fetchRightFile = (
             type: actionTypes.DIFF__RIGHT_FILE_SET,
             // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
             payload: {
-              rightBranchBody: (snapShot.data() as firebase.firestore.DocumentData).body as string,
-              rightBranchName: (snapShot.data() as firebase.firestore.DocumentData).name as string,
+              rightFileBody: (snapShot.data() as firebase.firestore.DocumentData).body as string,
+              rightFileName: (snapShot.data() as firebase.firestore.DocumentData).name as string,
             },
           })
         } else {
           dispatch({
             type: actionTypes.DIFF__RIGHT_FILE_SET,
             payload: {
-              rightBranchBody: '',
-              rightBranchName: '',
+              rightFileBody: null,
+              rightFileName: null,
             },
           })
         }

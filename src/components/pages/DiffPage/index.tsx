@@ -53,13 +53,21 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
 
   if (diffLeftFile.data === null || diffRightFile.data === null) return <div>Loading...</div>
 
+  if (
+    diffLeftFile.data.leftFileBody === null ||
+    diffLeftFile.data.leftFileName === null ||
+    diffRightFile.data.rightFileBody === null ||
+    diffRightFile.data.rightFileName === null
+  )
+    return <div>Loading...</div>
+
   return (
     <DiffTemplate
       history={history}
-      diffLeftFileBody={diffLeftFile.data.leftBranchBody}
-      diffLeftFileName={diffLeftFile.data.leftBranchName}
-      diffRightFileBody={diffRightFile.data.rightBranchBody}
-      diffRightFileName={diffRightFile.data.rightBranchName}
+      diffLeftFileBody={diffLeftFile.data.leftFileBody}
+      diffLeftFileName={diffLeftFile.data.leftFileName}
+      diffRightFileBody={diffRightFile.data.rightFileBody}
+      diffRightFileName={diffRightFile.data.rightFileName}
       currentUserUid={currentUser.uid}
       directoryId={directoryId}
       branchId={rightBranchId}

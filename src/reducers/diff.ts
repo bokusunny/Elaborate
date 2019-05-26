@@ -3,13 +3,13 @@ import { ReduxAPIStruct, defaultSet } from '../common/static-types/api-struct'
 import { DiffFilesAction } from '../actions/diff'
 
 export interface LeftFile {
-  leftBranchBody: string
-  leftBranchName: string
+  leftFileBody: string | null
+  leftFileName: string | null
 }
 
 export interface RightFile {
-  rightBranchBody: string
-  rightBranchName: string
+  rightFileBody: string | null
+  rightFileName: string | null
 }
 
 export const diffLeftFile = (
@@ -26,7 +26,12 @@ export const diffLeftFile = (
       return { ...state, status: 'failure', error: action.payload }
 
     case actionTypes.DIFF__LEFT_FILE_SET:
-      if (action.payload === null || !('leftBranchBody' in action.payload)) return state
+      if (
+        action.payload === null ||
+        !('leftFileBody' in action.payload) ||
+        !('leftFileName' in action.payload)
+      )
+        return state
       return { ...state, status: 'success', data: action.payload }
   }
   return state
@@ -46,7 +51,12 @@ export const diffRightFile = (
       return { ...state, status: 'failure', error: action.payload }
 
     case actionTypes.DIFF__RIGHT_FILE_SET:
-      if (action.payload === null || !('rightBranchBody' in action.payload)) return state
+      if (
+        action.payload === null ||
+        !('rightFileBody' in action.payload) ||
+        !('rightFileName' in action.payload)
+      )
+        return state
       return { ...state, status: 'success', data: action.payload }
   }
   return state

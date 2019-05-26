@@ -6,9 +6,11 @@
 .leftFileName {
   flex: 1;
   margin: 0;
+  text-align: center;
 }
 
 .rightFileName {
   flex: 1;
   margin: 0;
+  text-align: center;
 }
