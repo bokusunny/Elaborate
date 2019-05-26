@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
 import * as H from 'history'
-import HeaderTitleButton from '../../atoms/Buttons/HeaderTitleButton'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
+import BasicButton from '../../atoms/Buttons/BasicButton'
 import TopicPath from '../../atoms/TopicPath'
 import { BranchData } from '../../../actions/branches'
 import { DirectoryData } from '../../../actions/directories'
@@ -15,7 +17,9 @@ interface Props {
 const HeaderLeft: React.FC<Props> = ({ history, pageType, currentDirectory, currentBranch }) => {
   return (
     <Fragment>
-      <HeaderTitleButton history={history} pageType={pageType} />
+      <BasicButton className="title" onClick={() => history.push('/mypage')}>
+        {pageType === 'edit' ? <FontAwesomeIcon icon={faHome} /> : 'Elaborate'}
+      </BasicButton>
       {pageType === 'edit' && (
         <TopicPath
           directoryName={(currentDirectory as DirectoryData).name as string}

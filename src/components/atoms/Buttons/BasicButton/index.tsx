@@ -1,16 +1,23 @@
 import React from 'react'
 import * as styles from './style.css'
+const { button } = styles
 
 interface Props {
-  children: string
-  colorType: 'blueBase' | 'whiteBase'
+  children: React.ReactNode
+  colorType?: 'blueBase' | 'whiteBase'
+  className?: 'title'
   onClick: () => void
 }
 
-const BasicButton: React.FC<Props> = ({ children, colorType, onClick }) => (
-  <div className={styles[colorType]} onClick={onClick}>
-    {children}
-  </div>
-)
+const BasicButton: React.FC<Props> = ({ children, colorType, className, onClick }) => {
+  const colorTypeClass = colorType ? styles[colorType] : ''
+  const propsClass = className ? styles[className] : ''
+
+  return (
+    <div className={`${button} ${colorTypeClass} ${propsClass}`} onClick={onClick}>
+      {children}
+    </div>
+  )
+}
 
 export default BasicButton
