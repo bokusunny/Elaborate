@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react'
 import { RawDraftContentBlock } from 'draft-js'
 import BasicButton from '../../atoms/Buttons/BasicButton'
+import CommitFormPopover from '../CommitFormPopover'
 
 interface Props {
   currentUser: firebase.User
@@ -9,18 +10,31 @@ interface Props {
   rawContentBlocks: RawDraftContentBlock[]
 }
 
-const CommitFormWithButton: React.FC<Props> = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+const CommitFormWithButton: React.FC<Props> = props => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [anchorElement, setAnchorElement] = useState<EventTarget & HTMLDivElement | null>(null)
+
+  const handleClickButton = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setIsOpen(true)
+    setAnchorElement(e.currentTarget)
+  }
+
+  const handleClose = () => {
+    setIsOpen(false)
+    setAnchorElement(null)
+  }
+
   return (
     <Fragment>
-      <BasicButton
-        colorType="whiteBase"
-        className="commit"
-        onClick={() => setIsModalOpen(!isModalOpen)}
-      >
+      <BasicButton colorType="whiteBase" className="commit" onClick={handleClickButton}>
         Commit
       </BasicButton>
-      <div>{isModalOpen ? 'open' : 'closed'}</div>
+      <CommitFormPopover
+        {...props}
+        isOpen={isOpen}
+        anchorElement={anchorElement}
+        handleClose={handleClose}
+      />
     </Fragment>
   )
 }

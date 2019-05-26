@@ -6,7 +6,7 @@ interface Props {
   children: React.ReactNode
   colorType?: 'blueBase' | 'whiteBase'
   className?: 'title' | 'commit'
-  onClick: () => void
+  onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 const BasicButton: React.FC<Props> = ({ children, colorType, className, onClick }) => {
