@@ -8,12 +8,18 @@ import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/sta
 // -------------------------------------------------------------------------
 interface SetLeftDiffFileAction extends BaseAction {
   type: string
-  payload: { leftBranchBody: string | null }
+  payload: {
+    leftBranchBody: string
+    leftBranchName: string
+  }
 }
 
 interface SetRightDiffFileAction extends BaseAction {
   type: string
-  payload: { rightBranchBody: string | null }
+  payload: {
+    rightBranchBody: string
+    rightBranchName: string
+  }
 }
 
 const diffFirebaseFailure = (message: string): FirebaseAPIFailure => ({
@@ -41,12 +47,18 @@ export const fetchLeftFile = (
         if (snapShot.exists) {
           dispatch({
             type: actionTypes.DIFF__LEFT_FILE_SET,
-            payload: { leftBranchBody: (snapShot.data() as firebase.firestore.DocumentData).body },
+            payload: {
+              leftBranchBody: (snapShot.data() as firebase.firestore.DocumentData).body,
+              leftBranchName: (snapShot.data() as firebase.firestore.DocumentData).name,
+            },
           })
         } else {
           dispatch({
             type: actionTypes.DIFF__LEFT_FILE_SET,
-            payload: { leftBranchBody: null },
+            payload: {
+              leftBranchBody: '',
+              leftBranchName: '',
+            },
           })
         }
       })
@@ -75,12 +87,16 @@ export const fetchRightFile = (
             // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
             payload: {
               rightBranchBody: (snapShot.data() as firebase.firestore.DocumentData).body as string,
+              rightBranchName: (snapShot.data() as firebase.firestore.DocumentData).name as string,
             },
           })
         } else {
           dispatch({
             type: actionTypes.DIFF__RIGHT_FILE_SET,
-            payload: { rightBranchBody: null },
+            payload: {
+              rightBranchBody: '',
+              rightBranchName: '',
+            },
           })
         }
       })

@@ -1,0 +1,14 @@
+.fileNameWrapper {
+  display: flex;
+  margin: 0 32px;
+}
+
+.leftFileName {
+  flex: 1;
+  margin: 0;
+}
+
+.rightFileName {
+  flex: 1;
+  margin: 0;
+}

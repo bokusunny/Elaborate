@@ -2,10 +2,20 @@ import { actionTypes } from '../common/constants/action-types'
 import { ReduxAPIStruct, defaultSet } from '../common/static-types/api-struct'
 import { DiffFilesAction } from '../actions/diff'
 
+export interface LeftFile {
+  leftBranchBody: string
+  leftBranchName: string
+}
+
+export interface RightFile {
+  rightBranchBody: string
+  rightBranchName: string
+}
+
 export const diffLeftFile = (
-  state: ReduxAPIStruct<string> = defaultSet(),
+  state: ReduxAPIStruct<LeftFile> = defaultSet(),
   action: DiffFilesAction
-): ReduxAPIStruct<string> => {
+): ReduxAPIStruct<LeftFile> => {
   switch (action.type) {
     case actionTypes.DIFF__FIREBASE_REQUEST:
       if (action.payload !== null) return state
@@ -17,15 +27,15 @@ export const diffLeftFile = (
 
     case actionTypes.DIFF__LEFT_FILE_SET:
       if (action.payload === null || !('leftBranchBody' in action.payload)) return state
-      return { ...state, status: 'success', data: action.payload.leftBranchBody }
+      return { ...state, status: 'success', data: action.payload }
   }
   return state
 }
 
 export const diffRightFile = (
-  state: ReduxAPIStruct<string> = defaultSet(),
+  state: ReduxAPIStruct<RightFile> = defaultSet(),
   action: DiffFilesAction
-): ReduxAPIStruct<string> => {
+): ReduxAPIStruct<RightFile> => {
   switch (action.type) {
     case actionTypes.DIFF__FIREBASE_REQUEST:
       if (action.payload !== null) return state
@@ -37,7 +47,7 @@ export const diffRightFile = (
 
     case actionTypes.DIFF__RIGHT_FILE_SET:
       if (action.payload === null || !('rightBranchBody' in action.payload)) return state
-      return { ...state, status: 'success', data: action.payload.rightBranchBody }
+      return { ...state, status: 'success', data: action.payload }
   }
   return state
 }

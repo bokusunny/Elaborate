@@ -5,7 +5,8 @@ import { RouteComponentProps } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import { fetchLeftFile, fetchRightFile } from '../../../actions/diff'
-import DiffTemplate from '../../templates/DiffTemplate'
+import DiffTemplate from '../../templates/DiffTemplate/index'
+import { LeftFile, RightFile } from '../../../reducers/diff'
 
 interface MatchParams {
   directoryId: string
@@ -24,8 +25,8 @@ interface DispatchProps {
 }
 
 interface StateProps {
-  diffLeftFile: ReduxAPIStruct<string>
-  diffRightFile: ReduxAPIStruct<string>
+  diffLeftFile: ReduxAPIStruct<LeftFile>
+  diffRightFile: ReduxAPIStruct<RightFile>
   selectedDirectoryId: string | null
   selectedBranchId: string | null
 }
@@ -55,8 +56,10 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
   return (
     <DiffTemplate
       history={history}
-      diffLeftFileBody={diffLeftFile.data}
-      diffRightFileBody={diffRightFile.data}
+      diffLeftFileBody={diffLeftFile.data.leftBranchBody}
+      diffLeftFileName={diffLeftFile.data.leftBranchName}
+      diffRightFileBody={diffRightFile.data.rightBranchBody}
+      diffRightFileName={diffRightFile.data.rightBranchName}
       currentUserUid={currentUser.uid}
       directoryId={directoryId}
       branchId={rightBranchId}
