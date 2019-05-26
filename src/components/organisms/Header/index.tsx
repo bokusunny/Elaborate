@@ -19,7 +19,7 @@ interface Props {
 const Header: React.FC<Props> = props => (
   <header className={`${styles.header} ${styles[props.colorType]}`}>
     <HeaderLeft {...props} />
-    <HeaderRight {...props} />
+    <HeaderRight colorType={props.colorType} pageType={props.pageType} />
   </header>
 )
 
