@@ -1,11 +1,11 @@
 import { actionTypes } from '../common/constants/action-types'
 import { ReduxAPIStruct, defaultSet } from '../common/static-types/api-struct'
-import { DiffFilesAction } from '../actions/diff'
+import { DiffFilesAction, LeftFile, RightFile } from '../actions/diff'
 
 export const diffLeftFile = (
-  state: ReduxAPIStruct<string> = defaultSet(),
+  state: ReduxAPIStruct<LeftFile> = defaultSet(),
   action: DiffFilesAction
-): ReduxAPIStruct<string> => {
+): ReduxAPIStruct<LeftFile> => {
   switch (action.type) {
     case actionTypes.DIFF__FIREBASE_REQUEST:
       if (action.payload !== null) return state
@@ -16,16 +16,21 @@ export const diffLeftFile = (
       return { ...state, status: 'failure', error: action.payload }
 
     case actionTypes.DIFF__LEFT_FILE_SET:
-      if (action.payload === null || !('leftBranchBody' in action.payload)) return state
-      return { ...state, status: 'success', data: action.payload.leftBranchBody }
+      if (
+        action.payload === null ||
+        !('leftFileBody' in action.payload) ||
+        !('leftFileName' in action.payload)
+      )
+        return state
+      return { ...state, status: 'success', data: action.payload }
   }
   return state
 }
 
 export const diffRightFile = (
-  state: ReduxAPIStruct<string> = defaultSet(),
+  state: ReduxAPIStruct<RightFile> = defaultSet(),
   action: DiffFilesAction
-): ReduxAPIStruct<string> => {
+): ReduxAPIStruct<RightFile> => {
   switch (action.type) {
     case actionTypes.DIFF__FIREBASE_REQUEST:
       if (action.payload !== null) return state
@@ -36,8 +41,13 @@ export const diffRightFile = (
       return { ...state, status: 'failure', error: action.payload }
 
     case actionTypes.DIFF__RIGHT_FILE_SET:
-      if (action.payload === null || !('rightBranchBody' in action.payload)) return state
-      return { ...state, status: 'success', data: action.payload.rightBranchBody }
+      if (
+        action.payload === null ||
+        !('rightFileBody' in action.payload) ||
+        !('rightFileName' in action.payload)
+      )
+        return state
+      return { ...state, status: 'success', data: action.payload }
   }
   return state
 }

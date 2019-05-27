@@ -5,7 +5,8 @@ import { RouteComponentProps } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import { fetchLeftFile, fetchRightFile } from '../../../actions/diff'
-import DiffTemplate from '../../templates/DiffTemplate'
+import DiffTemplate from '../../templates/DiffTemplate/index'
+import { LeftFile, RightFile } from '../../../actions/diff'
 
 interface MatchParams {
   directoryId: string
@@ -24,8 +25,8 @@ interface DispatchProps {
 }
 
 interface StateProps {
-  diffLeftFile: ReduxAPIStruct<string>
-  diffRightFile: ReduxAPIStruct<string>
+  diffLeftFile: ReduxAPIStruct<LeftFile>
+  diffRightFile: ReduxAPIStruct<RightFile>
   selectedDirectoryId: string | null
   selectedBranchId: string | null
 }
@@ -50,13 +51,25 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
     fetchRightFile(currentUser.uid, directoryId, rightBranchId)
   }, [])
 
-  if (diffLeftFile.data === null || diffRightFile.data === null) return <div>Loading...</div>
+  if (diffLeftFile.status === 'failure') return <div>{diffLeftFile.error.message}</div>
+
+  if (diffRightFile.status === 'failure') return <div>{diffRightFile.error.message}</div>
+
+  if (
+    diffLeftFile.status === 'default' ||
+    diffRightFile.status === 'default' ||
+    diffLeftFile.status === 'fetching' ||
+    diffRightFile.status === 'fetching'
+  )
+    return <div>Loading...</div>
 
   return (
     <DiffTemplate
       history={history}
-      diffLeftFileBody={diffLeftFile.data}
-      diffRightFileBody={diffRightFile.data}
+      diffLeftFileBody={(diffLeftFile.data as LeftFile).leftFileBody as string}
+      diffLeftFileName={(diffLeftFile.data as LeftFile).leftFileName as string}
+      diffRightFileBody={(diffRightFile.data as RightFile).rightFileBody as string}
+      diffRightFileName={(diffRightFile.data as RightFile).rightFileName as string}
       currentUserUid={currentUser.uid}
       directoryId={directoryId}
       branchId={rightBranchId}
