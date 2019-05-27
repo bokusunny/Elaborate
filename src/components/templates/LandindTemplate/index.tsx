@@ -7,6 +7,7 @@ import { AuthenticationModal } from '../../../reducers/modals'
 import SNSButtons from '../../molecules/SNSButtons'
 import Header from '../../organisms/Header'
 import LandingMesasge from '../../molecules/LandingMessage'
+import DisclaimerMessage from '../../organisms/DisclaimerMessage'
 import * as styles from './style.css'
 
 interface Props {
@@ -17,12 +18,25 @@ interface Props {
 
 const { LandingTemplateWrapper } = styles
 
+const getIsDevicePC = (): boolean => {
+  const ua = window.navigator.userAgent.toLowerCase()
+  return !(
+    ua.indexOf('iphone') > 0 ||
+    ua.indexOf('android') > 0 ||
+    ua.indexOf('mobile') > 0 ||
+    ua.indexOf('ipad') > 0
+  )
+}
+
 const LandingTemplate: React.FC<Props> = ({
   authenticationModals,
   AuthenticationModalClose,
   history,
 }) => {
   const { isAuthModalOpen, authenticationType } = authenticationModals
+
+  const isDevicePC = getIsDevicePC()
+  if (!isDevicePC) return <DisclaimerMessage />
 
   return (
     <div className={LandingTemplateWrapper}>
