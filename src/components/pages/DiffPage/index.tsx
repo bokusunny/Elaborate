@@ -56,8 +56,8 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
   if (diffRightFile.status === 'failure') return <div>{diffRightFile.error.message}</div>
 
   if (
-    diffLeftFile.data === null ||
-    diffRightFile.data === null ||
+    diffLeftFile.status === 'default' ||
+    diffRightFile.status === 'default' ||
     diffLeftFile.status === 'fetching' ||
     diffRightFile.status === 'fetching'
   )
@@ -66,10 +66,10 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
   return (
     <DiffTemplate
       history={history}
-      diffLeftFileBody={diffLeftFile.data.leftFileBody as string}
-      diffLeftFileName={diffLeftFile.data.leftFileName as string}
-      diffRightFileBody={diffRightFile.data.rightFileBody as string}
-      diffRightFileName={diffRightFile.data.rightFileName as string}
+      diffLeftFileBody={(diffLeftFile.data as LeftFile).leftFileBody as string}
+      diffLeftFileName={(diffLeftFile.data as LeftFile).leftFileName as string}
+      diffRightFileBody={(diffRightFile.data as RightFile).rightFileBody as string}
+      diffRightFileName={(diffRightFile.data as RightFile).rightFileName as string}
       currentUserUid={currentUser.uid}
       directoryId={directoryId}
       branchId={rightBranchId}
