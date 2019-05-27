@@ -51,17 +51,15 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
     fetchRightFile(currentUser.uid, directoryId, rightBranchId)
   }, [])
 
-  if (diffLeftFile.data === null && diffLeftFile.status === 'failure')
-    return <div>{diffLeftFile.error.message}</div>
+  if (diffLeftFile.status === 'failure') return <div>{diffLeftFile.error.message}</div>
 
-  if (diffRightFile.data === null && diffRightFile.status === 'failure')
-    return <div>{diffRightFile.error.message}</div>
+  if (diffRightFile.status === 'failure') return <div>{diffRightFile.error.message}</div>
 
   if (
-    diffLeftFile.data.leftFileBody === null ||
-    diffLeftFile.data.leftFileName === null ||
-    diffRightFile.data.rightFileBody === null ||
-    diffRightFile.data.rightFileName === null
+    diffLeftFile.data === null ||
+    diffRightFile.data === null ||
+    diffLeftFile.status === 'fetching' ||
+    diffRightFile.status === 'fetching'
   )
     return <div>Loading...</div>
 
