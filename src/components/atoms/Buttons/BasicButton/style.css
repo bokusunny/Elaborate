@@ -54,3 +54,9 @@
   background-color: rgba(18, 151, 226, .6);
   color: #fff;
 }
+
+.commit:hover,
+.checkDiff:hover {
+  opacity: .7;
+  transition: all .5s;
+}
