@@ -5,9 +5,9 @@
   font-weight: 100;
   line-height: 1.5;
   padding: 16px;
+  margin: 0 4px;
   cursor: pointer;
   transition: .15s;
-  margin-left: 8px;
 }
 
 .blueBase {
