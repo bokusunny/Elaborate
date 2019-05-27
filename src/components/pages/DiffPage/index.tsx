@@ -52,6 +52,19 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
   }, [])
 
   if (
+    diffLeftFile.data === null &&
+    (diffLeftFile.status === 'default' || diffLeftFile.status === 'failure')
+  )
+    return <div>{diffLeftFile.error.message}</div>
+
+  if (
+    diffRightFile.data === null &&
+    (diffRightFile.status === 'default' || diffRightFile.status === 'failure')
+  )
+    return <div>{diffRightFile.error.message}</div>
+
+  // MEMO: diffLeftFile.data === null || diffRightFile.data === null は型エラーを防ぐために
+  if (
     diffLeftFile.data === null ||
     diffRightFile.data === null ||
     diffLeftFile.data.leftFileBody === null ||
