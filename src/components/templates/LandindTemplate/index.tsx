@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import * as H from 'history'
 import Modal from '@material-ui/core/Modal'
@@ -7,6 +7,7 @@ import { AuthenticationModal } from '../../../reducers/modals'
 import SNSButtons from '../../molecules/SNSButtons'
 import Header from '../../organisms/Header'
 import LandingMesasge from '../../molecules/LandingMessage'
+import DisclaimerMessage from '../../organisms/DisclaimerMessage'
 import * as styles from './style.css'
 
 interface Props {
@@ -17,6 +18,19 @@ interface Props {
 
 const { LandingTemplateWrapper } = styles
 
+const isDevisePC = (ua: string): boolean => {
+  if (
+    ua.indexOf('iphone') > 0 ||
+    ua.indexOf('android') > 0 ||
+    ua.indexOf('mobile') > 0 ||
+    ua.indexOf('ipad') > 0
+  ) {
+    return false
+  } else {
+    return true
+  }
+}
+
 const LandingTemplate: React.FC<Props> = ({
   authenticationModals,
   AuthenticationModalClose,
@@ -24,21 +38,30 @@ const LandingTemplate: React.FC<Props> = ({
 }) => {
   const { isAuthModalOpen, authenticationType } = authenticationModals
 
+  const ua = window.navigator.userAgent.toLowerCase()
+  const isPermittedToAccess = isDevisePC(ua)
+
   return (
     <div className={LandingTemplateWrapper}>
-      <Header colorType="blueBase" pageType="landing" history={history} />
-      <LandingMesasge />
-      <Modal
-        open={isAuthModalOpen}
-        onBackdropClick={() => {
-          AuthenticationModalClose()
-        }}
-      >
-        <SNSButtons
-          type={authenticationType}
-          onClick={() => alert('For now, Google Auth is only available...')}
-        />
-      </Modal>
+      {isPermittedToAccess ? (
+        <Fragment>
+          <Header colorType="blueBase" pageType="landing" history={history} />
+          <LandingMesasge />
+          <Modal
+            open={isAuthModalOpen}
+            onBackdropClick={() => {
+              AuthenticationModalClose()
+            }}
+          >
+            <SNSButtons
+              type={authenticationType}
+              onClick={() => alert('For now, Google Auth is only available...')}
+            />
+          </Modal>
+        </Fragment>
+      ) : (
+        <DisclaimerMessage />
+      )}
     </div>
   )
 }
