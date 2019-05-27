@@ -11,9 +11,11 @@ import {
 import createMarkdownShortcutsPlugin from 'draft-js-markdown-shortcuts-plugin'
 import Editor from 'draft-js-plugins-editor'
 import { markdownToDraft } from 'markdown-draft-js'
+import * as H from 'history'
 
 import EditorToolBar from '../../molecules/EditorToolBar'
 import CommitFormWithButton from '../../molecules/CommitFormWithButton'
+import BasicButton from '../../atoms/Buttons/BasicButton'
 
 import { STYLE_MAP } from '../../../common/constants/editor'
 import * as styles from './style.css'
@@ -23,8 +25,10 @@ interface Props {
   currentUser: firebase.User
   directoryId: string
   branchId: string
+  baseBranchId: string
   branchType: 'master' | 'normal'
   body: string
+  history: H.History
 }
 
 const initEditorState = (
@@ -85,8 +89,10 @@ const MarkdownEditor: React.FC<Props> = ({
   currentUser,
   directoryId,
   branchId,
+  baseBranchId,
   branchType,
   body,
+  history,
 }) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
@@ -153,6 +159,12 @@ const MarkdownEditor: React.FC<Props> = ({
             branchId={branchId}
             rawContentBlocks={rawContentBlocks}
           />
+          <BasicButton
+            className="checkDiff"
+            onClick={() => history.push(`/${directoryId}/diff/${baseBranchId}/${branchId}`)}
+          >
+            Check diff
+          </BasicButton>
         </Fragment>
       )}
     </div>

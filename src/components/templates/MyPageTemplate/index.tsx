@@ -31,7 +31,6 @@ const MyPageTemplate: React.FC<Props> = ({
           directories={directories}
           branches={branches}
           selectedDirectoryId={selectedDirectoryId}
-          history={history}
         />
       </div>
     </Fragment>
