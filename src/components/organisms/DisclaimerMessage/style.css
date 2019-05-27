@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(18, 151, 226, .6);
 }
 
 .disclaimerMessage {

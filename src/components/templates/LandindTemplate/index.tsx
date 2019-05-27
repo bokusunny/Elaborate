@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import * as H from 'history'
 import Modal from '@material-ui/core/Modal'
@@ -40,21 +40,19 @@ const LandingTemplate: React.FC<Props> = ({
 
   return (
     <div className={LandingTemplateWrapper}>
-      <Fragment>
-        <Header colorType="blueBase" pageType="landing" history={history} />
-        <LandingMesasge />
-        <Modal
-          open={isAuthModalOpen}
-          onBackdropClick={() => {
-            AuthenticationModalClose()
-          }}
-        >
-          <SNSButtons
-            type={authenticationType}
-            onClick={() => alert('For now, Google Auth is only available...')}
-          />
-        </Modal>
-      </Fragment>
+      <Header colorType="blueBase" pageType="landing" history={history} />
+      <LandingMesasge />
+      <Modal
+        open={isAuthModalOpen}
+        onBackdropClick={() => {
+          AuthenticationModalClose()
+        }}
+      >
+        <SNSButtons
+          type={authenticationType}
+          onClick={() => alert('For now, Google Auth is only available...')}
+        />
+      </Modal>
     </div>
   )
 }
