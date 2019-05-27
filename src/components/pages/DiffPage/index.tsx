@@ -51,22 +51,13 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
     fetchRightFile(currentUser.uid, directoryId, rightBranchId)
   }, [])
 
-  if (
-    diffLeftFile.data === null &&
-    (diffLeftFile.status === 'default' || diffLeftFile.status === 'failure')
-  )
+  if (diffLeftFile.data === null && diffLeftFile.status === 'failure')
     return <div>{diffLeftFile.error.message}</div>
 
-  if (
-    diffRightFile.data === null &&
-    (diffRightFile.status === 'default' || diffRightFile.status === 'failure')
-  )
+  if (diffRightFile.data === null && diffRightFile.status === 'failure')
     return <div>{diffRightFile.error.message}</div>
 
-  // MEMO: diffLeftFile.data === null || diffRightFile.data === null は型エラーを防ぐために
   if (
-    diffLeftFile.data === null ||
-    diffRightFile.data === null ||
     diffLeftFile.data.leftFileBody === null ||
     diffLeftFile.data.leftFileName === null ||
     diffRightFile.data.rightFileBody === null ||
@@ -77,10 +68,10 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
   return (
     <DiffTemplate
       history={history}
-      diffLeftFileBody={diffLeftFile.data.leftFileBody}
-      diffLeftFileName={diffLeftFile.data.leftFileName}
-      diffRightFileBody={diffRightFile.data.rightFileBody}
-      diffRightFileName={diffRightFile.data.rightFileName}
+      diffLeftFileBody={diffLeftFile.data.leftFileBody as string}
+      diffLeftFileName={diffLeftFile.data.leftFileName as string}
+      diffRightFileBody={diffRightFile.data.rightFileBody as string}
+      diffRightFileName={diffRightFile.data.rightFileName as string}
       currentUserUid={currentUser.uid}
       directoryId={directoryId}
       branchId={rightBranchId}
