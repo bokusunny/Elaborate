@@ -1,5 +1,4 @@
 import React from 'react'
-import * as H from 'history'
 import { FirebaseSnapShot } from '../../../utils/firebase'
 import DirectoryForm from '../../molecules/Forms/DirectoryForm'
 import DirectoryList from '../../molecules/Lists/DirectoryList'
@@ -12,7 +11,6 @@ interface Props {
   branches: ReduxAPIStruct<FirebaseSnapShot[]>
   currentUser: firebase.User
   selectedDirectoryId: string | null
-  history: H.History
 }
 
 const MyPageList: React.FC<Props> = ({
@@ -20,7 +18,6 @@ const MyPageList: React.FC<Props> = ({
   branches,
   currentUser,
   selectedDirectoryId,
-  history,
 }) => {
   return (
     <div className={styles.container}>
@@ -35,7 +32,6 @@ const MyPageList: React.FC<Props> = ({
           branches={branches}
           currentUser={currentUser}
           selectedDirectoryId={selectedDirectoryId}
-          history={history}
         />
       </div>
     </div>
