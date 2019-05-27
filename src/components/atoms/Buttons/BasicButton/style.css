@@ -40,12 +40,16 @@
 
 .commit {
   position: fixed;
-  right: 15%;
+  left: 75%;
   bottom: 5%;
+  background-color: rgba(18, 151, 226, .6);
+  color: #fff;
 }
 
 .checkDiff {
   position: fixed;
-  right: 7%;
+  left: 83%; /* 割と適当なのであとで調整 */
   bottom: 5%;
+  background-color: rgba(18, 151, 226, .6);
+  color: #fff;
 }

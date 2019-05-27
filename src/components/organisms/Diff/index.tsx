@@ -51,7 +51,7 @@ const Diff: React.FC<Props & DispatchProps> = ({
   return (
     <Fragment>
       <div id="diff" />
-      <button onClick={onClickMergeButton}>merge to master</button>
+      <button onClick={onClickMergeButton}>Merge</button>
     </Fragment>
   )
 }

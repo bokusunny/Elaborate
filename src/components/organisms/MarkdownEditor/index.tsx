@@ -160,7 +160,6 @@ const MarkdownEditor: React.FC<Props> = ({
             rawContentBlocks={rawContentBlocks}
           />
           <BasicButton
-            colorType="whiteBase"
             className="checkDiff"
             onClick={() => history.push(`/${directoryId}/diff/${baseBranchId}/${branchId}`)}
           >
