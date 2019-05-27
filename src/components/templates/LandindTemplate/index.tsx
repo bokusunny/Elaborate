@@ -18,17 +18,14 @@ interface Props {
 
 const { LandingTemplateWrapper } = styles
 
-const isDevisePC = (ua: string): boolean => {
-  if (
+const getIsDevicePC = (): boolean => {
+  const ua = window.navigator.userAgent.toLowerCase()
+  return !(
     ua.indexOf('iphone') > 0 ||
     ua.indexOf('android') > 0 ||
     ua.indexOf('mobile') > 0 ||
     ua.indexOf('ipad') > 0
-  ) {
-    return false
-  }
-
-  return true
+  )
 }
 
 const LandingTemplate: React.FC<Props> = ({
@@ -38,30 +35,26 @@ const LandingTemplate: React.FC<Props> = ({
 }) => {
   const { isAuthModalOpen, authenticationType } = authenticationModals
 
-  const ua = window.navigator.userAgent.toLowerCase()
-  const isPermittedToAccess = isDevisePC(ua)
+  const isDevicePC = getIsDevicePC()
+  if (!isDevicePC) return <DisclaimerMessage />
 
   return (
     <div className={LandingTemplateWrapper}>
-      {isPermittedToAccess ? (
-        <Fragment>
-          <Header colorType="blueBase" pageType="landing" history={history} />
-          <LandingMesasge />
-          <Modal
-            open={isAuthModalOpen}
-            onBackdropClick={() => {
-              AuthenticationModalClose()
-            }}
-          >
-            <SNSButtons
-              type={authenticationType}
-              onClick={() => alert('For now, Google Auth is only available...')}
-            />
-          </Modal>
-        </Fragment>
-      ) : (
-        <DisclaimerMessage />
-      )}
+      <Fragment>
+        <Header colorType="blueBase" pageType="landing" history={history} />
+        <LandingMesasge />
+        <Modal
+          open={isAuthModalOpen}
+          onBackdropClick={() => {
+            AuthenticationModalClose()
+          }}
+        >
+          <SNSButtons
+            type={authenticationType}
+            onClick={() => alert('For now, Google Auth is only available...')}
+          />
+        </Modal>
+      </Fragment>
     </div>
   )
 }
