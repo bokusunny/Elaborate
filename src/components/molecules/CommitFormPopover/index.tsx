@@ -7,6 +7,7 @@ interface Props {
   currentUser: firebase.User
   directoryId: string
   branchId: string
+  branchName: string
   rawContentBlocks: RawDraftContentBlock[]
   isOpen: boolean
   anchorElement: EventTarget & HTMLDivElement | null

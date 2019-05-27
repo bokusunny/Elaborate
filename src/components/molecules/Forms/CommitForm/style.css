@@ -1,0 +1,29 @@
+.commitFormWrapper {
+  padding: 16px;
+  width: 200px;
+}
+
+.whiteBase {
+  display: block;
+  border: 0;
+  border-radius: 4px;
+  font-family: 'Montserrat';
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 1.5;
+  padding: 8px;
+  cursor: pointer;
+  transition: .15s;
+  color: rgba(18, 151, 226, .6);
+  margin: 8px 0 0 auto;
+}
+
+.whiteBase:hover {
+  background-color: rgba(18, 151, 226, .6);
+  color: #fff;
+  transition: all .5s;
+}
+
+.commitName {
+  width: 100%;
+}
