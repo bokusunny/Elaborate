@@ -25,6 +25,7 @@ interface Props {
   currentUser: firebase.User
   directoryId: string
   branchId: string
+  branchName: string
   baseBranchId: string
   branchType: 'master' | 'normal'
   body: string
@@ -89,6 +90,7 @@ const MarkdownEditor: React.FC<Props> = ({
   currentUser,
   directoryId,
   branchId,
+  branchName,
   baseBranchId,
   branchType,
   body,
@@ -157,6 +159,7 @@ const MarkdownEditor: React.FC<Props> = ({
             currentUser={currentUser}
             directoryId={directoryId}
             branchId={branchId}
+            branchName={branchName}
             rawContentBlocks={rawContentBlocks}
           />
           <BasicButton

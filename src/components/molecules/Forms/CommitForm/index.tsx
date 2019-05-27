@@ -1,9 +1,11 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Formik, Field, Form, FormikActions, ErrorMessage } from 'formik'
 import { RawDraftContentBlock } from 'draft-js'
 import Typography from '@material-ui/core/Typography'
 import { createCommit } from '../../../../actions/commits'
+import * as styles from './style.css'
+const { commitFormWrapper, whiteBase, commitName } = styles
 
 export interface Values {
   commitName: string
@@ -13,6 +15,7 @@ interface Props {
   currentUser: firebase.User
   directoryId: string
   branchId: string
+  branchName: string
   rawContentBlocks: RawDraftContentBlock[]
   handleClose: () => void
 }
@@ -45,12 +48,13 @@ const CommitForm: React.FC<Props & DispatchProps> = ({
   currentUser,
   directoryId,
   branchId,
+  branchName,
   rawContentBlocks,
   handleClose,
   createCommit,
 }) => (
-  <Fragment>
-    <Typography variant="h6">New Commit</Typography>
+  <div className={commitFormWrapper}>
+    <Typography variant="h6">To {branchName}</Typography>
     <Formik
       initialValues={{ commitName: '' }}
       validate={validate}
@@ -62,16 +66,15 @@ const CommitForm: React.FC<Props & DispatchProps> = ({
       }}
       render={() => (
         <Form>
-          <label htmlFor="commitName">branch Name</label>
-          <Field id="commitName" name="commitName" placeholder="commit name" type="text" />
+          <Field className={commitName} name="commitName" placeholder="commit name" type="text" />
           <ErrorMessage component="div" name="commitName" />
-          <button type="submit" style={{ display: 'block' }}>
+          <button type="submit" className={whiteBase}>
             Submit
           </button>
         </Form>
       )}
     />
-  </Fragment>
+  </div>
 )
 
 export default connect(
