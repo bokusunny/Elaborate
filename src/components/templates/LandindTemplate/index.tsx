@@ -26,9 +26,9 @@ const isDevisePC = (ua: string): boolean => {
     ua.indexOf('ipad') > 0
   ) {
     return false
-  } else {
-    return true
   }
+
+  return true
 }
 
 const LandingTemplate: React.FC<Props> = ({
