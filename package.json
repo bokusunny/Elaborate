@@ -10,8 +10,8 @@
     "url": "https://github.com/bokusunny/elaborate.git"
   },
   "scripts": {
-    "watch": "webpack-dev-server --mode development",
-    "build": "webpack --mode production",
+    "watch": "NODE_ENV=development webpack-dev-server --mode development",
+    "build": "NODE_ENV=production webpack --mode production",
     "storybook": "start-storybook -p 9001 -c src/.storybook",
     "lint": "eslint src/**/*.{ts,tsx}",
     "lint:fix": "npm run lint --fix"
