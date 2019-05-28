@@ -1,0 +1,21 @@
+.addIcon {
+  color: #fff !important;
+  background-color: rgba(18, 151, 226, .6) !important;
+}
+
+.addIcon:hover {
+  opacity: .7;
+  transition: all .5s;
+}
+
+.directory {
+  position: fixed !important;
+  top: 90% !important;
+  left: 45% !important;
+}
+
+.branch {
+  position: fixed !important;
+  top: 90% !important;
+  left: 95% !important;
+}

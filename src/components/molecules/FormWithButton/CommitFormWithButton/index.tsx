@@ -1,16 +1,17 @@
-import React, { Fragment, useState } from 'react'
-import AddIconButton from '../../atoms/Buttons/AddIconButton'
-import BranchFormPopOver from '../../molecules/Popovers/BranchFormPopover'
-import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
-import { FirebaseSnapShot } from '../../../utils/firebase'
+import React, { useState, Fragment } from 'react'
+import { RawDraftContentBlock } from 'draft-js'
+import BasicButton from '../../../atoms/Buttons/BasicButton'
+import CommitFormPopover from '../../Popovers/CommitFormPopover'
 
 interface Props {
   currentUser: firebase.User
   directoryId: string
-  branches: ReduxAPIStruct<FirebaseSnapShot[]>
+  branchId: string
+  branchName: string
+  rawContentBlocks: RawDraftContentBlock[]
 }
 
-const BranchFormWithAddIcon: React.FC<Props> = props => {
+const CommitFormWithButton: React.FC<Props> = props => {
   const [isOpen, setIsOpen] = useState(false)
   const [anchorElement, setAnchorElement] = useState<EventTarget & HTMLDivElement | null>(null)
 
@@ -26,8 +27,10 @@ const BranchFormWithAddIcon: React.FC<Props> = props => {
 
   return (
     <Fragment>
-      <AddIconButton onClick={handleClickButton} />
-      <BranchFormPopOver
+      <BasicButton className="commit" onClick={handleClickButton}>
+        Commit
+      </BasicButton>
+      <CommitFormPopover
         {...props}
         isOpen={isOpen}
         anchorElement={anchorElement}
@@ -37,4 +40,4 @@ const BranchFormWithAddIcon: React.FC<Props> = props => {
   )
 }
 
-export default BranchFormWithAddIcon
+export default CommitFormWithButton

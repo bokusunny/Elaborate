@@ -14,7 +14,7 @@ import { markdownToDraft } from 'markdown-draft-js'
 import * as H from 'history'
 
 import EditorToolBar from '../../molecules/EditorToolBar'
-import CommitFormWithButton from '../../molecules/CommitFormWithButton'
+import CommitFormWithButton from '../../molecules/FormWithButton/CommitFormWithButton'
 import BasicButton from '../../atoms/Buttons/BasicButton'
 
 import { STYLE_MAP } from '../../../common/constants/editor'
