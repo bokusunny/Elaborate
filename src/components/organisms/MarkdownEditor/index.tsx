@@ -151,7 +151,9 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
       const bodyOnLocalStorage = convertToText(JSON.parse(rawStateSavedOnStorage).blocks)
       if (
         body === bodyOnLocalStorage ||
-        window.confirm('Uncommitted change exists.\nAre you sure it may cause unexpected diff?')
+        window.confirm(
+          "You haven't committed your changes.\nAre you sure you want to leave this page?"
+        )
       ) {
         history.push(`/${directoryId}/diff/${baseBranchId}/${branchId}`)
       }
