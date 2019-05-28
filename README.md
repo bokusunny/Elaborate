@@ -2,7 +2,7 @@
 # Elaborate
 [![CircleCI](https://circleci.com/gh/bokusunny/Elaborate/tree/master.svg?style=svg&circle-token=8d7544d8acf5f6087de4c29987d454e2a9957357)](https://circleci.com/gh/bokusunny/Elaborate/tree/master)
 
-A hosting, version controll service of documents.
+A hosting, version control service of documents.
 
 ## Description
 `Elaborate` is created by diverting the idea of Git into document development. It enables to host their documents centralizedly and to control their versions. In the progress is enabling you to collaborate on the same documents simultaneously and without overriding each other’s work. This application is for not only writers and coders but everyone who'd like to "elaborate" their documents.
