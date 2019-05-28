@@ -26,7 +26,7 @@ const BranchFormWithAddIcon: React.FC<Props> = props => {
 
   return (
     <Fragment>
-      <AddIconButton onClick={handleClickButton} />
+      <AddIconButton className="branch" onClick={handleClickButton} />
       <BranchFormPopOver
         {...props}
         isOpen={isOpen}
