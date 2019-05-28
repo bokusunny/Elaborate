@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment, Dispatch } from 'react'
+import { connect } from 'react-redux'
 import {
   EditorState,
   RichUtils,
@@ -16,8 +17,10 @@ import * as H from 'history'
 import EditorToolBar from '../../molecules/EditorToolBar'
 import CommitFormWithButton from '../../molecules/FormWithButton/CommitFormWithButton'
 import BasicButton from '../../atoms/Buttons/BasicButton'
+import { fetchLatestCommitBody } from '../../../actions/commits'
 
 import { STYLE_MAP } from '../../../common/constants/editor'
+import { convertToText } from '../../../common/functions'
 import * as styles from './style.css'
 const { editorWrapper } = styles
 
@@ -30,6 +33,14 @@ interface Props {
   branchType: 'master' | 'normal'
   body: string
   history: H.History
+}
+
+interface DispatchProps {
+  fetchLatestCommitBody: (
+    currentUserUid: string,
+    directoryId: string,
+    branchId: string
+  ) => Promise<string>
 }
 
 const initEditorState = (
@@ -86,7 +97,7 @@ const changeToolBarDisplay = (
   }
 }
 
-const MarkdownEditor: React.FC<Props> = ({
+const MarkdownEditor: React.FC<Props & DispatchProps> = ({
   currentUser,
   directoryId,
   branchId,
@@ -95,6 +106,7 @@ const MarkdownEditor: React.FC<Props> = ({
   branchType,
   body,
   history,
+  fetchLatestCommitBody,
 }) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
@@ -131,6 +143,21 @@ const MarkdownEditor: React.FC<Props> = ({
     return 'not-handled'
   }
 
+  const checkIsFullyCommitted = () => {
+    fetchLatestCommitBody(currentUser.uid, directoryId, branchId).then(body => {
+      const rawStateSavedOnStorage = localStorage.getItem(branchId)
+      if (!rawStateSavedOnStorage) return // TODO: ここで「まだエディタは編集されていません」みたいなフラッシュ出せるといいかも
+
+      const bodyOnLocalStorage = convertToText(JSON.parse(rawStateSavedOnStorage).blocks)
+      if (
+        body === bodyOnLocalStorage ||
+        window.confirm('Uncommitted change exists.\nAre you sure it may cause unexpected diff?')
+      ) {
+        history.push(`/${directoryId}/diff/${baseBranchId}/${branchId}`)
+      }
+    })
+  }
+
   return (
     <div className={editorWrapper}>
       {/* HOPE TODO: placeholderをいい感じの文章のランダムにしたい */}
@@ -162,10 +189,7 @@ const MarkdownEditor: React.FC<Props> = ({
             branchName={branchName}
             rawContentBlocks={rawContentBlocks}
           />
-          <BasicButton
-            className="checkDiff"
-            onClick={() => history.push(`/${directoryId}/diff/${baseBranchId}/${branchId}`)}
-          >
+          <BasicButton className="checkDiff" onClick={checkIsFullyCommitted}>
             Check diff
           </BasicButton>
         </Fragment>
@@ -174,4 +198,7 @@ const MarkdownEditor: React.FC<Props> = ({
   )
 }
 
-export default MarkdownEditor
+export default connect(
+  null,
+  { fetchLatestCommitBody }
+)(MarkdownEditor)
