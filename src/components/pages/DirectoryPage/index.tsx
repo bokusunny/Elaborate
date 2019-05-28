@@ -1,7 +1,7 @@
 import React, { /*useEffect,*/ Fragment } from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps, Link } from 'react-router-dom'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import CircleProgress from '../../atoms/CircleProgress'
 // import { checkDirectoryId } from '../../../actions/directories'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import { FirebaseSnapShot } from '../../../utils/firebase'
@@ -28,7 +28,7 @@ const DirectoryPage: React.FC<Props & StateProps> = ({
   branches,
   // checkDirectoryId,
 }) => {
-  if (!currentUser) return <CircularProgress />
+  if (!currentUser) return <CircleProgress />
 
   const {
     params: { directoryId },
@@ -42,7 +42,7 @@ const DirectoryPage: React.FC<Props & StateProps> = ({
     branches.status === 'default' ||
     branches.status === 'fetching'
   ) {
-    return <CircularProgress />
+    return <CircleProgress />
   }
 
   if (!isValidDirectory.data) return <h2>404 Not Found</h2>

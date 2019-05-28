@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { auth } from '../../utils/firebase'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import CircleProgress from '../atoms/CircleProgress'
 import PublicRoute from './public-route'
 import PrivateRoute from './private-route'
 import LandingPage from '../pages/LandingPage'
@@ -27,7 +27,7 @@ const Router: React.FC<{}> = () => {
 
   const { isLoading, isAuthorized } = authState
 
-  if (isLoading) return <CircularProgress />
+  if (isLoading) return <CircleProgress />
 
   return (
     <BrowserRouter>
