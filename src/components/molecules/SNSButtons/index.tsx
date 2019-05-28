@@ -2,6 +2,7 @@ import React from 'react'
 import { firebase, auth } from '../../../utils/firebase'
 import SNSSignInButton from '../../atoms/Buttons/SNSSigiInButton'
 import * as styles from './style.css'
+const { buttonsWrapper, modalTitle, welcomeMessage, modalElaborate } = styles
 
 interface Props {
   type?: 'Sign in' | 'Sign up'
@@ -12,7 +13,10 @@ const onClickGoogleSignin = () => {
   auth.signInWithRedirect(provider)
 }
 
-const { buttonsWrapper, modalTitle, welcomeMessage, modalElaborate } = styles
+const onClickTwitterSignin = () => {
+  const provider = new firebase.auth.TwitterAuthProvider()
+  auth.signInWithRedirect(provider)
+}
 
 const SNSButtons: React.FC<Props> = ({ type }) => {
   return (
@@ -23,11 +27,7 @@ const SNSButtons: React.FC<Props> = ({ type }) => {
       </h2>
       <p className={modalTitle}>{`${type} with`}</p>
       <SNSSignInButton type="google" onClick={onClickGoogleSignin} />
-      <SNSSignInButton
-        disabled
-        type="twitter"
-        onClick={() => alert(`Sorry, Twitter auth is not available now...`)}
-      />
+      <SNSSignInButton type="twitter" onClick={onClickTwitterSignin} />
       <SNSSignInButton
         disabled
         type="facebook"
