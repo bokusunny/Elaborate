@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import * as H from 'history'
 import { RouteComponentProps } from 'react-router-dom'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import CircleProgress from '../../atoms/CircleProgress'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import { fetchLeftFile, fetchRightFile } from '../../../actions/diff'
 import DiffTemplate from '../../templates/DiffTemplate/index'
@@ -40,7 +40,7 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
   history,
   match,
 }) => {
-  if (!currentUser) return <CircularProgress />
+  if (!currentUser) return <CircleProgress />
 
   const {
     params: { directoryId, leftBranchId, rightBranchId },
