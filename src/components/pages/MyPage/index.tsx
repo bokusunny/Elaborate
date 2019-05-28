@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import { fetchDirectories } from '../../../actions/directories'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import { FirebaseSnapShot } from '../../../utils/firebase'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import CircleProgress from '../../atoms/CircleProgress'
 import MyPageTemplate from '../../templates/MyPageTemplate'
 
 interface Props extends RouteComponentProps {
@@ -31,7 +31,7 @@ const MyPage: React.FC<Props & StateProps> = ({
     fetchDirectories(currentUserUid)
   }, [currentUser])
 
-  if (!currentUser) return <CircularProgress />
+  if (!currentUser) return <CircleProgress />
 
   return (
     <MyPageTemplate

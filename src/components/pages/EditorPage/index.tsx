@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router-dom'
 import * as H from 'history'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import CircleProgress from '../../atoms/CircleProgress'
 import { fetchCurrentDirectory, DirectoryData } from '../../../actions/directories'
 import { fetchCurrentBranch, BranchData } from '../../../actions/branches'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
@@ -38,7 +38,7 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
   currentBranch,
   fetchCurrentBranch,
 }) => {
-  if (!currentUser) return <CircularProgress />
+  if (!currentUser) return <CircleProgress />
 
   const {
     params: { directoryId, branchId },
@@ -59,7 +59,7 @@ const EditorPage: React.FC<Props & StateProps & DispatchProps> = ({
     currentBranch.status === 'default' ||
     currentBranch.status === 'fetching'
   ) {
-    return <CircularProgress />
+    return <CircleProgress />
   }
 
   // ReduxAPIStructの構造的にcurrentBranch.dataはnullになり得ない

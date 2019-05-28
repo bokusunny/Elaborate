@@ -1,0 +1,8 @@
+.progress {
+  color: rgba(18, 151, 226, .6) !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -30px; /* CircularProgressのサイズは60pxであることを考慮 */
+  margin-left: -30px;
+}
