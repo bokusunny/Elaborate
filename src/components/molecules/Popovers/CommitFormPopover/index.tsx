@@ -1,7 +1,7 @@
 import React from 'react'
 import Popover from '@material-ui/core/Popover'
 import { RawDraftContentBlock } from 'draft-js'
-import CommitForm from '../Forms/CommitForm'
+import CommitForm from '../../Forms/CommitForm'
 
 interface Props {
   currentUser: firebase.User
