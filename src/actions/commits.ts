@@ -8,7 +8,7 @@ import { Values } from '../components/molecules/Forms/CommitForm'
 
 // -------------------------------------------------------------------------
 // Commits
-// ------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 const commitFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   type: actionTypes.COMMIT__FIREBASE_REQUEST_FAILURE,
   payload: { statusCode: 500, message },
@@ -44,7 +44,7 @@ export const createCommit = (
       .add({
         name: values.commitName,
         body: commitText,
-        cratedAt: Date.now(),
+        createdAt: Date.now(),
       })
       .then(newDocRef => {
         newDocRef.get().then(snapShot => {
@@ -57,5 +57,34 @@ export const createCommit = (
         currentBranchDocRef.update({ body: commitText })
       })
       .catch(error => dispatch(commitFirebaseFailure(error.message)))
+  }
+}
+
+// -------------------------------------------------------------------------
+// fetchLatestCommitBody
+// -------------------------------------------------------------------------
+export const fetchLatestCommitBody = (
+  currentUserUid: string,
+  directoryId: string,
+  branchId: string
+) => {
+  return () => {
+    return db
+      .collection('users')
+      .doc(currentUserUid)
+      .collection('directories')
+      .doc(directoryId)
+      .collection('branches')
+      .doc(branchId)
+      .collection('commits')
+      .get()
+      .then(querySnapshot => {
+        // Firebaseのデータは取得時順番がランダムなので作成順にソートする
+        const latestCommit = querySnapshot.docs.sort((doc1, doc2) => {
+          return doc2.data().createdAt - doc1.data().createdAt
+        })[0]
+
+        return latestCommit.data().body as string
+      })
   }
 }
