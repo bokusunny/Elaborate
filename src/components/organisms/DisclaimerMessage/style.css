@@ -1,14 +1,32 @@
 .disclaimerMessageWrapper {
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: rgba(18, 151, 226, .6);
+  color: #fff;
+  font-family: 'Montserrat';
+}
+
+.logo {
+  padding: 72px;
+  margin: 0;
+  font-size: 48px;
+}
+
+.pcWrapper {
+  width: 100%;
+  margin: 30% 0 15%;
+  text-align: center;
+}
+
+.pc {
+  height: 15%;
+  width: 50%;
 }
 
 .disclaimerMessage {
-  padding: 0 40px;
-  font-size: 36px;
+  margin: 5% 0 0;
+  padding: 0 72px;
+  font-size: 32px;
+  font-weight: 300;
   color: #fff;
 }
