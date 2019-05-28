@@ -15,7 +15,7 @@ const DisclaimerMessage: React.FC = () => (
         Elaborate is not offered on smartphones and tablets at the current version.
       </p>
       <p className={disclaimerMessage}>
-        Visit Elaborate again on a PC to start “elaborate” your messages.
+        Visit Elaborate again on a PC to start “elaborate” your documents.
       </p>
     </div>
   </div>
