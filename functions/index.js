@@ -13,7 +13,7 @@ exports.createUserDocument = functions.auth.user().onCreate(user => {
     .set({
       name: displayName,
       email,
-      cratedAt: Date.now(),
+      createdAt: Date.now(),
       updatedAt: Date.now(),
     })
 })

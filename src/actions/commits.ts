@@ -44,7 +44,7 @@ export const createCommit = (
       .add({
         name: values.commitName,
         body: commitText,
-        cratedAt: Date.now(),
+        createdAt: Date.now(),
       })
       .then(newDocRef => {
         newDocRef.get().then(snapShot => {
