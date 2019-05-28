@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import List from '@material-ui/core/List'
 import BranchListItem from '../../../atoms/ListItems/BranchListItem'
-import BranchFormWithAddIcon from '../../BranchFormWithAddIcon'
+import BranchFormWithAddIcon from '../../FormWithButton/BranchFormWithAddIcon'
 import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
 
