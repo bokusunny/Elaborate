@@ -1,15 +1,18 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Formik, Field, Form, FormikActions, ErrorMessage } from 'formik'
 import Typography from '@material-ui/core/Typography'
 import { createBranch } from '../../../../actions/branches'
 import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
+import * as styles from './style.css'
+const { branchFormWrapper, whiteBase, branchName } = styles
 
 interface Props {
   directoryId: string
   currentUser: firebase.User
   branches: ReduxAPIStruct<FirebaseSnapShot[]>
+  handleClose: () => void
   createBranch: (values: Values, currentUserUid: string, directoryId: string) => Promise<void>
 }
 
@@ -40,8 +43,14 @@ const validate = (values: Values) => {
   return errors
 }
 
-const BranchForm: React.FC<Props> = ({ directoryId, currentUser, createBranch, branches }) => (
-  <Fragment>
+const BranchForm: React.FC<Props> = ({
+  directoryId,
+  currentUser,
+  createBranch,
+  branches,
+  handleClose,
+}) => (
+  <div className={branchFormWrapper}>
     <Typography variant="h6">New Branch</Typography>
     <Formik
       initialValues={{
@@ -54,13 +63,19 @@ const BranchForm: React.FC<Props> = ({ directoryId, currentUser, createBranch, b
       onSubmit={(values: Values, { setSubmitting }: FormikActions<Values>) => {
         createBranch(values, currentUser.uid, directoryId).then(() => {
           setSubmitting(false)
+          handleClose()
         })
       }}
       render={() => (
         <Form>
-          <label htmlFor="newBranchName">branch Name</label>
-          <Field id="newBranchName" name="newBranchName" placeholder="branch name" type="text" />
+          <Field
+            className={branchName}
+            name="newBranchName"
+            placeholder="branch name"
+            type="text"
+          />
           <ErrorMessage component="div" name="newBranchName" />
+          <span>Base branch: </span>
           <Field name="baseBranchId" component="select">
             {(branches.data as FirebaseSnapShot[]).map(branch => (
               <option key={branch.id} value={branch.id}>
@@ -69,13 +84,13 @@ const BranchForm: React.FC<Props> = ({ directoryId, currentUser, createBranch, b
             ))}
           </Field>
           <ErrorMessage component="div" name="baseBranchId" />
-          <button type="submit" style={{ display: 'block' }}>
+          <button type="submit" className={whiteBase}>
             Submit
           </button>
         </Form>
       )}
     />
-  </Fragment>
+  </div>
 )
 
 export default connect(

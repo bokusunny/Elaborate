@@ -5,6 +5,7 @@ import { setSelectedDirectory } from '../../../../actions/directories'
 import List from '@material-ui/core/List'
 import Divider from '@material-ui/core/Divider'
 import DirectoryListItem from '../../../atoms/ListItems/DirectoryListItem'
+import DirectoryFormWithAddIcon from '../../FormWithButton/DirectoryFormWithAddIcon'
 import * as styles from './style.css'
 import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
@@ -50,6 +51,7 @@ const DirectoryList: React.FC<Props> = ({
           )
         })}
       </List>
+      <DirectoryFormWithAddIcon currentUser={currentUser} />
     </div>
   )
 }

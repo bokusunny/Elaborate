@@ -1,8 +1,10 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Formik, Field, Form, FormikActions, ErrorMessage } from 'formik'
 import Typography from '@material-ui/core/Typography'
 import { createDirectory } from '../../../../actions/directories'
+import * as styles from './style.css'
+const { directoryFormWrapper, whiteBase, directoryName } = styles
 
 interface Props {
   currentUser: firebase.User
@@ -28,8 +30,8 @@ const validate = (values: Values) => {
 }
 
 const DirectoryForm: React.FC<Props> = ({ currentUser, createDirectory }) => (
-  <Fragment>
-    <Typography variant="h6">Create New Directory</Typography>
+  <div className={directoryFormWrapper}>
+    <Typography variant="h6">New Directory</Typography>
     <Formik
       initialValues={{ directoryName: '' }}
       validate={validate}
@@ -40,15 +42,20 @@ const DirectoryForm: React.FC<Props> = ({ currentUser, createDirectory }) => (
       }}
       render={() => (
         <Form>
-          <Field id="directoryName" name="directoryName" placeholder="Draft" type="text" />
+          <Field
+            className={directoryName}
+            name="directoryName"
+            placeholder="directory name"
+            type="text"
+          />
           <ErrorMessage component="div" name="directoryName" />
-          <button type="submit" style={{ display: 'block' }}>
-            Add New Directory
+          <button type="submit" className={whiteBase}>
+            Submit
           </button>
         </Form>
       )}
     />
-  </Fragment>
+  </div>
 )
 
 export default connect(
