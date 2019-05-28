@@ -44,3 +44,12 @@
 .imageSns {
   margin-left: 4px;
 }
+
+.disabled {
+  background-color: #ccc;
+  cursor: default;
+}
+
+.disabled:hover {
+  background-color: #ccc;
+}

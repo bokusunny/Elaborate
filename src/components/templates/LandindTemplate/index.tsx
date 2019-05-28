@@ -48,10 +48,7 @@ const LandingTemplate: React.FC<Props> = ({
           AuthenticationModalClose()
         }}
       >
-        <SNSButtons
-          type={authenticationType}
-          onClick={() => alert('For now, Google Auth is only available...')}
-        />
+        <SNSButtons type={authenticationType} />
       </Modal>
     </div>
   )
