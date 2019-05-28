@@ -10,6 +10,7 @@ interface Props {
   directoryId: string
   currentUser: firebase.User
   branches: ReduxAPIStruct<FirebaseSnapShot[]>
+  handleClose: () => void
   createBranch: (values: Values, currentUserUid: string, directoryId: string) => Promise<void>
 }
 
@@ -40,7 +41,13 @@ const validate = (values: Values) => {
   return errors
 }
 
-const BranchForm: React.FC<Props> = ({ directoryId, currentUser, createBranch, branches }) => (
+const BranchForm: React.FC<Props> = ({
+  directoryId,
+  currentUser,
+  createBranch,
+  branches,
+  handleClose,
+}) => (
   <Fragment>
     <Typography variant="h6">New Branch</Typography>
     <Formik
@@ -54,6 +61,7 @@ const BranchForm: React.FC<Props> = ({ directoryId, currentUser, createBranch, b
       onSubmit={(values: Values, { setSubmitting }: FormikActions<Values>) => {
         createBranch(values, currentUser.uid, directoryId).then(() => {
           setSubmitting(false)
+          handleClose()
         })
       }}
       render={() => (

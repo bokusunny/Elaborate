@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import List from '@material-ui/core/List'
-import BranchForm from '../../../molecules/Forms/BranchForm'
 import BranchListItem from '../../../atoms/ListItems/BranchListItem'
+import BranchFormWithAddIcon from '../../BranchFormWithAddIcon'
 import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
 
@@ -20,7 +20,6 @@ const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryI
 
   return (
     <Fragment>
-      <BranchForm currentUser={currentUser} directoryId={selectedDirectoryId} branches={branches} />
       <List component="nav">
         {/* ReduxAPIStructの構造上branches.dataはnullになり得ない */}
         {(branches.data as FirebaseSnapShot[]).map(branch => {
@@ -35,6 +34,11 @@ const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryI
           )
         })}
       </List>
+      <BranchFormWithAddIcon
+        currentUser={currentUser}
+        directoryId={selectedDirectoryId}
+        branches={branches}
+      />
     </Fragment>
   )
 }

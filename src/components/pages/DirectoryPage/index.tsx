@@ -5,7 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 // import { checkDirectoryId } from '../../../actions/directories'
 import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
 import { FirebaseSnapShot } from '../../../utils/firebase'
-import BranchForm from '../../molecules/Forms/BranchForm'
+// import BranchForm from '../../molecules/Forms/BranchForm'
 
 interface MatchParams {
   directoryId: string
@@ -63,7 +63,7 @@ const DirectoryPage: React.FC<Props & StateProps> = ({
           </li>
         ))}
       </ol>
-      <BranchForm directoryId={directoryId} currentUser={currentUser} branches={branches} />
+      {/* <BranchForm directoryId={directoryId} currentUser={currentUser} branches={branches} /> */}
     </Fragment>
   )
 }
