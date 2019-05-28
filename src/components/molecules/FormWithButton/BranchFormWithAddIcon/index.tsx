@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from 'react'
-import AddIconButton from '../../atoms/Buttons/AddIconButton'
-import BranchFormPopOver from '../../molecules/Popovers/BranchFormPopover'
-import { ReduxAPIStruct } from '../../../common/static-types/api-struct'
-import { FirebaseSnapShot } from '../../../utils/firebase'
+import AddIconButton from '../../../atoms/Buttons/AddIconButton'
+import BranchFormPopOver from '../../../molecules/Popovers/BranchFormPopover'
+import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
+import { FirebaseSnapShot } from '../../../../utils/firebase'
 
 interface Props {
   currentUser: firebase.User

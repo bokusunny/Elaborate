@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react'
 import { RawDraftContentBlock } from 'draft-js'
-import BasicButton from '../../atoms/Buttons/BasicButton'
-import CommitFormPopover from '../Popovers/CommitFormPopover'
+import BasicButton from '../../../atoms/Buttons/BasicButton'
+import CommitFormPopover from '../../Popovers/CommitFormPopover'
 
 interface Props {
   currentUser: firebase.User
