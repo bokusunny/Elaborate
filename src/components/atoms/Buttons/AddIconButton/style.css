@@ -3,6 +3,11 @@
   background-color: rgba(18, 151, 226, .6) !important;
 }
 
+.addIcon:hover {
+  opacity: .7;
+  transition: all .5s;
+}
+
 .directory {
   position: fixed !important;
   top: 90% !important;
