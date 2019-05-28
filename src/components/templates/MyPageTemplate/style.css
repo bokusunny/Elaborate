@@ -1,12 +1,4 @@
 .container {
   margin: 64px 32px;
   background-color: #fff;
-  height: 100vh;
-}
-
-.modal {
-  background-color: #fff;
-  position: absolute;
-  top: 45%;
-  left: 45%;
 }
