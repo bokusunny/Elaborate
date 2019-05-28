@@ -5,7 +5,6 @@ import * as styles from './style.css'
 
 interface Props {
   type?: 'Sign in' | 'Sign up'
-  onClick: () => void
 }
 
 const onClickGoogleSignin = () => {
@@ -15,7 +14,7 @@ const onClickGoogleSignin = () => {
 
 const { buttonsWrapper, modalTitle, welcomeMessage, modalElaborate } = styles
 
-const SNSButtons: React.FC<Props> = ({ type, onClick }) => {
+const SNSButtons: React.FC<Props> = ({ type }) => {
   return (
     <div className={buttonsWrapper}>
       <h2 className={welcomeMessage}>
@@ -24,8 +23,16 @@ const SNSButtons: React.FC<Props> = ({ type, onClick }) => {
       </h2>
       <p className={modalTitle}>{`${type} with`}</p>
       <SNSSignInButton type="google" onClick={onClickGoogleSignin} />
-      <SNSSignInButton type="twitter" onClick={onClick} />
-      <SNSSignInButton type="facebook" onClick={onClick} />
+      <SNSSignInButton
+        disabled
+        type="twitter"
+        onClick={() => alert(`Sorry, Twitter auth is not available now...`)}
+      />
+      <SNSSignInButton
+        disabled
+        type="facebook"
+        onClick={() => alert(`Sorry, Facebook auth is not available now...`)}
+      />
     </div>
   )
 }

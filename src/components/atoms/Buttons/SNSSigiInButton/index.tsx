@@ -1,9 +1,11 @@
 import React from 'react'
-import * as styles from './style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle, faTwitter, faFacebookF } from '@fortawesome/free-brands-svg-icons'
+import * as styles from './style.css'
+const { button, imageSns, disabled } = styles
 
 interface Props {
+  disabled?: boolean
   type: 'google' | 'twitter' | 'facebook'
   onClick: () => void
 }
@@ -19,14 +21,11 @@ const getIconSns = (type: 'google' | 'twitter' | 'facebook') => {
   }
 }
 
-const SNSSignInButton: React.FC<Props> = ({ type, onClick }) => {
-  const { button, imageSns } = styles
-  const buttonType = styles[type]
-
+const SNSSignInButton: React.FC<Props> = ({ disabled: propsDisabled, type, onClick }) => {
   const iconSns = getIconSns(type)
 
   return (
-    <a className={`${button} ${buttonType}`} onClick={onClick}>
+    <a className={`${button} ${styles[type]} ${propsDisabled ? disabled : ''}`} onClick={onClick}>
       <span className={imageSns}>{iconSns}</span>
     </a>
   )
