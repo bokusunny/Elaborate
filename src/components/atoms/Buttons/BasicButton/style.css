@@ -60,3 +60,7 @@
   opacity: .7;
   transition: all .5s;
 }
+
+.signOut {
+  margin-right: 24px;
+}
