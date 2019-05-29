@@ -1,22 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,Montserrat:300,400,500');
 
-.container {
-  display: flex;
+.listItem {
+  height: 64px !important;
 }
 
-.directoryList {
-  flex: 1;
-  margin-left: 6px;
-}
-
-.branchList {
-  flex: 1;
-  margin-left: 24px;
-}
-
-.title {
+.listItemText {
+  font-weight: 400;
   font-family: 'Roboto';
   font-size: 16px;
-  font-weight: 400;
   color: #424242;
 }

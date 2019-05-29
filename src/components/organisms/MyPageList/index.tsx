@@ -21,11 +21,11 @@ const MyPageList: React.FC<Props> = ({
   return (
     <div className={styles.container}>
       <div className={styles.directoryList}>
-        <h2>Directories</h2>
+        <h2 className={styles.title}>Directories</h2>
         <DirectoryList directories={directories} currentUser={currentUser} />
       </div>
       <div className={styles.branchList}>
-        <h2>Branches</h2>
+        <h2 className={styles.title}>Branches</h2>
         <BranchList
           branches={branches}
           currentUser={currentUser}
