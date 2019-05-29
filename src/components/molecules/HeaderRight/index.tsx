@@ -18,6 +18,7 @@ const HeaderRight: React.FC<Props> = ({ colorType, pageType }) => {
       return (
         <BasicButton
           colorType={colorType}
+          className="signOut"
           onClick={() => auth.signOut().then(() => Alert.success('Successfully signed out.'))}
         >
           Sign out

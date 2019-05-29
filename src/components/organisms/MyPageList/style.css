@@ -12,6 +12,7 @@
 .branchList {
   flex: 1;
   margin-left: 24px;
+  margin-right: 8px;
 }
 
 .title {
