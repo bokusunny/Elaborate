@@ -5,6 +5,7 @@ import BranchListItem from '../../../atoms/ListItems/BranchListItem'
 import BranchFormWithAddIcon from '../../FormWithButton/BranchFormWithAddIcon'
 import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
+import * as styles from './style.css'
 
 interface Props {
   branches: ReduxAPIStruct<FirebaseSnapShot[]>
@@ -13,11 +14,14 @@ interface Props {
 }
 
 const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryId }) => {
-  if (selectedDirectoryId === null) return <div>No directory is selected ...</div>
+  if (selectedDirectoryId === null)
+    return <div className={styles.message}>No directory is selected ...</div>
 
-  if (branches.status === 'default' || branches.status === 'fetching') return <div>Loading...</div>
+  if (branches.status === 'default' || branches.status === 'fetching')
+    return <div className={styles.message}>Loading...</div>
 
-  if (branches.status === 'failure') return <div>Error occured: {branches.error.message}</div>
+  if (branches.status === 'failure')
+    return <div className={styles.message}>Error occured: {branches.error.message}</div>
 
   return (
     <Fragment>
