@@ -1,3 +1,4 @@
+import Alert from 'react-s-alert'
 import { db, FirebaseSnapShot } from '../utils/firebase'
 import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
@@ -98,6 +99,7 @@ export const createDirectory = (
               body: '',
               createdAt: Date.now(),
             })
+            Alert.info('Successfully created!')
           })
           .catch(error => dispatch(directoryFirebaseFailure(error.message)))
       })

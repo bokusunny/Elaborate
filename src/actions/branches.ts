@@ -1,3 +1,4 @@
+import Alert from 'react-s-alert'
 import { db, FirebaseSnapShot } from '../utils/firebase'
 import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
@@ -101,6 +102,7 @@ export const createBranch = (
             // c.f) https://stackoverflow.com/questions/49859954/firestore-difference-between-documentsnapshot-and-querydocumentsnapshot
             payload: { newBranch: snapShot as FirebaseSnapShot },
           })
+          Alert.info('Successfully created!')
         })
 
         newDocRef.collection('commits').add({
@@ -152,11 +154,11 @@ export const mergeBranch = (
                 currentBranchDocRef
                   .update({ state: 'merged' })
                   .then(() => {
-                    // TODO: ここで'Successfully merged!'みたいなフラッシュを出せると良いかも
                     dispatch({
                       type: actionTypes.BRANCH__MERGE_OR_CLOSE,
                       payload: { branchId },
                     })
+                    Alert.info('Successfully merged!')
                   })
                   .catch(error => dispatch(branchFirebaseFailure(error.message)))
 
