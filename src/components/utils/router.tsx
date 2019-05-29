@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import Alert from 'react-s-alert'
 import { auth } from '../../utils/firebase'
 import CircleProgress from '../atoms/CircleProgress'
 import PublicRoute from './public-route'
@@ -63,6 +64,7 @@ const Router: React.FC<{}> = () => {
         />
         <Route render={() => <h2>404 Not Found</h2>} />
       </Switch>
+      <Alert effect="jelly" position="top-right" timeout={3000} />
     </BrowserRouter>
   )
 }
