@@ -15,7 +15,7 @@ const HeaderRight: React.FC<Props> = ({ colorType, pageType }) => {
 
     case 'myPage':
       return (
-        <BasicButton colorType={colorType} onClick={() => auth.signOut()}>
+        <BasicButton colorType={colorType} className="signOut" onClick={() => auth.signOut()}>
           Sign out
         </BasicButton>
       )
