@@ -48,13 +48,15 @@ export const createCommit = (
         createdAt: Date.now(),
       })
       .then(newDocRef => {
-        newDocRef.get().then(snapShot => {
-          dispatch({
-            type: actionTypes.COMMIT__ADD,
-            payload: { newCommit: snapShot },
+        newDocRef
+          .get()
+          .then(snapShot => {
+            dispatch({
+              type: actionTypes.COMMIT__ADD,
+              payload: { newCommit: snapShot },
+            })
           })
-          Alert.info('Successfully committed!')
-        })
+          .then(() => Alert.info('Successfully committed!'))
 
         currentBranchDocRef.update({ body: commitText })
       })

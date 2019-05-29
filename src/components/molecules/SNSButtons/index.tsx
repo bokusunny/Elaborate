@@ -11,12 +11,16 @@ interface Props {
 
 const onClickGoogleSignin = () => {
   const provider = new firebase.auth.GoogleAuthProvider()
-  auth.signInWithPopup(provider).then(() => Alert.info('Successfully signed in!'))
+  auth.signInWithPopup(provider).then(() => {
+    Alert.info('Successfully signed in!')
+  })
 }
 
 const onClickTwitterSignin = () => {
   const provider = new firebase.auth.TwitterAuthProvider()
-  auth.signInWithPopup(provider).then(() => Alert.info('Successfully signed in!'))
+  auth.signInWithPopup(provider).then(() => {
+    Alert.info('Successfully signed in!')
+  })
 }
 
 const SNSButtons: React.FC<Props> = ({ type }) => {

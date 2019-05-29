@@ -25,7 +25,9 @@ const PrivateRoute: React.FC<Props> = ({
   if (!isAuthorized) {
     // setTimeoutは0に設定しても30msほど遅延が生じることを利用しredirect前の発火を避ける
     // TODO: いい方法ではないので今後改善したい
-    setTimeout(() => Alert.error('You must be logged in to access this page.'), 0)
+    setTimeout(() => {
+      Alert.error('You must be logged in to access this page.')
+    }, 0)
   }
 
   return (

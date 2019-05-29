@@ -99,8 +99,8 @@ export const createDirectory = (
               body: '',
               createdAt: Date.now(),
             })
-            Alert.info('Successfully created!')
           })
+          .then(() => Alert.info('Successfully created!'))
           .catch(error => dispatch(directoryFirebaseFailure(error.message)))
       })
       .catch(error => dispatch(directoryFirebaseFailure(error.message)))

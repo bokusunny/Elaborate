@@ -93,17 +93,19 @@ export const createBranch = (
         updatedAt: Date.now(),
       })
       .then(newDocRef => {
-        newDocRef.get().then(snapShot => {
-          dispatch({
-            type: actionTypes.BRANCH__ADD,
-            // TODO:
-            // 現状QueryDocumentSnapshotとDocumentSnapshotが混在していてエラーを出すべきところをasで無理やり
-            // 通している。後でFix。
-            // c.f) https://stackoverflow.com/questions/49859954/firestore-difference-between-documentsnapshot-and-querydocumentsnapshot
-            payload: { newBranch: snapShot as FirebaseSnapShot },
+        newDocRef
+          .get()
+          .then(snapShot => {
+            dispatch({
+              type: actionTypes.BRANCH__ADD,
+              // TODO:
+              // 現状QueryDocumentSnapshotとDocumentSnapshotが混在していてエラーを出すべきところをasで無理やり
+              // 通している。後でFix。
+              // c.f) https://stackoverflow.com/questions/49859954/firestore-difference-between-documentsnapshot-and-querydocumentsnapshot
+              payload: { newBranch: snapShot as FirebaseSnapShot },
+            })
           })
-          Alert.info('Successfully created!')
-        })
+          .then(() => Alert.info('Successfully created!'))
 
         newDocRef.collection('commits').add({
           name: 'initial commit',
@@ -158,8 +160,8 @@ export const mergeBranch = (
                       type: actionTypes.BRANCH__MERGE_OR_CLOSE,
                       payload: { branchId },
                     })
-                    Alert.info('Successfully merged!')
                   })
+                  .then(() => Alert.info('Successfully merged!'))
                   .catch(error => dispatch(branchFirebaseFailure(error.message)))
 
                 currentBranchDocRef.get().then(snapShot => {
