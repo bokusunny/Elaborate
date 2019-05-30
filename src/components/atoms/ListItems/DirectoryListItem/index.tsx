@@ -1,11 +1,11 @@
 import React from 'react'
-import * as moment from 'moment'
+import moment from 'moment'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFolderOpen } from '@fortawesome/free-solid-svg-icons'
 import * as styles from './style.css'
-const { listItemText, listItemCreatedAt } = styles
+const { listItemText, listItemSubText } = styles
 
 interface Props {
   label: string
@@ -22,7 +22,7 @@ const DirectoryListItem: React.FC<Props> = ({ label, onClick, createdAt }) => {
       </ListItemIcon>
       <div>
         <div className={listItemText}>{label}</div>
-        <div className={listItemCreatedAt}>Created {daysFromCreated}</div>
+        <div className={listItemSubText}>Created {daysFromCreated}</div>
       </div>
     </ListItem>
   )

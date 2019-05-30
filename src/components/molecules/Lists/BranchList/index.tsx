@@ -30,12 +30,14 @@ const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryI
         {/* ReduxAPIStructの構造上branches.dataはnullになり得ない */}
         {(branches.data as FirebaseSnapShot[]).map(branch => {
           const { id } = branch
+          const { name, updatedAt } = branch.data()
           return (
             <Fragment key={id}>
               <BranchListItem
                 directoryId={selectedDirectoryId}
                 currentBranchId={id}
-                branchName={branch.data().name as string}
+                branchName={name as string}
+                updatedAt={updatedAt as number}
               />
               <Divider />
             </Fragment>
