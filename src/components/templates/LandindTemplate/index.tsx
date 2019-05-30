@@ -1,22 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import * as H from 'history'
 import Modal from '@material-ui/core/Modal'
 import { AuthenticationModalClose } from '../../../actions/modals'
-import { AuthenticationModal } from '../../../reducers/modals'
 import SNSButtons from '../../molecules/SNSButtons'
 import Header from '../../organisms/Header'
 import LandingMesasge from '../../molecules/LandingMessage'
 import DisclaimerMessage from '../../organisms/DisclaimerMessage'
+import { OpenModalType } from '../../../common/static-types'
 import * as styles from './style.css'
+const { LandingTemplateWrapper } = styles
 
 interface Props {
-  authenticationModals: AuthenticationModal
-  AuthenticationModalClose: () => void
   history: H.History
 }
-
-const { LandingTemplateWrapper } = styles
 
 const getIsDevicePC = (): boolean => {
   const ua = window.navigator.userAgent.toLowerCase()
@@ -28,27 +25,23 @@ const getIsDevicePC = (): boolean => {
   )
 }
 
-const LandingTemplate: React.FC<Props> = ({
-  authenticationModals,
-  AuthenticationModalClose,
-  history,
-}) => {
-  const { isAuthModalOpen, authenticationType } = authenticationModals
+const LandingTemplate: React.FC<Props> = ({ history }) => {
+  const [openModalType, setOpenModalType] = useState<OpenModalType>(null)
 
   const isDevicePC = getIsDevicePC()
   if (!isDevicePC) return <DisclaimerMessage />
 
   return (
     <div className={LandingTemplateWrapper}>
-      <Header colorType="blueBase" pageType="landing" history={history} />
+      <Header
+        colorType="blueBase"
+        pageType="landing"
+        history={history}
+        handleModalOpen={setOpenModalType}
+      />
       <LandingMesasge />
-      <Modal
-        open={isAuthModalOpen}
-        onBackdropClick={() => {
-          AuthenticationModalClose()
-        }}
-      >
-        <SNSButtons type={authenticationType} />
+      <Modal open={Boolean(openModalType)} onBackdropClick={() => setOpenModalType(null)}>
+        <SNSButtons type={openModalType} />
       </Modal>
     </div>
   )
