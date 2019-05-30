@@ -20,14 +20,17 @@ export const branches = (
       if (action.payload === null || !('branches' in action.payload)) return state
       return { ...state, status: 'success', data: action.payload.branches }
 
-    case actionTypes.BRANCH__ADD:
+    case actionTypes.BRANCH__ADD: {
       if (action.payload === null || !('newBranch' in action.payload)) return state
+      const newBranchesArray = [...(state.data as FirebaseSnapShot[])]
+      // masterブランチは常に一番前にあって欲しい
+      newBranchesArray.splice(1, 0, action.payload.newBranch)
       return {
         ...state,
         status: 'success',
-        // ReduxAPIStructの構造上state.dataはnullにはなり得ない
-        data: (state.data as FirebaseSnapShot[]).concat(action.payload.newBranch),
+        data: newBranchesArray,
       }
+    }
 
     case actionTypes.BRANCH__MERGE_OR_CLOSE:
       if (action.payload === null || !('branchId' in action.payload)) return state

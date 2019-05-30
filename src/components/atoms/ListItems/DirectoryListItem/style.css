@@ -4,6 +4,14 @@
   height: 64px !important;
 }
 
+.selected {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.unselected {
+  opacity: 0.5;
+}
+
 .listItemText {
   font-weight: 400;
   font-family: 'Roboto';
