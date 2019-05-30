@@ -10,12 +10,12 @@
 
 .directory {
   position: fixed !important;
-  top: 90% !important;
+  bottom: 8% !important;
   left: 45% !important;
 }
 
 .branch {
   position: fixed !important;
-  top: 90% !important;
-  left: 95% !important;
+  bottom: 8% !important;
+  right: 32px !important;
 }
