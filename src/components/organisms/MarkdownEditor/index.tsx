@@ -23,7 +23,7 @@ import { fetchLatestCommitBody } from '../../../actions/commits'
 import { STYLE_MAP } from '../../../common/constants/editor'
 import { convertToText } from '../../../common/functions'
 import * as styles from './style.css'
-const { editorWrapper } = styles
+const { editorWrapper, editorButtons } = styles
 
 interface Props {
   currentUser: firebase.User
@@ -188,16 +188,22 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
               setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle))
             }}
           />
-          <CommitFormWithButton
-            currentUser={currentUser}
-            directoryId={directoryId}
-            branchId={branchId}
-            branchName={branchName}
-            rawContentBlocks={rawContentBlocks}
-          />
-          <BasicButton className="checkDiff" onClick={checkIsFullyCommitted}>
-            Check diff
-          </BasicButton>
+          <div className={editorButtons}>
+            <CommitFormWithButton
+              currentUser={currentUser}
+              directoryId={directoryId}
+              branchId={branchId}
+              branchName={branchName}
+              rawContentBlocks={rawContentBlocks}
+            />
+            <BasicButton
+              colorType="whiteBaseWithBorder"
+              className="checkDiff"
+              onClick={checkIsFullyCommitted}
+            >
+              Check diff
+            </BasicButton>
+          </div>
         </Fragment>
       )}
     </div>

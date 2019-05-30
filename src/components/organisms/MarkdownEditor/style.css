@@ -2,3 +2,11 @@
   width: 50%;
   margin: 10% 25% 30%;
 }
+
+.editorButtons {
+  position: fixed;
+  display: flex;
+  width: 280px;
+  bottom: 8%;
+  right: 8%;
+}
