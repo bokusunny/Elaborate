@@ -3,7 +3,6 @@ import { directories, currentDirectory, selectedDirectoryId } from './directorie
 import { branches, currentBranch } from './branches'
 import { diffLeftFile, diffRightFile } from './diff'
 import { commits } from './commits'
-import { authenticationModals } from './modals'
 
 const rootReducer = combineReducers({
   directories,
@@ -14,7 +13,6 @@ const rootReducer = combineReducers({
   diffLeftFile,
   diffRightFile,
   commits, // 現状使っていない
-  authenticationModals,
 })
 
 export default rootReducer

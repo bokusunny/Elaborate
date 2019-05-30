@@ -31,8 +31,4 @@ export const actionTypes = keyMirror({
   DIFF__FIREBASE_REQUEST_FAILURE: null,
   DIFF__LEFT_FILE_SET: null,
   DIFF__RIGHT_FILE_SET: null,
-
-  // Modal
-  MODAL__AUTHENTICATION_OPEN: null,
-  MODAL__AUTHENTICATION_CLOSE: null,
 })

@@ -6,7 +6,7 @@ import * as styles from './style.css'
 const { buttonsWrapper, modalTitle, welcomeMessage, modalElaborate } = styles
 
 interface Props {
-  type?: 'Sign in' | 'Sign up'
+  type: 'Sign in' | 'Sign up' | null
 }
 
 const onClickGoogleSignin = () => {
