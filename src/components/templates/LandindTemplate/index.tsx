@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
 import * as H from 'history'
 import Modal from '@material-ui/core/Modal'
-import { AuthenticationModalClose } from '../../../actions/modals'
 import SNSButtons from '../../molecules/SNSButtons'
 import Header from '../../organisms/Header'
 import LandingMesasge from '../../molecules/LandingMessage'
@@ -47,7 +45,4 @@ const LandingTemplate: React.FC<Props> = ({ history }) => {
   )
 }
 
-export default connect(
-  null,
-  { AuthenticationModalClose }
-)(LandingTemplate)
+export default LandingTemplate

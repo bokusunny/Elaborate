@@ -1,9 +1,7 @@
 import React from 'react'
 import * as H from 'history'
-import { connect } from 'react-redux'
 import HeaderLeft from '../../molecules/HeaderLeft'
 import HeaderRight from '../../molecules/HeaderRight'
-import { AuthenticationModalOpen } from '../../../actions/modals'
 import { OpenModalType } from '../../../common/static-types'
 import * as styles from './style.css'
 import { BranchData } from '../../../actions/branches'
@@ -29,7 +27,4 @@ const Header: React.FC<Props> = props => (
   </header>
 )
 
-export default connect(
-  null,
-  { AuthenticationModalOpen }
-)(Header)
+export default Header
