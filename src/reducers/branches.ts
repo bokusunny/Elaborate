@@ -28,7 +28,6 @@ export const branches = (
       return {
         ...state,
         status: 'success',
-        // ReduxAPIStructの構造上state.dataはnullにはなり得ない
         data: newBranchesArray,
       }
     }
