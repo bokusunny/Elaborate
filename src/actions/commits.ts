@@ -58,7 +58,7 @@ export const createCommit = (
           })
           .then(() => Alert.info('Successfully committed!'))
 
-        currentBranchDocRef.update({ body: commitText })
+        currentBranchDocRef.update({ body: commitText, updatedAt: Date.now() })
       })
       .catch(error => dispatch(commitFirebaseFailure(error.message)))
   }

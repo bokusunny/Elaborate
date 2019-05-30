@@ -160,7 +160,7 @@ export const mergeBranch = (
             Promise.all(addCommitPromises)
               .then(() => {
                 currentBranchDocRef
-                  .update({ state: 'merged' })
+                  .update({ state: 'merged', updatedAt: Date.now() })
                   .then(() => {
                     dispatch({
                       type: actionTypes.BRANCH__MERGE_OR_CLOSE,
@@ -174,6 +174,7 @@ export const mergeBranch = (
                   baseBranchDocRef.update({
                     // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
                     body: (snapShot.data() as firebase.firestore.DocumentData).body,
+                    updatedAt: Date.now(),
                   })
                 })
               })
@@ -198,7 +199,7 @@ export const closeBranch = (
       .doc(directoryId)
       .collection('branches')
       .doc(branchId)
-      .update({ state: 'closed' })
+      .update({ state: 'closed', updatedAt: Date.now() })
       .then(() => {
         // TODO: ここで'Successfully closed!'みたいなフラッシュを出せると良いかも
         dispatch({
