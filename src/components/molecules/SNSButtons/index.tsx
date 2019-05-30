@@ -1,4 +1,5 @@
 import React from 'react'
+import Alert from 'react-s-alert'
 import { firebase, auth } from '../../../utils/firebase'
 import SNSSignInButton from '../../atoms/Buttons/SNSSigiInButton'
 import * as styles from './style.css'
@@ -10,12 +11,16 @@ interface Props {
 
 const onClickGoogleSignin = () => {
   const provider = new firebase.auth.GoogleAuthProvider()
-  auth.signInWithRedirect(provider)
+  auth.signInWithPopup(provider).then(() => {
+    setTimeout(() => Alert.info('Successfully signed in!'), 800)
+  })
 }
 
 const onClickTwitterSignin = () => {
   const provider = new firebase.auth.TwitterAuthProvider()
-  auth.signInWithRedirect(provider)
+  auth.signInWithPopup(provider).then(() => {
+    setTimeout(() => Alert.info('Successfully signed in!'), 800)
+  })
 }
 
 const SNSButtons: React.FC<Props> = ({ type }) => {

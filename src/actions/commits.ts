@@ -1,3 +1,4 @@
+import Alert from 'react-s-alert'
 import { db } from '../utils/firebase'
 import { ThunkAction } from 'redux-thunk'
 import { RawDraftContentBlock } from 'draft-js'
@@ -47,12 +48,15 @@ export const createCommit = (
         createdAt: Date.now(),
       })
       .then(newDocRef => {
-        newDocRef.get().then(snapShot => {
-          dispatch({
-            type: actionTypes.COMMIT__ADD,
-            payload: { newCommit: snapShot },
+        newDocRef
+          .get()
+          .then(snapShot => {
+            dispatch({
+              type: actionTypes.COMMIT__ADD,
+              payload: { newCommit: snapShot },
+            })
           })
-        })
+          .then(() => Alert.info('Successfully committed!'))
 
         currentBranchDocRef.update({ body: commitText })
       })

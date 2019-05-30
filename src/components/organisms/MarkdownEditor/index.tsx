@@ -13,6 +13,7 @@ import createMarkdownShortcutsPlugin from 'draft-js-markdown-shortcuts-plugin'
 import Editor from 'draft-js-plugins-editor'
 import { markdownToDraft } from 'markdown-draft-js'
 import * as H from 'history'
+import Alert from 'react-s-alert'
 
 import EditorToolBar from '../../molecules/EditorToolBar'
 import CommitFormWithButton from '../../molecules/FormWithButton/CommitFormWithButton'
@@ -146,7 +147,10 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
   const checkIsFullyCommitted = () => {
     fetchLatestCommitBody(currentUser.uid, directoryId, branchId).then(body => {
       const rawStateSavedOnStorage = localStorage.getItem(branchId)
-      if (!rawStateSavedOnStorage) return // TODO: ここで「まだエディタは編集されていません」みたいなフラッシュ出せるといいかも
+      if (!rawStateSavedOnStorage) {
+        Alert.warning('Editor is still empty...')
+        return
+      }
 
       const bodyOnLocalStorage = convertToText(JSON.parse(rawStateSavedOnStorage).blocks)
       if (
