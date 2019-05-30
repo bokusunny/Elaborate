@@ -22,7 +22,11 @@ const MyPageList: React.FC<Props> = ({
     <div className={styles.container}>
       <div className={styles.directoryList}>
         <h2 className={styles.title}>Directories</h2>
-        <DirectoryList directories={directories} currentUser={currentUser} />
+        <DirectoryList
+          directories={directories}
+          currentUser={currentUser}
+          selectedDirectoryId={selectedDirectoryId}
+        />
       </div>
       <div className={styles.branchList}>
         <h2 className={styles.title}>Branches</h2>

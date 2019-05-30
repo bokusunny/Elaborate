@@ -2,6 +2,7 @@ import Alert from 'react-s-alert'
 import { db, FirebaseSnapShot } from '../utils/firebase'
 import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
+import { DirectoryDocumentData, BranchDocumentData } from '../common/static-types/document-data'
 import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/static-types/actions'
 import { Values } from '../components/molecules/Forms/DirectoryForm'
 import { FetchBranchesAction } from './branches'
@@ -41,7 +42,10 @@ export const fetchDirectories = (
         .then(querySnapshot => {
           // Firebaseのデータは取得時順番がランダムなので作成順にソートする
           const orderedDocs = querySnapshot.docs.sort((doc1, doc2) => {
-            return doc1.data().createdAt - doc2.data().createdAt
+            return (
+              (doc2.data() as DirectoryDocumentData).createdAt -
+              (doc1.data() as DirectoryDocumentData).createdAt
+            )
           })
           dispatch({
             type: actionTypes.DIRECTORY__SET,
@@ -151,9 +155,12 @@ export const fetchCurrentDirectory = (
             .then(querySnapshot => {
               // Firebaseのデータは取得時順番がランダムなので作成順にソートする
               const orderedDocs = querySnapshot.docs.sort((doc1, doc2) => {
-                return doc1.data().createdAt - doc2.data().createdAt
+                return (
+                  (doc1.data() as BranchDocumentData).createdAt -
+                  (doc2.data() as BranchDocumentData).createdAt
+                )
               })
-              const { name } = doc.data() as firebase.firestore.DocumentData
+              const { name } = doc.data() as BranchDocumentData
 
               dispatch({
                 type: actionTypes.DIRECTORY__CHECK_ID,

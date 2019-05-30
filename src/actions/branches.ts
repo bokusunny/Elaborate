@@ -2,6 +2,7 @@ import Alert from 'react-s-alert'
 import { db, FirebaseSnapShot } from '../utils/firebase'
 import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
+import { BranchDocumentData } from '../common/static-types/document-data'
 import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/static-types/actions'
 import { Values } from '../components/molecules/Forms/BranchForm'
 
@@ -48,10 +49,21 @@ export const fetchBranches = (
       .where('state', '==', 'open')
       .get()
       .then(querySnapshot => {
-        // Firebaseのデータは取得時順番がランダムなので作成順にソートする
-        const orderedBranches = querySnapshot.docs.sort((doc1, doc2) => {
-          return doc1.data().createdAt - doc2.data().createdAt
+        const masterBranch = querySnapshot.docs.find(doc => {
+          return (doc.data() as BranchDocumentData).name === 'master'
+        }) as FirebaseSnapShot
+        const orderedBranches = querySnapshot.docs.filter(
+          doc => (doc.data() as BranchDocumentData).name !== 'master'
+        )
+        // Firebaseのデータは取得時順番がランダムなので更新順にソートする
+        orderedBranches.sort((doc1, doc2) => {
+          return (
+            (doc2.data() as BranchDocumentData).updatedAt -
+            (doc1.data() as BranchDocumentData).updatedAt
+          )
         })
+        orderedBranches.unshift(masterBranch)
+
         dispatch({
           type: actionTypes.BRANCH__SET,
           payload: { branches: orderedBranches },
@@ -69,7 +81,7 @@ export const createBranch = (
   return async dispatch => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
 
-    const baseBranchBody = await db
+    const baseBranchData = await db
       .collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -77,7 +89,12 @@ export const createBranch = (
       .collection('branches')
       .doc(values.baseBranchId)
       .get()
-      .then(snapShot => (snapShot.data() as firebase.firestore.DocumentData).body as string)
+      .then(snapShot => {
+        return {
+          name: (snapShot.data() as BranchDocumentData).name,
+          body: (snapShot.data() as BranchDocumentData).body,
+        }
+      })
 
     db.collection('users')
       .doc(currentUserUid)
@@ -87,8 +104,9 @@ export const createBranch = (
       .add({
         name: values.newBranchName,
         baseBranchId: values.baseBranchId,
+        baseBranchName: baseBranchData.name,
         state: 'open',
-        body: baseBranchBody,
+        body: baseBranchData.body,
         createdAt: Date.now(),
         updatedAt: Date.now(),
       })
@@ -141,7 +159,7 @@ export const mergeBranch = (
           .collection('directories')
           .doc(directoryId)
           .collection('branches')
-          .doc((doc.data() as firebase.firestore.DocumentData).baseBranchId as string)
+          .doc((doc.data() as BranchDocumentData).baseBranchId)
 
         currentBranchDocRef
           .collection('commits')
@@ -154,7 +172,7 @@ export const mergeBranch = (
             Promise.all(addCommitPromises)
               .then(() => {
                 currentBranchDocRef
-                  .update({ state: 'merged' })
+                  .update({ state: 'merged', updatedAt: Date.now() })
                   .then(() => {
                     dispatch({
                       type: actionTypes.BRANCH__MERGE_OR_CLOSE,
@@ -167,7 +185,8 @@ export const mergeBranch = (
                 currentBranchDocRef.get().then(snapShot => {
                   baseBranchDocRef.update({
                     // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
-                    body: (snapShot.data() as firebase.firestore.DocumentData).body,
+                    body: (snapShot.data() as BranchDocumentData).body,
+                    updatedAt: Date.now(),
                   })
                 })
               })
@@ -192,7 +211,7 @@ export const closeBranch = (
       .doc(directoryId)
       .collection('branches')
       .doc(branchId)
-      .update({ state: 'closed' })
+      .update({ state: 'closed', updatedAt: Date.now() })
       .then(() => {
         // TODO: ここで'Successfully closed!'みたいなフラッシュを出せると良いかも
         dispatch({
@@ -219,6 +238,7 @@ export interface BranchData {
   name?: string
   body?: string
   baseBranchId?: string
+  baseBranchName?: string
 }
 
 interface CheckBranchDataAction extends BaseAction {
@@ -245,7 +265,7 @@ export const fetchCurrentBranch = (
       .then(snapShot => {
         if (snapShot.exists) {
           // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
-          const { name, body, baseBranchId } = snapShot.data() as firebase.firestore.DocumentData
+          const { name, body, baseBranchId, baseBranchName } = snapShot.data() as BranchDocumentData
           if (name === 'master') {
             dispatch({
               type: actionTypes.CURRENT_BRANCH_DATA__CHECK,
@@ -256,7 +276,6 @@ export const fetchCurrentBranch = (
                   id: branchId,
                   name,
                   body,
-                  baseBranchId,
                 },
               },
             })
@@ -271,6 +290,7 @@ export const fetchCurrentBranch = (
                   name,
                   body,
                   baseBranchId,
+                  baseBranchName,
                 },
               },
             })

@@ -4,9 +4,23 @@
   height: 64px !important;
 }
 
+.selected {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.unselected {
+  opacity: 0.5;
+}
+
 .listItemText {
   font-weight: 400;
   font-family: 'Roboto';
   font-size: 16px;
   color: #424242;
+}
+
+.listItemSubText {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #999;
 }
