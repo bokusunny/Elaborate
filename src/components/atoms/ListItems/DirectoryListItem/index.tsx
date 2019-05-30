@@ -5,19 +5,37 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFolderOpen } from '@fortawesome/free-solid-svg-icons'
 import * as styles from './style.css'
-const { listItemText, listItemSubText } = styles
+const { listItem, selected, unselected, listItemText, listItemSubText } = styles
 
 interface Props {
   label: string
   createdAt: number
   onClick: () => void
-  isSelected: boolean
+  directoryId: string
+  selectedDirectoryId: string | null
 }
 
-const DirectoryListItem: React.FC<Props> = ({ label, onClick, createdAt, isSelected }) => {
+const DirectoryListItem: React.FC<Props> = ({
+  label,
+  onClick,
+  createdAt,
+  directoryId,
+  selectedDirectoryId,
+}) => {
   const daysFromCreated = moment.unix(createdAt / 1000).from()
+  const selectedClass = (() => {
+    switch (selectedDirectoryId) {
+      case directoryId:
+        return selected
+
+      case null:
+        return ''
+    }
+    return unselected
+  })()
+
   return (
-    <ListItem button selected={isSelected} onClick={onClick} className={styles.listItem}>
+    <ListItem button onClick={onClick} className={`${listItem} ${selectedClass}`}>
       <ListItemIcon>
         <FontAwesomeIcon icon={faFolderOpen} />
       </ListItemIcon>

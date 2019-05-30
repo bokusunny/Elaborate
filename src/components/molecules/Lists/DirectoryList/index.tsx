@@ -46,7 +46,6 @@ const DirectoryList: React.FC<Props> = ({
         {directories.data.map((doc: FirebaseSnapShot) => {
           const { id } = doc
           const { name, createdAt } = doc.data() as DirectoryDocumentData
-          const isSelected = id === selectedDirectoryId
 
           return (
             <Fragment key={id}>
@@ -54,7 +53,8 @@ const DirectoryList: React.FC<Props> = ({
                 label={name}
                 createdAt={createdAt}
                 onClick={() => handleOnClick(currentUser.uid, id)}
-                isSelected={isSelected}
+                directoryId={id}
+                selectedDirectoryId={selectedDirectoryId}
               />
               <Divider />
             </Fragment>
