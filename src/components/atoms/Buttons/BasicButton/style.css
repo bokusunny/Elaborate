@@ -31,6 +31,24 @@
   transition: all .5s;
 }
 
+.whiteBaseWithBorder {
+  margin: 0 8px;
+  font-weight: 500;
+  border: 0.5px solid rgba(18, 151, 226, .6);
+  text-align: center;
+  background-color: #fff;
+  color: rgba(18, 151, 226, .6);
+}
+
+.whiteBaseWithBorder:hover {
+  transform: translate(1px, 1px);
+  color: #fff;
+  background-color: rgba(18, 151, 226, .6);
+  box-shadow: 1px 1px rgb(224, 224, 224);
+  border: none;
+  transition: all .3s;
+}
+
 .title {
   font-size: 32px;
   font-weight: 500;
@@ -40,25 +58,11 @@
 }
 
 .commit {
-  position: fixed;
-  left: 75%;
-  bottom: 5%;
-  background-color: rgba(18, 151, 226, .6);
-  color: #fff;
+  flex: 1;
 }
 
 .checkDiff {
-  position: fixed;
-  left: 83%; /* 割と適当なのであとで調整 */
-  bottom: 5%;
-  background-color: rgba(18, 151, 226, .6);
-  color: #fff;
-}
-
-.commit:hover,
-.checkDiff:hover {
-  opacity: .7;
-  transition: all .5s;
+  flex: 1;
 }
 
 .signOut {
