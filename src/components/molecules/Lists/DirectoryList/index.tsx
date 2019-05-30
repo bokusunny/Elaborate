@@ -14,6 +14,7 @@ import { DirectoryDocumentData } from '../../../../common/static-types/document-
 interface Props {
   directories: ReduxAPIStruct<FirebaseSnapShot[]>
   currentUser: firebase.User
+  selectedDirectoryId: string | null
   fetchBranches: (currentUserUid: string, directoryId: string) => void
   setSelectedDirectory: (selectedDirectoryId: string) => void
 }
@@ -21,6 +22,7 @@ interface Props {
 const DirectoryList: React.FC<Props> = ({
   directories,
   currentUser,
+  selectedDirectoryId,
   fetchBranches,
   setSelectedDirectory,
 }) => {
@@ -44,12 +46,15 @@ const DirectoryList: React.FC<Props> = ({
         {directories.data.map((doc: FirebaseSnapShot) => {
           const { id } = doc
           const { name, createdAt } = doc.data() as DirectoryDocumentData
+
           return (
             <Fragment key={id}>
               <DirectoryListItem
                 label={name}
                 createdAt={createdAt}
                 onClick={() => handleOnClick(currentUser.uid, id)}
+                directoryId={id}
+                selectedDirectoryId={selectedDirectoryId}
               />
               <Divider />
             </Fragment>
