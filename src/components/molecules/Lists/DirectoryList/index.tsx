@@ -9,6 +9,7 @@ import DirectoryFormWithAddIcon from '../../FormWithButton/DirectoryFormWithAddI
 import * as styles from './style.css'
 import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
+import { DirectoryDocumentData } from '../../../../common/static-types/document-data'
 
 interface Props {
   directories: ReduxAPIStruct<FirebaseSnapShot[]>
@@ -42,12 +43,12 @@ const DirectoryList: React.FC<Props> = ({
         <Divider />
         {directories.data.map((doc: FirebaseSnapShot) => {
           const { id } = doc
-          const { name, createdAt } = doc.data()
+          const { name, createdAt } = doc.data() as DirectoryDocumentData
           return (
             <Fragment key={id}>
               <DirectoryListItem
-                label={name as string}
-                createdAt={createdAt as number}
+                label={name}
+                createdAt={createdAt}
                 onClick={() => handleOnClick(currentUser.uid, id)}
               />
               <Divider />

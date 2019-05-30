@@ -1,6 +1,7 @@
 import { db } from '../utils/firebase'
 import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
+import { BranchDocumentData } from '../common/static-types/document-data'
 import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/static-types/actions'
 
 // -------------------------------------------------------------------------
@@ -58,8 +59,8 @@ export const fetchLeftFile = (
           dispatch({
             type: actionTypes.DIFF__LEFT_FILE_SET,
             payload: {
-              leftFileBody: (snapShot.data() as firebase.firestore.DocumentData).body,
-              leftFileName: (snapShot.data() as firebase.firestore.DocumentData).name,
+              leftFileBody: (snapShot.data() as BranchDocumentData).body,
+              leftFileName: (snapShot.data() as BranchDocumentData).name,
             },
           })
         } else {
@@ -96,8 +97,8 @@ export const fetchRightFile = (
             type: actionTypes.DIFF__RIGHT_FILE_SET,
             // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
             payload: {
-              rightFileBody: (snapShot.data() as firebase.firestore.DocumentData).body as string,
-              rightFileName: (snapShot.data() as firebase.firestore.DocumentData).name as string,
+              rightFileBody: (snapShot.data() as BranchDocumentData).body,
+              rightFileName: (snapShot.data() as BranchDocumentData).name,
             },
           })
         } else {
