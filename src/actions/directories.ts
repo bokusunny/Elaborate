@@ -41,7 +41,7 @@ export const fetchDirectories = (
         .then(querySnapshot => {
           // Firebaseのデータは取得時順番がランダムなので作成順にソートする
           const orderedDocs = querySnapshot.docs.sort((doc1, doc2) => {
-            return doc1.data().createdAt - doc2.data().createdAt
+            return doc2.data().createdAt - doc1.data().createdAt
           })
           dispatch({
             type: actionTypes.DIRECTORY__SET,

@@ -48,10 +48,16 @@ export const fetchBranches = (
       .where('state', '==', 'open')
       .get()
       .then(querySnapshot => {
-        // Firebaseのデータは取得時順番がランダムなので作成順にソートする
-        const orderedBranches = querySnapshot.docs.sort((doc1, doc2) => {
-          return doc1.data().createdAt - doc2.data().createdAt
+        const masterBranch = querySnapshot.docs.find(doc => {
+          return doc.data().name === 'master'
+        }) as FirebaseSnapShot
+        const orderedBranches = querySnapshot.docs.filter(doc => doc.data().name !== 'master')
+        // Firebaseのデータは取得時順番がランダムなので更新順にソートする
+        orderedBranches.sort((doc1, doc2) => {
+          return doc2.data().updatedAt - doc1.data().updatedAt
         })
+        orderedBranches.unshift(masterBranch)
+
         dispatch({
           type: actionTypes.BRANCH__SET,
           payload: { branches: orderedBranches },
