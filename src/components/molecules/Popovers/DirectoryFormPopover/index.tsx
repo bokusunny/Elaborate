@@ -9,7 +9,7 @@ interface Props {
   handleClose: () => void
 }
 
-const BranchFormPopover: React.FC<Props> = ({
+const DirectoryFormPopover: React.FC<Props> = ({
   currentUser,
   isOpen,
   anchorElement,
@@ -32,4 +32,4 @@ const BranchFormPopover: React.FC<Props> = ({
   </Popover>
 )
 
-export default BranchFormPopover
+export default DirectoryFormPopover
