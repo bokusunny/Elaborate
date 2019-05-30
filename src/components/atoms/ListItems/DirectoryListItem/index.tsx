@@ -11,12 +11,13 @@ interface Props {
   label: string
   createdAt: number
   onClick: () => void
+  isSelected: boolean
 }
 
-const DirectoryListItem: React.FC<Props> = ({ label, onClick, createdAt }) => {
+const DirectoryListItem: React.FC<Props> = ({ label, onClick, createdAt, isSelected }) => {
   const daysFromCreated = moment.unix(createdAt / 1000).from()
   return (
-    <ListItem button onClick={onClick} className={styles.listItem}>
+    <ListItem button selected={isSelected} onClick={onClick} className={styles.listItem}>
       <ListItemIcon>
         <FontAwesomeIcon icon={faFolderOpen} />
       </ListItemIcon>
