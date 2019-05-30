@@ -72,7 +72,7 @@ export const fetchLatestCommitBody = (
   directoryId: string,
   branchId: string
 ) => {
-  return () => {
+  return async () => {
     return db
       .collection('users')
       .doc(currentUserUid)

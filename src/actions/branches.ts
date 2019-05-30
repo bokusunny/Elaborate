@@ -69,7 +69,7 @@ export const createBranch = (
   return async dispatch => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
 
-    const baseBranchBody = await db
+    const baseBranchData = await db
       .collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -77,7 +77,12 @@ export const createBranch = (
       .collection('branches')
       .doc(values.baseBranchId)
       .get()
-      .then(snapShot => (snapShot.data() as firebase.firestore.DocumentData).body as string)
+      .then(snapShot => {
+        return {
+          name: (snapShot.data() as firebase.firestore.DocumentData).name as string,
+          body: (snapShot.data() as firebase.firestore.DocumentData).body as string,
+        }
+      })
 
     db.collection('users')
       .doc(currentUserUid)
@@ -87,8 +92,9 @@ export const createBranch = (
       .add({
         name: values.newBranchName,
         baseBranchId: values.baseBranchId,
+        baseBranchName: baseBranchData.name,
         state: 'open',
-        body: baseBranchBody,
+        body: baseBranchData.body,
         createdAt: Date.now(),
         updatedAt: Date.now(),
       })
@@ -219,6 +225,7 @@ export interface BranchData {
   name?: string
   body?: string
   baseBranchId?: string
+  baseBranchName?: string
 }
 
 interface CheckBranchDataAction extends BaseAction {
@@ -245,7 +252,12 @@ export const fetchCurrentBranch = (
       .then(snapShot => {
         if (snapShot.exists) {
           // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
-          const { name, body, baseBranchId } = snapShot.data() as firebase.firestore.DocumentData
+          const {
+            name,
+            body,
+            baseBranchId,
+            baseBranchName,
+          } = snapShot.data() as firebase.firestore.DocumentData
           if (name === 'master') {
             dispatch({
               type: actionTypes.CURRENT_BRANCH_DATA__CHECK,
@@ -256,7 +268,6 @@ export const fetchCurrentBranch = (
                   id: branchId,
                   name,
                   body,
-                  baseBranchId,
                 },
               },
             })
@@ -271,6 +282,7 @@ export const fetchCurrentBranch = (
                   name,
                   body,
                   baseBranchId,
+                  baseBranchName,
                 },
               },
             })
