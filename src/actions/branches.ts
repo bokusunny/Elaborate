@@ -2,6 +2,7 @@ import Alert from 'react-s-alert'
 import { db, FirebaseSnapShot } from '../utils/firebase'
 import { ThunkAction } from 'redux-thunk'
 import { actionTypes } from '../common/constants/action-types'
+import { BranchDocumentData } from '../common/static-types/document-data'
 import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/static-types/actions'
 import { Values } from '../components/molecules/Forms/BranchForm'
 
@@ -49,12 +50,17 @@ export const fetchBranches = (
       .get()
       .then(querySnapshot => {
         const masterBranch = querySnapshot.docs.find(doc => {
-          return doc.data().name === 'master'
+          return (doc.data() as BranchDocumentData).name === 'master'
         }) as FirebaseSnapShot
-        const orderedBranches = querySnapshot.docs.filter(doc => doc.data().name !== 'master')
+        const orderedBranches = querySnapshot.docs.filter(
+          doc => (doc.data() as BranchDocumentData).name !== 'master'
+        )
         // Firebaseのデータは取得時順番がランダムなので更新順にソートする
         orderedBranches.sort((doc1, doc2) => {
-          return doc2.data().updatedAt - doc1.data().updatedAt
+          return (
+            (doc2.data() as BranchDocumentData).updatedAt -
+            (doc1.data() as BranchDocumentData).updatedAt
+          )
         })
         orderedBranches.unshift(masterBranch)
 
@@ -85,8 +91,8 @@ export const createBranch = (
       .get()
       .then(snapShot => {
         return {
-          name: (snapShot.data() as firebase.firestore.DocumentData).name as string,
-          body: (snapShot.data() as firebase.firestore.DocumentData).body as string,
+          name: (snapShot.data() as BranchDocumentData).name,
+          body: (snapShot.data() as BranchDocumentData).body,
         }
       })
 
@@ -153,7 +159,7 @@ export const mergeBranch = (
           .collection('directories')
           .doc(directoryId)
           .collection('branches')
-          .doc((doc.data() as firebase.firestore.DocumentData).baseBranchId as string)
+          .doc((doc.data() as BranchDocumentData).baseBranchId)
 
         currentBranchDocRef
           .collection('commits')
@@ -179,7 +185,7 @@ export const mergeBranch = (
                 currentBranchDocRef.get().then(snapShot => {
                   baseBranchDocRef.update({
                     // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
-                    body: (snapShot.data() as firebase.firestore.DocumentData).body,
+                    body: (snapShot.data() as BranchDocumentData).body,
                     updatedAt: Date.now(),
                   })
                 })
@@ -259,12 +265,7 @@ export const fetchCurrentBranch = (
       .then(snapShot => {
         if (snapShot.exists) {
           // snapShotが存在することはsnapShot.data()がundefinedではないことを保証
-          const {
-            name,
-            body,
-            baseBranchId,
-            baseBranchName,
-          } = snapShot.data() as firebase.firestore.DocumentData
+          const { name, body, baseBranchId, baseBranchName } = snapShot.data() as BranchDocumentData
           if (name === 'master') {
             dispatch({
               type: actionTypes.CURRENT_BRANCH_DATA__CHECK,

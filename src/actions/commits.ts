@@ -4,6 +4,7 @@ import { ThunkAction } from 'redux-thunk'
 import { RawDraftContentBlock } from 'draft-js'
 import { convertToText } from '../common/functions'
 import { actionTypes } from '../common/constants/action-types'
+import { CommitDocumentData } from '../common/static-types/document-data'
 import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/static-types/actions'
 import { Values } from '../components/molecules/Forms/CommitForm'
 
@@ -85,10 +86,13 @@ export const fetchLatestCommitBody = (
       .then(querySnapshot => {
         // Firebaseのデータは取得時順番がランダムなので作成順にソートする
         const latestCommit = querySnapshot.docs.sort((doc1, doc2) => {
-          return doc2.data().createdAt - doc1.data().createdAt
+          return (
+            (doc2.data() as CommitDocumentData).createdAt -
+            (doc1.data() as CommitDocumentData).createdAt
+          )
         })[0]
 
-        return latestCommit.data().body as string
+        return (latestCommit.data() as CommitDocumentData).body
       })
   }
 }
