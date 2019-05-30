@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import { createBranch } from '../../../../actions/branches'
 import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
+import { BranchDocumentData } from '../../../../common/static-types/document-data'
 import * as styles from './style.css'
 const { branchFormWrapper, whiteBase, branchName } = styles
 
@@ -56,7 +57,7 @@ const BranchForm: React.FC<Props> = ({
       initialValues={{
         newBranchName: '',
         baseBranchId: ((branches.data as FirebaseSnapShot[]).find(
-          branch => branch.data().name === 'master'
+          branch => (branch.data() as BranchDocumentData).name === 'master'
         ) as FirebaseSnapShot).id,
       }}
       validate={validate}
@@ -79,7 +80,7 @@ const BranchForm: React.FC<Props> = ({
           <Field name="baseBranchId" component="select">
             {(branches.data as FirebaseSnapShot[]).map(branch => (
               <option key={branch.id} value={branch.id}>
-                {branch.data().name}
+                {(branch.data() as BranchDocumentData).name}
               </option>
             ))}
           </Field>

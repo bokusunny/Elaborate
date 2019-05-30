@@ -31,7 +31,7 @@ export const directories = (
         ...state,
         status: 'success',
         // ReduxAPIStructの構造上state.dataはnullにはなり得ない
-        data: (state.data as FirebaseSnapShot[]).concat(action.payload.newDir),
+        data: [action.payload.newDir].concat(state.data as FirebaseSnapShot[]),
       }
   }
   return state

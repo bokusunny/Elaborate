@@ -5,6 +5,7 @@ import BranchListItem from '../../../atoms/ListItems/BranchListItem'
 import BranchFormWithAddIcon from '../../FormWithButton/BranchFormWithAddIcon'
 import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
+import { BranchDocumentData } from '../../../../common/static-types/document-data'
 import * as styles from './style.css'
 
 interface Props {
@@ -30,14 +31,15 @@ const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryI
         {/* ReduxAPIStructの構造上branches.dataはnullになり得ない */}
         {(branches.data as FirebaseSnapShot[]).map(branch => {
           const { id } = branch
-          const { name, updatedAt } = branch.data()
+          const { name, baseBranchName, updatedAt } = branch.data() as BranchDocumentData
           return (
             <Fragment key={id}>
               <BranchListItem
                 directoryId={selectedDirectoryId}
                 currentBranchId={id}
-                branchName={name as string}
-                updatedAt={updatedAt as number}
+                branchName={name}
+                baseBranchName={baseBranchName}
+                updatedAt={updatedAt}
               />
               <Divider />
             </Fragment>
