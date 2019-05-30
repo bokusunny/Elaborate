@@ -1,7 +1,7 @@
 import React from 'react'
 import Alert from 'react-s-alert'
 import { firebase, auth } from '../../../utils/firebase'
-import SNSSignInButton from '../../atoms/Buttons/SNSSigiInButton'
+import SNSSignInButton from '../../atoms/Buttons/SNSSignInButton'
 import * as styles from './style.css'
 const { buttonsWrapper, modalTitle, welcomeMessage, modalElaborate } = styles
 
