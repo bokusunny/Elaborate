@@ -1,2 +1,4 @@
 /dist/index.html
 /src/**/*.tsx
+/src/utils/global-styles/*.css
+/src/utils/global-styles/*.scss
