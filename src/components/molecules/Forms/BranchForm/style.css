@@ -7,7 +7,6 @@
 
 .whiteBase {
   display: block;
-  border: 0;
   border-radius: 4px;
   font-family: 'Roboto';
   font-size: 12px;
@@ -39,7 +38,6 @@
 .whiteBase:focus {
   outline: none;
 }
-
 
 .branchName {
   width: 98%;
