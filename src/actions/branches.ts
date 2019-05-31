@@ -14,7 +14,7 @@ const branchFirebaseFailure = (message: string): FirebaseAPIFailure => ({
   payload: { statusCode: 500, message },
 })
 
-export interface FetchBranchesAction extends BaseAction {
+export interface SetBranchesAction extends BaseAction {
   type: string
   payload: { branches: FirebaseSnapShot[] }
 }
@@ -31,14 +31,14 @@ interface MergeCloseBranchAction extends BaseAction {
 
 export type BranchesAction =
   | FirebaseAPIAction
-  | FetchBranchesAction
+  | SetBranchesAction
   | CreateBranchAction
   | MergeCloseBranchAction
 
 export const fetchBranches = (
   currentUserUid: string,
   directoryId: string
-): ThunkAction<void, {}, {}, FirebaseAPIAction | FetchBranchesAction> => {
+): ThunkAction<void, {}, {}, FirebaseAPIAction | SetBranchesAction> => {
   return dispatch => {
     dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     db.collection('users')
