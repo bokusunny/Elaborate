@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider'
 import DirectoryListItem from '../../../atoms/ListItems/DirectoryListItem'
 import DirectoryFormWithAddIcon from '../../FormWithButton/DirectoryFormWithAddIcon'
 import * as styles from './style.css'
+const { container, message } = styles
 import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
 import { DirectoryDocumentData } from '../../../../common/static-types/document-data'
@@ -27,11 +28,11 @@ const DirectoryList: React.FC<Props> = ({
   setSelectedDirectory,
 }) => {
   if (directories.status === 'fetching' || directories.data === null) {
-    return <div>Loading...</div>
+    return <div className={message}>Loading...</div>
   }
 
   if (directories.status === 'failure') {
-    return <div>Error occured: {directories.error.message}</div>
+    return <div className={message}>Error occured: {directories.error.message}</div>
   }
 
   const handleOnClick = (currentUserId: string, directoryId: string) => {
@@ -40,7 +41,7 @@ const DirectoryList: React.FC<Props> = ({
   }
 
   return (
-    <div className={styles.container}>
+    <div className={container}>
       <List component="nav">
         <Divider />
         {directories.data.map((doc: FirebaseSnapShot) => {
