@@ -5,7 +5,7 @@ import { actionTypes } from '../common/constants/action-types'
 import { DirectoryDocumentData, BranchDocumentData } from '../common/static-types/document-data'
 import { BaseAction, FirebaseAPIAction, FirebaseAPIFailure } from '../common/static-types/actions'
 import { Values } from '../components/molecules/Forms/DirectoryForm'
-import { FetchBranchesAction } from './branches'
+import { SetBranchesAction } from './branches'
 
 // -------------------------------------------------------------------------
 // Directories
@@ -60,9 +60,15 @@ export const fetchDirectories = (
 export const createDirectory = (
   values: Values,
   currentUserUid: string
-): ThunkAction<Promise<void>, {}, {}, FirebaseAPIAction | AddDirectoryAction> => {
+): ThunkAction<
+  Promise<void>,
+  {},
+  {},
+  FirebaseAPIAction | AddDirectoryAction | SetSelectedDirectoryAction | SetBranchesAction
+> => {
   return async dispatch => {
     dispatch({ type: actionTypes.DIRECTORY__FIREBASE_REQUEST, payload: null })
+    dispatch({ type: actionTypes.BRANCH__FIREBASE_REQUEST, payload: null })
     db.collection('users')
       .doc(currentUserUid)
       .collection('directories')
@@ -84,6 +90,11 @@ export const createDirectory = (
               // c.f) https://stackoverflow.com/questions/49859954/firestore-difference-between-documentsnapshot-and-querydocumentsnapshot
               payload: { newDir: snapShot as FirebaseSnapShot },
             })
+
+            dispatch({
+              type: actionTypes.DIRECTORY__SET_SELECTED_DIRECTORY_ID,
+              payload: { selectedDirectoryId: snapShot.id },
+            })
           })
           .catch(error => dispatch(directoryFirebaseFailure(error.message)))
         // newDirectory配下にmaster branchを追加
@@ -102,6 +113,17 @@ export const createDirectory = (
               name: 'initial commit',
               body: '',
               createdAt: Date.now(),
+            })
+
+            newBranchDoc.get().then(snapShot => {
+              // TODO:
+              // 現状QueryDocumentSnapshotとDocumentSnapshotが混在していてエラーを出すべきところをasで無理やり
+              // 通している。後でFix。
+              // c.f) https://stackoverflow.com/questions/49859954/firestore-difference-between-documentsnapshot-and-querydocumentsnapshot
+              dispatch({
+                type: actionTypes.BRANCH__SET,
+                payload: { branches: [snapShot] as FirebaseSnapShot[] },
+              })
             })
           })
           .then(() => Alert.info('Successfully created!'))
@@ -135,7 +157,7 @@ export type FetchDirectoryAction = FirebaseAPIAction | CheckDirectoryIdAction
 export const fetchCurrentDirectory = (
   currentUserUid: string,
   directoryId: string
-): ThunkAction<void, {}, {}, FetchDirectoryAction | FetchBranchesAction> => {
+): ThunkAction<void, {}, {}, FetchDirectoryAction | SetBranchesAction> => {
   return dispatch => {
     dispatch({ type: actionTypes.DIRECTORY_IS_VALID__FIREBASE_REQUEST, payload: null })
     const directoryDocRef = db
