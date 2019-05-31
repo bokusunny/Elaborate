@@ -42,11 +42,15 @@
 .branchName {
   width: 98%;
   height: 16px;
-  margin: 8px 0 32px;
+  margin-top: 8px;
 }
 
 .branchName:focus {
   outline: none;
+}
+
+.baseBranch {
+  margin-top: 24px; 
 }
 
 .errorMessage {
