@@ -42,7 +42,10 @@ $ docker-compose up # 自動でjsがビルドされる
 
 # ターミナルで別タブ開き以下を実行
 $ docker exec elaborate node -v # v10.15.3と表示されたら成功
-$ docker stop elaborate # コンテナを停止
+```
+```sh
+# FYI: stop docker container
+$ docker stop elaborate
 ```
 
 - without docker
