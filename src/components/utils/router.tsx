@@ -11,6 +11,10 @@ import DirectoryPage from '../pages/DirectoryPage'
 import EditorPage from '../pages/EditorPage'
 import DiffPage from '../pages/DiffPage'
 
+// htmlエレメントがパッケージから直接提供されるのでglobal CSSを設定する必要がある
+import '../../utils/global-styles/diff.css'
+import '../../utils/global-styles/react-s-alert-animation.scss'
+
 const Router: React.FC<{}> = () => {
   const [authState, setAuthState] = useState({ isLoading: true, isAuthorized: false })
   const [currentUser, setCurrentUser] = useState<firebase.User | null>(null)
