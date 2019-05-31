@@ -82,20 +82,20 @@ const changeToolBarDisplay = (
   const currentBlockText = currentContentBlock.getText()
   const currentBlockType = currentContentBlock.getType()
 
+  const isInitialState = rawContentState.blocks.length === 1 && currentBlockText === ''
   const isCurrentContentValueEmpty = currentBlockText === '' && currentBlockType === 'unstyled'
   const isSelectedTextEmpty = currentBlockText.slice(selectStart, selectEnd) === ''
 
-  if (isCurrentContentValueEmpty) {
+  if (isInitialState || isCurrentContentValueEmpty) {
     setShouldShowToolBar(true)
     setShouldShowToolBarInline(false)
   } else if (isSelectedTextEmpty) {
     setShouldShowToolBar(false)
-    localStorage.setItem(branchId, JSON.stringify(rawContentState))
   } else {
     setShouldShowToolBar(true)
     setShouldShowToolBarInline(true)
-    localStorage.setItem(branchId, JSON.stringify(rawContentState))
   }
+  localStorage.setItem(branchId, JSON.stringify(rawContentState))
 }
 
 const MarkdownEditor: React.FC<Props & DispatchProps> = ({
