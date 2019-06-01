@@ -112,7 +112,7 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
   const [shouldShowToolBarInline, setShouldShowToolBarInline] = useState(false)
-  const [shouldShowPlaceholder, setshouldShowPlaceholder] = useState(true)
+  const [shouldShowPlaceholder, setShouldShowPlaceholder] = useState(true)
 
   const contentState = editorState.getCurrentContent()
   const rawContentState = convertToRaw(contentState)
@@ -189,7 +189,7 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
         }}
         handleKeyCommand={() => {
           handleKeyCommand
-          setshouldShowPlaceholder(false)
+          setShouldShowPlaceholder(false)
         }}
         plugins={[createMarkdownShortcutsPlugin()]}
         customStyleMap={STYLE_MAP}
