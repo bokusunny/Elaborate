@@ -11,11 +11,11 @@
 .directory {
   position: fixed !important;
   bottom: 8% !important;
-  left: 45% !important;
+  left: calc(50% - 68px) !important;
 }
 
 .branch {
   position: fixed !important;
   bottom: 8% !important;
-  right: 32px !important;
+  right: 38px !important;
 }
