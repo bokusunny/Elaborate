@@ -7,7 +7,15 @@ import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
 import { BranchDocumentData } from '../../../../common/static-types/document-data'
 import * as styles from './style.css'
-const { branchFormWrapper, whiteBase, branchName } = styles
+const {
+  branchFormWrapper,
+  whiteBase,
+  title,
+  branchName,
+  baseBranch,
+  errorMessage,
+  selectedField,
+} = styles
 
 interface Props {
   directoryId: string
@@ -52,7 +60,9 @@ const BranchForm: React.FC<Props> = ({
   handleClose,
 }) => (
   <div className={branchFormWrapper}>
-    <Typography variant="h6">New Branch</Typography>
+    <Typography variant="h6" className={title}>
+      New Branch
+    </Typography>
     <Formik
       initialValues={{
         newBranchName: '',
@@ -75,16 +85,16 @@ const BranchForm: React.FC<Props> = ({
             placeholder="branch name"
             type="text"
           />
-          <ErrorMessage component="div" name="newBranchName" />
-          <span>Base branch: </span>
-          <Field name="baseBranchId" component="select">
+          <ErrorMessage component="div" name="newBranchName" className={errorMessage} />
+          <div className={`${title} ${baseBranch}`}>Base branch</div>
+          <Field name="baseBranchId" component="select" className={selectedField}>
             {(branches.data as FirebaseSnapShot[]).map(branch => (
               <option key={branch.id} value={branch.id}>
                 {(branch.data() as BranchDocumentData).name}
               </option>
             ))}
           </Field>
-          <ErrorMessage component="div" name="baseBranchId" />
+          <ErrorMessage component="div" name="baseBranchId" className={errorMessage} />
           <button type="submit" className={whiteBase}>
             Submit
           </button>

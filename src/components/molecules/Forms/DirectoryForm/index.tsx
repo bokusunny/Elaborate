@@ -4,7 +4,7 @@ import { Formik, Field, Form, FormikActions, ErrorMessage } from 'formik'
 import Typography from '@material-ui/core/Typography'
 import { createDirectory } from '../../../../actions/directories'
 import * as styles from './style.css'
-const { directoryFormWrapper, whiteBase, directoryName } = styles
+const { directoryFormWrapper, title, whiteBase, directoryName, errorMessage } = styles
 
 interface Props {
   currentUser: firebase.User
@@ -31,7 +31,9 @@ const validate = (values: Values) => {
 
 const DirectoryForm: React.FC<Props> = ({ currentUser, createDirectory }) => (
   <div className={directoryFormWrapper}>
-    <Typography variant="h6">New Directory</Typography>
+    <Typography variant="h6" className={title}>
+      New Directory
+    </Typography>
     <Formik
       initialValues={{ directoryName: '' }}
       validate={validate}
@@ -48,7 +50,7 @@ const DirectoryForm: React.FC<Props> = ({ currentUser, createDirectory }) => (
             placeholder="directory name"
             type="text"
           />
-          <ErrorMessage component="div" name="directoryName" />
+          <ErrorMessage component="div" name="directoryName" className={errorMessage} />
           <button type="submit" className={whiteBase}>
             Submit
           </button>

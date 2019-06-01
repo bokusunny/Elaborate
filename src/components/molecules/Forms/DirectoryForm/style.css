@@ -1,29 +1,59 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,Montserrat:300,400,500');
+
 .directoryFormWrapper {
   padding: 16px;
-  width: 250px;
+  width: 300px;
+}
+
+.title {
+  font-size: 16px !important;
+  font-weight: 400;
+  font-family: 'Roboto' !important;
+  color: #424242 !important;
 }
 
 .whiteBase {
   display: block;
-  border: 0;
   border-radius: 4px;
-  font-family: 'Montserrat';
-  font-size: 16px;
-  font-weight: 100;
+  font-family: 'Roboto';
+  font-size: 12px;
+  font-weight: 500;
   line-height: 1.5;
-  padding: 8px;
+  padding: 4px 16px;
   cursor: pointer;
   transition: .15s;
   color: rgba(18, 151, 226, .6);
-  margin: 8px 0 0 auto;
+  margin: 32px 0 0 auto;
+  border: 1px solid rgba(18, 151, 226, .6);
 }
 
 .whiteBase:hover {
   background-color: rgba(18, 151, 226, .6);
   color: #fff;
-  transition: all .5s;
+  font-weight: 300;
+  border: 1px solid #fff;
+  transition: all .3s;
+}
+
+.whiteBase:focus {
+  outline: none;
 }
 
 .directoryName {
-  width: 100%;
+  width: 98%;
+  height: 16px;
+  margin-top: 8px;
+}
+
+.directoryName:focus {
+  outline: none;
+}
+
+.errorMessage {
+  margin-top: 8px;
+  text-align: left;
+  font-size: 16px !important;
+  font-weight: 400;
+  font-family: 'Roboto' !important;
+  color: #ff577b !important;
 }
