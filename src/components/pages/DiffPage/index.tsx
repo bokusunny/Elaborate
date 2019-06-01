@@ -61,7 +61,7 @@ const DiffPage: React.FC<Props & DispatchProps & StateProps> = ({
     diffLeftFile.status === 'fetching' ||
     diffRightFile.status === 'fetching'
   )
-    return <div>Loading...</div>
+    return <CircleProgress />
 
   return (
     <DiffTemplate
