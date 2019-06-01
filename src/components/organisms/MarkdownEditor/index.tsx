@@ -176,7 +176,7 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
     })
   }
 
-  const randomInt = Math.floor(Math.random() * PLACEHOLDER.length - 1)
+  const randomInt = Math.floor(Math.random() * PLACEHOLDER.length)
   const placeholderMessage = useMemo(() => {
     return branchType !== 'master' && shouldShowPlaceholder && PLACEHOLDER[randomInt]
   }, PLACEHOLDER)
