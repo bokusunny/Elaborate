@@ -15,14 +15,22 @@ interface Props {
 }
 
 const BranchList: React.FC<Props> = ({ branches, currentUser, selectedDirectoryId }) => {
-  if (selectedDirectoryId === null)
-    return <div className={styles.message}>No directory is selected ...</div>
+  if (selectedDirectoryId === null) {
+    return (
+      <List component="nav">
+        <Divider />
+        <div className={styles.message}>No directory is selected ...</div>
+      </List>
+    )
+  }
 
-  if (branches.status === 'default' || branches.status === 'fetching')
+  if (branches.status === 'default' || branches.status === 'fetching') {
     return <div className={styles.message}>Loading...</div>
+  }
 
-  if (branches.status === 'failure')
+  if (branches.status === 'failure') {
     return <div className={styles.message}>Error occured: {branches.error.message}</div>
+  }
 
   return (
     <Fragment>
