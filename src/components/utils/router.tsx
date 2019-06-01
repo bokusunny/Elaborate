@@ -13,6 +13,7 @@ import DiffPage from '../pages/DiffPage'
 
 // htmlエレメントがパッケージから直接提供されるのでglobal CSSを設定する必要がある
 import '../../utils/global-styles/diff.css'
+import '../../utils/global-styles/editor.css'
 import '../../utils/global-styles/react-s-alert-animation.scss'
 
 const Router: React.FC<{}> = () => {
