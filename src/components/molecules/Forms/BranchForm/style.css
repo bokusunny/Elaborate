@@ -53,6 +53,10 @@
   margin-top: 24px;
 }
 
+.selectedField:focus {
+  outline: none;
+}
+
 .errorMessage {
   margin-top: 8px;
   text-align: left;

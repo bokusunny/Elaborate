@@ -7,7 +7,15 @@ import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
 import { BranchDocumentData } from '../../../../common/static-types/document-data'
 import * as styles from './style.css'
-const { branchFormWrapper, whiteBase, title, branchName, baseBranch, errorMessage } = styles
+const {
+  branchFormWrapper,
+  whiteBase,
+  title,
+  branchName,
+  baseBranch,
+  errorMessage,
+  selectedField,
+} = styles
 
 interface Props {
   directoryId: string
@@ -78,8 +86,8 @@ const BranchForm: React.FC<Props> = ({
             type="text"
           />
           <ErrorMessage component="div" name="newBranchName" className={errorMessage} />
-          <div className={`${title} ${baseBranch}`}>Base branch: </div>
-          <Field name="baseBranchId" component="select">
+          <div className={`${title} ${baseBranch}`}>Base branch</div>
+          <Field name="baseBranchId" component="select" className={selectedField}>
             {(branches.data as FirebaseSnapShot[]).map(branch => (
               <option key={branch.id} value={branch.id}>
                 {(branch.data() as BranchDocumentData).name}
