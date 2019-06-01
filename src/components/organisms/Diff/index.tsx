@@ -4,6 +4,7 @@ import { createPatch } from 'diff'
 import * as H from 'history'
 import Diff2HtmlUI from '../../../vendor/diff'
 import { mergeBranch } from '../../../actions/branches'
+import BasicButton from '../../atoms/Buttons/BasicButton'
 
 interface Props {
   diffLeftFileBody: string
@@ -51,7 +52,9 @@ const Diff: React.FC<Props & DispatchProps> = ({
   return (
     <Fragment>
       <div id="diff" />
-      <button onClick={onClickMergeButton}>Merge</button>
+      <BasicButton className="merge" onClick={onClickMergeButton}>
+        Merge
+      </BasicButton>
     </Fragment>
   )
 }

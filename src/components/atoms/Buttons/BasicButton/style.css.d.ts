@@ -7,3 +7,4 @@ export const commit: string
 export const checkDiff: string
 export const signOut: string
 export const auth: string
+export const merge: string
