@@ -1,0 +1,5 @@
+:global .public-DraftEditorPlaceholder-inner {
+  position: absolute !important;
+  color: #aaaaaa !important;
+  font-size: 32px;
+}

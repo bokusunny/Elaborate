@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment, Dispatch } from 'react'
+import React, { useState, useEffect, useMemo, Fragment, Dispatch } from 'react'
 import { connect } from 'react-redux'
 import {
   EditorState,
@@ -21,6 +21,7 @@ import BasicButton from '../../atoms/Buttons/BasicButton'
 import { fetchLatestCommitBody } from '../../../actions/commits'
 
 import { STYLE_MAP } from '../../../common/constants/editor'
+import { PLACEHOLDER } from '../../../common/constants/placeholder'
 import { convertToText } from '../../../common/functions'
 import * as styles from './style.css'
 const { editorWrapper, editorButtons } = styles
@@ -111,6 +112,7 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
   const [shouldShowToolBarInline, setShouldShowToolBarInline] = useState(false)
+  const [shouldShowPlaceholder, setshouldShowPlaceholder] = useState(true)
 
   const contentState = editorState.getCurrentContent()
   const rawContentState = convertToRaw(contentState)
@@ -130,6 +132,16 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
       )
     }
   }, [editorState])
+
+  useEffect(() => {
+    if (
+      rawContentBlocks[0].text === '' &&
+      rawContentBlocks[0].type === 'unstyled' &&
+      !rawContentBlocks[1]
+    ) {
+      setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
+    }
+  }, [rawContentBlocks[0]])
 
   const handleKeyCommand = (
     command: DraftEditorCommand,
@@ -163,17 +175,26 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
     })
   }
 
+  const randomInt = Math.floor(Math.random() * Math.floor(PLACEHOLDER.length + 2))
+  const placeholderMessage = useMemo(() => {
+    return branchType !== 'master' && shouldShowPlaceholder && PLACEHOLDER[randomInt]
+  }, PLACEHOLDER)
+
   return (
     <div className={editorWrapper}>
-      {/* HOPE TODO: placeholderをいい感じの文章のランダムにしたい */}
       <Editor
         editorState={editorState}
-        onChange={(editorState: EditorState) => setEditorState(editorState)}
-        handleKeyCommand={handleKeyCommand}
+        onChange={(editorState: EditorState) => {
+          setEditorState(editorState)
+        }}
+        handleKeyCommand={() => {
+          handleKeyCommand
+          setshouldShowPlaceholder(false)
+        }}
         plugins={[createMarkdownShortcutsPlugin()]}
         customStyleMap={STYLE_MAP}
         readOnly={branchType === 'master'}
-        // placeholder='placeholder'
+        placeholder={placeholderMessage}
       />
       {branchType !== 'master' && (
         <Fragment>
