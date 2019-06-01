@@ -5,7 +5,7 @@ const { button } = styles
 interface Props {
   children: React.ReactNode
   colorType?: 'blueBase' | 'whiteBase' | 'whiteBaseWithBorder'
-  className?: 'title' | 'signOut' | 'commit' | 'checkDiff'
+  className?: 'title' | 'signOut' | 'commit' | 'checkDiff' | 'auth'
   onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 

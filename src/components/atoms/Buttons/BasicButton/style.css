@@ -11,6 +11,7 @@
 }
 
 .blueBase {
+  background-color: rgba(18, 151, 226, .6);
   color: #fff;
 }
 
@@ -21,7 +22,7 @@
 }
 
 .whiteBase {
-  margin-right: 16px;
+  background-color: #fff;
   color: rgba(18, 151, 226, .6);
 }
 
@@ -67,4 +68,14 @@
 
 .signOut {
   margin-right: 24px;
+}
+
+.auth {
+  color: #fff;
+}
+
+.auth:hover {
+  background-color: #fff;
+  color: rgba(18, 151, 226, .6);
+  transition: all .5s;
 }
