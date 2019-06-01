@@ -184,9 +184,7 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
     <div className={editorWrapper}>
       <Editor
         editorState={editorState}
-        onChange={(editorState: EditorState) => {
-          setEditorState(editorState)
-        }}
+        onChange={(editorState: EditorState) => setEditorState(editorState)}
         handleKeyCommand={() => {
           handleKeyCommand
           setShouldShowPlaceholder(false)
