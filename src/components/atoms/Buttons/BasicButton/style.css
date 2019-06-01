@@ -79,3 +79,17 @@
   color: rgba(18, 151, 226, .6);
   transition: all .5s;
 }
+
+.merge {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  padding: 12px 24px;
+  background-color: rgba(18, 151, 226, .6);
+  color: #fff;
+}
+
+.merge:hover {
+  opacity: .7;
+  transition: all .5s;
+}
