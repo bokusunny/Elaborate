@@ -7,7 +7,7 @@ const title = 'Let you be\nmore creative.'
 const message = `
   We believe words of wisdom are always created after deep deliberations.\n
   Who’s heart do you like to move with Elaborate?\n
-  This is a creative workspace for you to "elaborate" your message.
+  This is a creative workspace to "elaborate" your message.
 `
 
 const { messageWrapper, catchCopy, catchCopyText, description, descriptionText } = styles
