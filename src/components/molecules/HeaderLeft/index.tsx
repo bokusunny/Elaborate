@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react'
 import * as H from 'history'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faHome } from '@fortawesome/free-solid-svg-icons'
 import BasicButton from '../../atoms/Buttons/BasicButton'
 import TopicPath from '../../atoms/TopicPath'
 import { BranchData } from '../../../actions/branches'
