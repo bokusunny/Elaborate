@@ -147,6 +147,7 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
     command: DraftEditorCommand,
     editorState: EditorState
   ): DraftHandleValue => {
+    setShouldShowPlaceholder(false)
     const newState = RichUtils.handleKeyCommand(editorState, command)
     if (newState) {
       setEditorState(newState)
@@ -175,7 +176,7 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
     })
   }
 
-  const randomInt = Math.floor(Math.random() * Math.floor(PLACEHOLDER.length + 2))
+  const randomInt = Math.floor(Math.random() * PLACEHOLDER.length - 1)
   const placeholderMessage = useMemo(() => {
     return branchType !== 'master' && shouldShowPlaceholder && PLACEHOLDER[randomInt]
   }, PLACEHOLDER)
@@ -185,10 +186,7 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
       <Editor
         editorState={editorState}
         onChange={(editorState: EditorState) => setEditorState(editorState)}
-        handleKeyCommand={() => {
-          handleKeyCommand
-          setShouldShowPlaceholder(false)
-        }}
+        handleKeyCommand={handleKeyCommand}
         plugins={[createMarkdownShortcutsPlugin()]}
         customStyleMap={STYLE_MAP}
         readOnly={branchType === 'master'}
