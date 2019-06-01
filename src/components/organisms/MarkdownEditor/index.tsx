@@ -55,7 +55,7 @@ const initEditorState = (
     if (body === '') {
       setEditorState(RichUtils.toggleBlockType(editorState, 'header-one'))
     } else {
-      const initRawState: RawDraftContentState = markdownToDraft(body)
+      const initRawState: RawDraftContentState = markdownToDraft(body, { preserveNewlines: true })
       const initContentState = convertFromRaw(initRawState)
       setEditorState(EditorState.createWithContent(initContentState))
     }
@@ -90,12 +90,11 @@ const changeToolBarDisplay = (
     setShouldShowToolBarInline(false)
   } else if (isSelectedTextEmpty) {
     setShouldShowToolBar(false)
-    localStorage.setItem(branchId, JSON.stringify(rawContentState))
   } else {
     setShouldShowToolBar(true)
     setShouldShowToolBarInline(true)
-    localStorage.setItem(branchId, JSON.stringify(rawContentState))
   }
+  localStorage.setItem(branchId, JSON.stringify(rawContentState))
 }
 
 const MarkdownEditor: React.FC<Props & DispatchProps> = ({
