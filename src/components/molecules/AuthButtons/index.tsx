@@ -10,10 +10,10 @@ interface Props {
 
 const AuthButtons: React.FC<Props> = ({ handleModalOpen }) => (
   <div className={buttons}>
-    <BasicButton colorType="blueBase" onClick={() => handleModalOpen('Sign in')}>
+    <BasicButton className="auth" onClick={() => handleModalOpen('Sign in')}>
       Continue with Elaborate
     </BasicButton>
-    <BasicButton colorType="blueBase" onClick={() => handleModalOpen('Sign up')}>
+    <BasicButton className="auth" onClick={() => handleModalOpen('Sign up')}>
       Get started
     </BasicButton>
   </div>
