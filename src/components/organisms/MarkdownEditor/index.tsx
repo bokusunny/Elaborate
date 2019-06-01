@@ -82,11 +82,10 @@ const changeToolBarDisplay = (
   const currentBlockText = currentContentBlock.getText()
   const currentBlockType = currentContentBlock.getType()
 
-  const isInitialState = rawContentState.blocks.length === 1 && currentBlockText === ''
   const isCurrentContentValueEmpty = currentBlockText === '' && currentBlockType === 'unstyled'
   const isSelectedTextEmpty = currentBlockText.slice(selectStart, selectEnd) === ''
 
-  if (isInitialState || isCurrentContentValueEmpty) {
+  if (isCurrentContentValueEmpty) {
     setShouldShowToolBar(true)
     setShouldShowToolBarInline(false)
   } else if (isSelectedTextEmpty) {
