@@ -112,7 +112,6 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
   const [shouldShowToolBar, setShouldShowToolBar] = useState(true)
   const [shouldShowToolBarInline, setShouldShowToolBarInline] = useState(false)
-  const [shouldShowPlaceholder, setShouldShowPlaceholder] = useState(true)
 
   const contentState = editorState.getCurrentContent()
   const rawContentState = convertToRaw(contentState)
@@ -147,7 +146,6 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
     command: DraftEditorCommand,
     editorState: EditorState
   ): DraftHandleValue => {
-    setShouldShowPlaceholder(false)
     const newState = RichUtils.handleKeyCommand(editorState, command)
     if (newState) {
       setEditorState(newState)
@@ -177,8 +175,8 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
   }
 
   const randomInt = Math.floor(Math.random() * PLACEHOLDER.length)
-  const placeholderMessage = useMemo(() => {
-    return branchType !== 'master' && shouldShowPlaceholder && PLACEHOLDER[randomInt]
+  const placeholderMessage: string = useMemo(() => {
+    return branchType !== 'master' ? PLACEHOLDER[randomInt] : ''
   }, PLACEHOLDER)
 
   return (
