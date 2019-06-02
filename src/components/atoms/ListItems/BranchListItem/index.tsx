@@ -34,9 +34,15 @@ const BranchListItem: React.FC<Props> = ({
     >
       <ListItemIcon>
         {branchName === 'master' ? (
-          <img className={masterIcon} src="https://elabor-8.com/src/img/master.png" />
+          <img
+            className={masterIcon}
+            src="https://firebasestorage.googleapis.com/v0/b/elaborate.appspot.com/o/master%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.png?alt=media&token=ada980f3-098b-4140-b747-a88c3747d844"
+          />
         ) : (
-          <img className={branchIcon} src="https://elabor-8.com/src/img/branch.png" />
+          <img
+            className={branchIcon}
+            src="https://firebasestorage.googleapis.com/v0/b/elaborate.appspot.com/o/branch%E3%81%AE%E3%82%B3%E3%83%92%E3%82%9A%E3%83%BC.png?alt=media&token=f909dad7-c251-49d4-9c95-d2db76cef21c"
+          />
         )}
       </ListItemIcon>
       <div>
