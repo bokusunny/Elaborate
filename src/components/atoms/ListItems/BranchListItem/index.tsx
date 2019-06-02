@@ -4,8 +4,6 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import masterIconUrl from '../../../../img/master.png'
-import branchIconUrl from '../../../../img/branch.png'
 import * as styles from './style.css'
 const { listItemText, listItemSubText, subTextSpan, masterIcon, branchIcon } = styles
 
@@ -36,9 +34,9 @@ const BranchListItem: React.FC<Props> = ({
     >
       <ListItemIcon>
         {branchName === 'master' ? (
-          <img className={masterIcon} src={masterIconUrl} />
+          <img className={masterIcon} src="https://elabor-8.com/src/img/master.png" />
         ) : (
-          <img className={branchIcon} src={branchIconUrl} />
+          <img className={branchIcon} src="https://elabor-8.com/src/img/branch.png" />
         )}
       </ListItemIcon>
       <div>
