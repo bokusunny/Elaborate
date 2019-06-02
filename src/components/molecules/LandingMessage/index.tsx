@@ -3,11 +3,11 @@ import * as styles from './style.css'
 
 // MEMO: 本来moleculesではデータを持たないが、このコンポーネントは他に使いどころがないので静的情報をコンポーネント内で保持。(YMZK)
 
-const title = 'Let you be\nmore creative.'
+const title = 'Creative work space\n to elaborate your ideas.'
 const message = `
-  We believe words of wisdom are always created after deep deliberations.\n
-  Who’s heart do you like to move with Elaborate?\n
-  This is a creative workspace to "elaborate" your message.
+Who’s heart do you want to move by your words?\n
+All you need is just start writing and think through until having it enough.\n
+We offer the simply designed editor and the version controlling system.\n
 `
 
 const { messageWrapper, catchCopy, catchCopyText, description, descriptionText } = styles
