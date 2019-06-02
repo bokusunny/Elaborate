@@ -27,7 +27,7 @@ const DirectoryList: React.FC<Props> = ({
   fetchBranches,
   setSelectedDirectory,
 }) => {
-  if (directories.status === 'fetching' || directories.data === null) {
+  if (directories.status === 'default' || directories.status === 'fetching') {
     return <div className={message}>Loading...</div>
   }
 
@@ -40,27 +40,37 @@ const DirectoryList: React.FC<Props> = ({
     setSelectedDirectory(directoryId)
   }
 
+  const directoryItemList = () => {
+    return (directories.data as FirebaseSnapShot[]).map(doc => {
+      const { id } = doc
+      const { name, createdAt } = doc.data() as DirectoryDocumentData
+
+      return (
+        <Fragment key={id}>
+          <DirectoryListItem
+            label={name}
+            createdAt={createdAt}
+            onClick={() => handleOnClick(currentUser.uid, id)}
+            directoryId={id}
+            selectedDirectoryId={selectedDirectoryId}
+          />
+          <Divider />
+        </Fragment>
+      )
+    })
+  }
+
+  const isEmptyBranches = (directories.data as FirebaseSnapShot[]).length === 0
+
   return (
     <div className={container}>
       <List component="nav">
         <Divider />
-        {directories.data.map((doc: FirebaseSnapShot) => {
-          const { id } = doc
-          const { name, createdAt } = doc.data() as DirectoryDocumentData
-
-          return (
-            <Fragment key={id}>
-              <DirectoryListItem
-                label={name}
-                createdAt={createdAt}
-                onClick={() => handleOnClick(currentUser.uid, id)}
-                directoryId={id}
-                selectedDirectoryId={selectedDirectoryId}
-              />
-              <Divider />
-            </Fragment>
-          )
-        })}
+        {isEmptyBranches ? (
+          <div className={message}>Click the + button bellow to create your first directory!</div>
+        ) : (
+          directoryItemList()
+        )}
       </List>
       <DirectoryFormWithAddIcon currentUser={currentUser} />
     </div>
