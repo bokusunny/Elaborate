@@ -7,7 +7,7 @@ const title = 'Creative work space\n to elaborate your ideas.'
 const message = `
 Who’s heart do you want to move by your words?\n
 All you need is just start writing and think through until having it enough.\n
-We offer the simply designed editor and the version controlling system.\n
+We offer a simply designed editor and a version controlling system.\n
 `
 
 const { messageWrapper, catchCopy, catchCopyText, description, descriptionText } = styles
