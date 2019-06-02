@@ -2,4 +2,5 @@
   position: absolute;
   color: #aaaaaa;
   font-size: 32px;
+  z-index: -1;
 }
