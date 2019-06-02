@@ -4,7 +4,6 @@ import BasicButton from '../../atoms/Buttons/BasicButton'
 import TopicPath from '../../atoms/TopicPath'
 import { BranchData } from '../../../actions/branches'
 import { DirectoryData } from '../../../actions/directories'
-import iconImgUrl from '../../../img/Logo50.png'
 
 interface Props {
   history: H.History
@@ -17,7 +16,7 @@ const HeaderLeft: React.FC<Props> = ({ history, pageType, currentDirectory, curr
   return (
     <Fragment>
       <BasicButton className="title" onClick={() => history.push('/mypage')}>
-        {pageType === 'edit' ? <img src={iconImgUrl} /> : 'Elaborate'}
+        Elaborate
       </BasicButton>
       {pageType === 'edit' && (
         <TopicPath
