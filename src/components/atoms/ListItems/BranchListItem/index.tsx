@@ -3,9 +3,11 @@ import moment from 'moment'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCodeBranch, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import masterIconUrl from '../../../../img/master.png'
+import branchIconUrl from '../../../../img/branch.png'
 import * as styles from './style.css'
-const { listItemText, listItemSubText, subTextSpan } = styles
+const { listItemText, listItemSubText, subTextSpan, masterIcon, branchIcon } = styles
 
 interface Props {
   directoryId: string
@@ -33,7 +35,11 @@ const BranchListItem: React.FC<Props> = ({
       className={styles.listItem}
     >
       <ListItemIcon>
-        <FontAwesomeIcon icon={faCodeBranch} />
+        {branchName === 'master' ? (
+          <img className={masterIcon} src={masterIconUrl} />
+        ) : (
+          <img className={branchIcon} src={branchIconUrl} />
+        )}
       </ListItemIcon>
       <div>
         <div className={listItemText}>{branchName}</div>
