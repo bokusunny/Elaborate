@@ -116,6 +116,10 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
   const contentState = editorState.getCurrentContent()
   const rawContentState = convertToRaw(contentState)
   const rawContentBlocks = rawContentState.blocks // 複数回使うのでここで定義
+  const rawStateSavedOnStorage = localStorage.getItem(branchId) // 複数回使うのでここで定義
+  const bodyOnLocalStorage = rawStateSavedOnStorage
+    ? convertToText(JSON.parse(rawStateSavedOnStorage).blocks)
+    : null // editorが空でも改行情報が入るので基本的にはnullにはなり得ない, 複数回使うのでここで定義
 
   useEffect(() => initEditorState(branchId, body, editorState, setEditorState), [])
 
@@ -134,6 +138,7 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
 
   useEffect(() => {
     if (
+      bodyOnLocalStorage === '\n' &&
       rawContentBlocks[0].text === '' &&
       rawContentBlocks[0].type === 'unstyled' &&
       !rawContentBlocks[1]
@@ -156,13 +161,11 @@ const MarkdownEditor: React.FC<Props & DispatchProps> = ({
 
   const checkIsFullyCommitted = () => {
     fetchLatestCommitBody(currentUser.uid, directoryId, branchId).then(body => {
-      const rawStateSavedOnStorage = localStorage.getItem(branchId)
       if (!rawStateSavedOnStorage) {
         Alert.warning('Editor is still empty...')
         return
       }
 
-      const bodyOnLocalStorage = convertToText(JSON.parse(rawStateSavedOnStorage).blocks)
       if (
         body === bodyOnLocalStorage ||
         window.confirm(
