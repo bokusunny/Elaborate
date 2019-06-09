@@ -1,8 +1,8 @@
 .messageWrapper {
   height: 100%;
   width: 60%;
-  padding-left: 160px;
-  margin-top: 144px;
+  padding-left: 22vh;
+  margin-top: 20vh;
   color: #fff;
   font-family: 'Montserrat';
 }
@@ -19,7 +19,7 @@
 }
 
 .description {
-  margin-top: 64px;
+  margin-top: 8vh;
 }
 
 .descriptionText {
