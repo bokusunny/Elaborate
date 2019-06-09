@@ -12,7 +12,8 @@ interface Props {
   history: H.History
   currentUserUid: string
   directoryId: string
-  branchId: string
+  leftBranchId: string
+  rightBranchId: string
 }
 
 interface DispatchProps {
@@ -25,7 +26,8 @@ const Diff: React.FC<Props & DispatchProps> = ({
   history,
   currentUserUid,
   directoryId,
-  branchId,
+  leftBranchId,
+  rightBranchId,
   mergeBranch,
 }) => {
   useEffect(() => {
@@ -44,7 +46,8 @@ const Diff: React.FC<Props & DispatchProps> = ({
   }, [diffLeftFileBody, diffRightFileBody])
 
   const onClickMergeButton = () => {
-    mergeBranch(currentUserUid, directoryId, branchId).then(() => {
+    localStorage.removeItem(leftBranchId)
+    mergeBranch(currentUserUid, directoryId, rightBranchId).then(() => {
       history.push('/mypage')
     })
   }

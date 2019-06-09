@@ -12,7 +12,8 @@ interface Props {
   diffRightFileName: string
   currentUserUid: string
   directoryId: string
-  branchId: string
+  leftBranchId: string
+  rightBranchId: string
 }
 
 const DiffTemplate: React.FC<Props> = props => {
