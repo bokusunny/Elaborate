@@ -46,8 +46,8 @@ const Diff: React.FC<Props & DispatchProps> = ({
   }, [diffLeftFileBody, diffRightFileBody])
 
   const onClickMergeButton = () => {
-    localStorage.removeItem(leftBranchId)
     mergeBranch(currentUserUid, directoryId, rightBranchId).then(() => {
+      localStorage.removeItem(leftBranchId)
       history.push('/mypage')
     })
   }
