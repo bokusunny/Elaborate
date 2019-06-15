@@ -1,8 +1,13 @@
 .messageWrapper {
-  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
   width: 60%;
-  padding-left: 160px;
-  margin-top: 144px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10vw;
   color: #fff;
   font-family: 'Montserrat';
 }
@@ -19,7 +24,7 @@
 }
 
 .description {
-  margin-top: 64px;
+  margin-top: 8vh;
 }
 
 .descriptionText {
