@@ -14,14 +14,22 @@ interface Props {
 
 const onClickGoogleSignin = () => {
   const provider = new firebase.auth.GoogleAuthProvider()
-  auth.signInWithPopup(provider).then(() => {
+  auth.signInWithPopup(provider).then(res => {
+    const user = res.user as firebase.User
+    user.getIdToken().then(token => {
+      localStorage.setItem('elaborate-jwt', token)
+    })
     setTimeout(() => Alert.info('Successfully signed in!'), 800)
   })
 }
 
 const onClickTwitterSignin = () => {
   const provider = new firebase.auth.TwitterAuthProvider()
-  auth.signInWithPopup(provider).then(() => {
+  auth.signInWithPopup(provider).then(res => {
+    const user = res.user as firebase.User
+    user.getIdToken().then(token => {
+      localStorage.setItem('elaborate-jwt', token)
+    })
     setTimeout(() => Alert.info('Successfully signed in!'), 800)
   })
 }
