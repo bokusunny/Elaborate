@@ -7,6 +7,7 @@ export const createUser = (): ThunkAction<Promise<void>, {}, {}, any> => {
     return axios({
       method: 'post',
       url: rootURL,
+      headers: { Authorization: `Bearer ${localStorage.getItem('elaborate-jwt')}` },
       data: {
         name: 'Sunny',
         email: 'bokusunny@example.com',
