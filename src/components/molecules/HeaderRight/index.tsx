@@ -11,6 +11,13 @@ interface Props {
   handleModalOpen?: React.Dispatch<React.SetStateAction<OpenModalType>>
 }
 
+const onClickSignOut = () => {
+  auth.signOut().then(() => {
+    localStorage.removeItem('elaborate-jwt')
+    Alert.success('Successfully signed out.')
+  })
+}
+
 const HeaderRight: React.FC<Props> = ({ colorType, pageType, handleModalOpen }) => {
   switch (pageType) {
     case 'landing':
@@ -22,11 +29,7 @@ const HeaderRight: React.FC<Props> = ({ colorType, pageType, handleModalOpen }) 
 
     case 'myPage':
       return (
-        <BasicButton
-          colorType={colorType}
-          className="signOut"
-          onClick={() => auth.signOut().then(() => Alert.success('Successfully signed out.'))}
-        >
+        <BasicButton colorType={colorType} className="signOut" onClick={onClickSignOut}>
           Sign out
         </BasicButton>
       )
