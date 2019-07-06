@@ -8,6 +8,3 @@ COPY package.json .npmrc webpack.config.js /app/
 RUN npm install
 
 COPY . /app
-
-LABEL com.circleci.preserve-entrypoint=true
-ENTRYPOINT contacts

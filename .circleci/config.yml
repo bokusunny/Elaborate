@@ -6,7 +6,7 @@ version: 2.0
 jobs:
   test:
     docker:
-      - image: shotayamazaki/cci-docker-primary:0.0.1
+      - image: shotayamazaki/cci-docker-primary:0.0.2
     steps:
       - checkout
       - restore_cache:
