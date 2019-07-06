@@ -2,7 +2,7 @@ FROM node:10.15.3-alpine
 
 WORKDIR /app
 
-RUN apk update && apk upgrade && apk add --no-cache bash git openssh tar gzip ca-certification
+RUN apk update && apk upgrade && apk add --no-cache bash git openssh tar gzip ca-certificates
 
 COPY package.json .npmrc webpack.config.js /app/
 RUN npm install
