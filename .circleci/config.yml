@@ -78,19 +78,17 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-        docker_layer_caching: true
-        version: '18.09.3'
+          docker_layer_caching: true
+          version: '18.09.3'
       - run:
-        name: docker login
-        command: |
-          echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
+          name: docker login
+          command: echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USER --password-stdin
       - run:
-        name: dcoker image build
-        command: |
-          docker image build --tag "shotayamazaki/cci-docker-primary:latest"
+          name: docker image build
+          command: docker image build --tag "shotayamazaki/cci-docker-primary:latest"
       - run:
-        name: docker image push
-        command: docker image push shotayamazaki/cci-docker-primary:latest
+          name: docker image push
+          command: docker image push shotayamazaki/cci-docker-primary:latest
 
 workflows:
   version: 2
@@ -103,3 +101,7 @@ workflows:
           filters:
             branches:
               only: master
+      - docker_image_build:
+            filters:
+              branches:
+                only: master
