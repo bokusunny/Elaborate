@@ -2,7 +2,7 @@ version: 2.1
 executors:
   elaborate-base:
     docker:
-      - images: shotayamazaki/cci-docker-primary:latest
+      - image: shotayamazaki/cci-docker-primary:latest
 
 jobs:
   test:
