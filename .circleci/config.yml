@@ -39,7 +39,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/node:10.15.3
+      - image: shotayamazaki/cci-docker-primary:latest
     steps:
       - checkout
       - restore_cache:
