@@ -2,7 +2,7 @@ version: '3'
 services:
   elaborate:
     build: ./ # Dockerfileがあるディレクトリのパス
-    image: shotayamazaki/cci-docker-primary:latest
+    image: elaborate/webpack
     container_name: elaborate
     ports:
       - "0.0.0.0:8080:8080" # "ホストのポート:コンテナのポート"
