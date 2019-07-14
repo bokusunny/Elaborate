@@ -2,7 +2,7 @@ version: '3'
 services:
   elaborate:
     build: ./ # Dockerfileがあるディレクトリのパス
-    image: elaborate/webpack # イメージを指定(IMAGEタグはコンテナ作成後docker ps -aで得られる)
+    image: shotayamazaki/cci-docker-primary:latest
     container_name: elaborate
     ports:
       - "0.0.0.0:8080:8080" # "ホストのポート:コンテナのポート"
