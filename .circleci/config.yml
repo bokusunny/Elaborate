@@ -4,6 +4,10 @@ executors:
     docker:
       - image: shotayamazaki/cci-docker-primary:latest
 
+  docker_image_build_executor:
+    docker:
+      - image: docker:stable-git
+
 jobs:
   test:
     executor: elaborate-base
@@ -69,6 +73,23 @@ jobs:
           name: deploy master to firebase hosting
           command: node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
 
+  docker_image_build:
+    executor: docker_image_build_executor
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: '18.09.3'
+      - run:
+          name: docker login
+          command: docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+      - run:
+          name: docker image build
+          command: docker-compose build
+      - run:
+          name: docker image push
+          command: docker push shotayamazaki/cci-docker-primary:latest
+
 workflows:
   version: 2
   test_deploy:
@@ -80,3 +101,9 @@ workflows:
           filters:
             branches:
               only: master
+      - docker_image_build:
+            requires:
+              - test
+            filters:
+              branches:
+                only: master
