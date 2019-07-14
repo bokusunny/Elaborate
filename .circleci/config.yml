@@ -88,7 +88,7 @@ jobs:
           command: docker-compose build
       - run:
           name: docker image push
-          command: docker image push shotayamazaki/cci-docker-primary:latest
+          command: docker push shotayamazaki/cci-docker-primary:latest
 
 workflows:
   version: 2
