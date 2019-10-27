@@ -84,7 +84,7 @@ const BranchForm: React.FC<Props> = ({
             name="newBranchName"
             placeholder="branch name"
             type="text"
-            onKeyPress={(e: any) => {
+            onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
                 return
               } else if (e.key === 'Enter') {

@@ -73,7 +73,7 @@ const CommitForm: React.FC<Props & DispatchProps> = ({
             name="commitName"
             placeholder="commit name"
             type="text"
-            onKeyPress={(e: any) => {
+            onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
                 return
               } else if (e.key === 'Enter') {

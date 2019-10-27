@@ -49,7 +49,7 @@ const DirectoryForm: React.FC<Props> = ({ currentUser, createDirectory }) => (
             name="directoryName"
             placeholder="directory name"
             type="text"
-            onKeyPress={(e: any) => {
+            onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
                 return
               } else if (e.key === 'Enter') {
