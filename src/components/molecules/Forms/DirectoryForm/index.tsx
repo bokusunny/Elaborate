@@ -49,6 +49,13 @@ const DirectoryForm: React.FC<Props> = ({ currentUser, createDirectory }) => (
             name="directoryName"
             placeholder="directory name"
             type="text"
+            onKeyPress={(e: any) => {
+              if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                return
+              } else if (e.key === 'Enter') {
+                e.preventDefault()
+              }
+            }}
           />
           <ErrorMessage component="div" name="directoryName" className={errorMessage} />
           <button type="submit" className={whiteBase}>

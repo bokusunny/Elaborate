@@ -68,7 +68,19 @@ const CommitForm: React.FC<Props & DispatchProps> = ({
       }}
       render={() => (
         <Form>
-          <Field className={commitName} name="commitName" placeholder="commit name" type="text" />
+          <Field
+            className={commitName}
+            name="commitName"
+            placeholder="commit name"
+            type="text"
+            onKeyPress={(e: any) => {
+              if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                return
+              } else if (e.key === 'Enter') {
+                e.preventDefault()
+              }
+            }}
+          />
           <ErrorMessage component="div" name="commitName" className={errorMessage} />
           <button type="submit" className={whiteBase}>
             Submit

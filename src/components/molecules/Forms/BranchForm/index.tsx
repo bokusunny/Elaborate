@@ -84,6 +84,13 @@ const BranchForm: React.FC<Props> = ({
             name="newBranchName"
             placeholder="branch name"
             type="text"
+            onKeyPress={(e: any) => {
+              if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                return
+              } else if (e.key === 'Enter') {
+                e.preventDefault()
+              }
+            }}
           />
           <ErrorMessage component="div" name="newBranchName" className={errorMessage} />
           <div className={`${title} ${baseBranch}`}>Base branch</div>
