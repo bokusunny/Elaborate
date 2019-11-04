@@ -4,6 +4,7 @@ import { Formik, Field, Form, FormikActions, ErrorMessage } from 'formik'
 import Typography from '@material-ui/core/Typography'
 import { createDirectory } from '../../../../actions/directories'
 import * as styles from './style.css'
+import { handleEnterKey } from '../../../../common/functions'
 const { directoryFormWrapper, title, whiteBase, directoryName, errorMessage } = styles
 
 interface Props {
@@ -49,12 +50,8 @@ const DirectoryForm: React.FC<Props> = ({ currentUser, createDirectory }) => (
             name="directoryName"
             placeholder="directory name"
             type="text"
-            onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-              if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-                return
-              } else if (e.key === 'Enter') {
-                e.preventDefault()
-              }
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              handleEnterKey(e)
             }}
           />
           <ErrorMessage component="div" name="directoryName" className={errorMessage} />

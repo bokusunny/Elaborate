@@ -49,3 +49,11 @@ export const convertToText = (rawContentBlocks: RawDraftContentBlock[]) => {
 
   return commitBody
 }
+
+export const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === 'Enter' && e.ctrlKey) {
+    return
+  } else if (e.key === 'Enter') {
+    e.preventDefault()
+  }
+}
