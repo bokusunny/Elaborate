@@ -5,6 +5,7 @@ import { RawDraftContentBlock } from 'draft-js'
 import Typography from '@material-ui/core/Typography'
 import { createCommit } from '../../../../actions/commits'
 import * as styles from './style.css'
+import { handleEnterKey } from '../../../../common/functions'
 const { commitFormWrapper, title, whiteBase, commitName, errorMessage } = styles
 
 export interface Values {
@@ -68,7 +69,15 @@ const CommitForm: React.FC<Props & DispatchProps> = ({
       }}
       render={() => (
         <Form>
-          <Field className={commitName} name="commitName" placeholder="commit name" type="text" />
+          <Field
+            className={commitName}
+            name="commitName"
+            placeholder="commit name"
+            type="text"
+            onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              handleEnterKey(e)
+            }}
+          />
           <ErrorMessage component="div" name="commitName" className={errorMessage} />
           <button type="submit" className={whiteBase}>
             Submit

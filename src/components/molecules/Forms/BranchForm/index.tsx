@@ -7,6 +7,7 @@ import { FirebaseSnapShot } from '../../../../utils/firebase'
 import { ReduxAPIStruct } from '../../../../common/static-types/api-struct'
 import { BranchDocumentData } from '../../../../common/static-types/document-data'
 import * as styles from './style.css'
+import { handleEnterKey } from '../../../../common/functions'
 const {
   branchFormWrapper,
   whiteBase,
@@ -84,6 +85,9 @@ const BranchForm: React.FC<Props> = ({
             name="newBranchName"
             placeholder="branch name"
             type="text"
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              handleEnterKey(e)
+            }}
           />
           <ErrorMessage component="div" name="newBranchName" className={errorMessage} />
           <div className={`${title} ${baseBranch}`}>Base branch</div>
