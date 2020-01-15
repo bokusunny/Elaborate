@@ -1,8 +1,12 @@
 version: 2.1
-jobs:
-  test:
+executors:
+  elaborate-base:
     docker:
       - image: shotayamazaki/cci-docker-primary:latest
+
+jobs:
+  test:
+    executor: elaborate-base
     steps:
       - checkout
       - restore_cache:
@@ -34,8 +38,7 @@ jobs:
           path: /tmp/test-results/eslint
 
   deploy:
-    docker:
-      - image: shotayamazaki/cci-docker-primary:latest
+    executor: elaborate-base
     steps:
       - checkout
       - restore_cache:
